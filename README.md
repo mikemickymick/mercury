@@ -1,4 +1,4 @@
-# 🦕 deno-module-starter
+# 🪐 Mercury
 
 [Deno](https://deno.land) module starter repository.
 
@@ -26,6 +26,4 @@ deno fmt **/*.ts
 
 ## Resources
 
-- [Deno Website](https://deno.land)
-- [Deno Style Guide](https://deno.land/std/style_guide.md)
-- [Deno Gitter](https://gitter.im/denolife/Lobby)
+- [Test Area](https://jsfiddle.net/mjcmc/wyua29bg/3/)
