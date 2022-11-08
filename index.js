@@ -1,10 +1,16 @@
-import { MetricModule, FirstEncounter } from "./lib/metricmodules.js";
-import { ChatChart } from "./lib/chatchart.js";
-import { Chatter } from "./lib/chatter.js";
+import { ChatComposition, FirstEncounter, InstanceCounter, MessageDays, MessageTimes, MetricModule, TopEmojis, TopWords  } from "./models/metricmodules.js";
+import { ChatChart } from "./models/chatchart.js";
+import { Chatter } from "./models/chatter.js";
 
 export {
     ChatChart,
+    ChatComposition,
     Chatter,
+    FirstEncounter,
+    InstanceCounter,
+    MessageDays,
+    MessageTimes,
     MetricModule,
-    FirstEncounter
+    TopEmojis,
+    TopWords
 }
