@@ -1,6 +1,6 @@
 import { BlobReader, TextWriter, ZipReader } from "https://deno.land/x/zipjs/index.js";
 
-/**Takes a File and formats it to be analysed*/
+/**Takes a File, formats it, and converts into an indexed Object*/
 async function FormatFile (uploadedFile){
     const fileType = uploadedFile.type;
     const reader = new FileReader();
@@ -22,15 +22,8 @@ async function FormatFile (uploadedFile){
     }
 
     lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
-
-
-
-
-
-
-
-
-
+    let linesArray = FormatIOSChats(lowerCaseChat);
+    return ConvertArrayToIndexedObject(linesArray);
 }
 
 //*Fires on successful format of file*/
@@ -61,7 +54,21 @@ function FormatIOSChats(chatString){
     }
 
     return linesArray;
-} 
+}
+
+//*Converts Array to Indexed Object*/
+function ConvertArrayToIndexedObject(array){
+    let newObj = {};
+    for(let i = 0; i < array.length; i++){
+        let firstChar = array[i][0];
+        if(newObj[firstChar]){
+            newObj[firstChar].push(array[i]);
+        } else {
+            newObj[firstChar] = [array[i]];
+        }
+    }
+    return newObj;
+}
 
 //*Removes message about encryption and subject*/
 function RemoveEncryptionAndSubjectMessage(chatString){
@@ -72,6 +79,19 @@ function RemoveEncryptionAndSubjectMessage(chatString){
     if(firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage)){
         chatString = chatString.substring(chatString.indexOf("\n"), 1);
     }
-
     return chatString;
 }
+
+//*Searches an indexed Object*/
+function SearchIndexedObject(indexedObj, stringToFind){
+    let firstChar = stringToFind[0];
+    let n = indexedObj[firstChar].length;
+    for(let i = 0 ; i < n; i++) {
+        if(indexedObj[firstChar][i] === stringToFind){
+            return true;
+        }
+    }
+}
+
+
+export {FormatFile};
