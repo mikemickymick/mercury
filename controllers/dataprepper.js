@@ -37,7 +37,7 @@ function FileFormattingSuccessful (){
 //*Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
 function FormatIOSChats(chatString){
     let linesArray = new Array();
-    linesArray = chatString.Split('\n');
+    linesArray = chatString.split('\n');
     
     for(let i = 0; i < linesArray.length; i++){
 
