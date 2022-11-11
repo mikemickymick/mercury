@@ -77,7 +77,7 @@ function ConvertArrayToIndexedObject(array){
 function RemoveEncryptionAndSubjectMessage(chatString){
     const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";
     const subjectChangeMessage = " changed the subject to ";
-    const firstLine = chatString.Split("\n")[0];
+    const firstLine = chatString.split("\n")[0];
 
     if(firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage)){
         chatString = chatString.substring(chatString.indexOf("\n"), 1);
