@@ -16,7 +16,10 @@ async function FormatFile (uploadedFile){
         await zipReader.close();
         lowerCaseChat = data.toLowerCase();
     }else if (fileType == "text/plain"){
-        lowerCaseChat = reader.readAsText(uploadedFile);
+        reader.readAsText(uploadedFile);
+        reader.onload = function () {
+            lowerCaseChat = reader.result;
+        };
     }else{
         alert("Oops! Sorry, we only accept .zip .txt or .json files");
     }
