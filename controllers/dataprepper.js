@@ -1,4 +1,4 @@
-import { BlobReader, TextWriter, ZipReader } from "https://deno.land/x/zipjs/index.js";
+import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
 
 /**Takes a File, formats it, and converts into an indexed Object*/
 async function FormatFile (uploadedFile){
