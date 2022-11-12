@@ -14,19 +14,19 @@ async function FormatFile (uploadedFile){
         const entries = await zipReader.getEntries();
         const data = await entries[0].getData(helloWorldWriter);
         await zipReader.close();
-        lowerCaseChat = data.toLowerCase();
+        return data.toLowerCase();
     }else if (fileType == "text/plain"){
         reader.readAsText(uploadedFile);
         reader.onload = function () {
-            lowerCaseChat = reader.result;
+            return reader.result;
         };
     }else{
-        alert("Oops! Sorry, we only accept .zip .txt or .json files");
+        return "Oops! Sorry, we only accept .zip .txt or .json files";
     }
 
-    lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
-    let linesArray = FormatIOSChats(lowerCaseChat);
-    return ConvertArrayToIndexedObject(linesArray);
+    //lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
+    //let linesArray = FormatIOSChats(lowerCaseChat);
+    //return ConvertArrayToIndexedObject(linesArray);
 }
 
 //*Fires on successful format of file*/
