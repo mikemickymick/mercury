@@ -2,11 +2,9 @@ import { BlobReader, TextWriter, ZipReader } from "https://deno.land/x/zipjs/ind
 
 /**Takes a File, formats it, and converts into an indexed Object*/
 async function FormatFile (uploadedFile){
-    const fileType = uploadedFile.type;
-    const reader = new FileReader();
-    let lowerCaseChat = "";
+    let lowerCaseChat;
 
-    if(fileType == "application/zip" || fileType == "application/x-zip-compressed"){
+    if(uploadedFile.type == "application/zip" || uploadedFile.type == "application/x-zip-compressed"){
         //Unzip file
         const zipFileReader = new BlobReader(uploadedFile);
         const helloWorldWriter = new TextWriter();
@@ -14,15 +12,27 @@ async function FormatFile (uploadedFile){
         const entries = await zipReader.getEntries();
         const data = await entries[0].getData(helloWorldWriter);
         await zipReader.close();
-        return data.toLowerCase();
-    }else if (fileType == "text/plain"){
-        reader.readAsText(uploadedFile);
-        reader.onload = function () {
-            return reader.result;
-        };
+        lowerCaseChat = data.toLowerCase();
+    }else if (uploadedFile.type == "text/plain"){
+        const zipFileWriter = new BlobWriter();
+        const helloWorldReader = new BlobReader(uploadedFile);
+        const zipWriter = new ZipWriter(zipFileWriter);
+        await zipWriter.add("chat-thing.txt", helloWorldReader);
+        await zipWriter.close();
+        const zipFileBlob = await zipFileWriter.getData();
+        const zipFileReader = new BlobReader(zipFileBlob);
+        const helloWorldWriter = new TextWriter();
+        const zipReader = new ZipReader(zipFileReader);
+        const entries = await zipReader.getEntries();
+        const data = await entries[0].getData(helloWorldWriter);
+        await zipReader.close();
+        lowerCaseChat = data.toLowerCase(); 
     }else{
-        return "Oops! Sorry, we only accept .zip .txt or .json files";
+        lowerCaseChat = "Oops! Sorry, we only accept .zip .txt or .json files";
     }
+
+
+    return lowerCaseChat;
 
     //lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
     //let linesArray = FormatIOSChats(lowerCaseChat);
