@@ -33,8 +33,7 @@ async function FormatFile (uploadedFile){
 
 
     lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
-    let linesArray = FormatIOSChats(lowerCaseChat);
-    return ConvertArrayToIndexedObject(linesArray);
+    return FormatIOSChats(lowerCaseChat);
 }
 
 //*Fires on successful format of file*/
@@ -67,8 +66,18 @@ function FormatIOSChats(chatString){
     return linesArray;
 }
 
-//*Converts Array to Indexed Object*/
-function ConvertArrayToIndexedObject(array){
+//*Converts Array to Message Object*/
+function ConvertArrayToMessageObject(array){
+    for(let i = 0; i < array.length; i++){
+
+    }
+
+
+
+
+
+
+
     let newObj = {};
     for(let i = 0; i < array.length; i++){
         let firstChar = array[i][0];
