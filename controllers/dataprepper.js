@@ -32,11 +32,9 @@ async function FormatFile (uploadedFile){
     }
 
 
-    return lowerCaseChat;
-
-    //lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
-    //let linesArray = FormatIOSChats(lowerCaseChat);
-    //return ConvertArrayToIndexedObject(linesArray);
+    lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
+    let linesArray = FormatIOSChats(lowerCaseChat);
+    return ConvertArrayToIndexedObject(linesArray);
 }
 
 //*Fires on successful format of file*/
@@ -59,7 +57,7 @@ function FormatIOSChats(chatString){
             }
 
             if(lineString.indexOf('[') == 0 && lineString.indexOf(']') == 21 && lineString.indexOf(',') == 11){
-                let firstHalf = lineString.substring(lineString.indexOf('[') + 1, 17);
+                let firstHalf = lineString.substring(lineString.indexOf('[') + 1, 18);
                 let secondHalf = lineString.substring(lineString.indexOf(']'));
                 linesArray[i] = firstHalf + secondHalf.replace(']', ' -');
             }
@@ -90,7 +88,7 @@ function RemoveEncryptionAndSubjectMessage(chatString){
     const firstLine = chatString.split("\n")[0];
 
     if(firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage)){
-        chatString = chatString.substring(chatString.indexOf("\n"), 1);
+        chatString = chatString.substring(chatString.indexOf("\n")+1);
     }
     return chatString;
 }
