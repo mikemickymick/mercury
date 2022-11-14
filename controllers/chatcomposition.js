@@ -12,8 +12,8 @@ function GenerateChatComposition(messageObjectArray){
             }
         });
         if(!chatterInArray){
-            //let chatter = new Chatter(messageObjectArray.indexOf(element), element.Author, 1, 0);
-            //chatters.push(chatter);
+            let chatter = new Chatter(messageObjectArray.indexOf(element), element.Author, 1, 0);
+            chatters.push(chatter);
         }
     });            
 

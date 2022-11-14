@@ -1,8 +1,8 @@
 /**Represents a person within a chat*/
 class Chatter {
-    constructor(index, name, messageCount, messagePercent){
+    constructor(index, author, messageCount, messagePercent){
         this.Index = index;
-        this.Name = name;
+        this.Name = author;
         this.MessageCount = messageCount;
         this.MessagePercent = messagePercent;
     };
