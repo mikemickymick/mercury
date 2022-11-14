@@ -49,9 +49,9 @@ function FormatIOSChats(chatString){
             }
 
             if(lineString.indexOf('[') == 0 && lineString.indexOf(']') == 21 && lineString.indexOf(',') == 11){
-                let firstHalf = lineString.substr(lineString.indexOf('[') + 1, 18);
+                let firstHalf = lineString.substr(lineString.indexOf('[') + 1, 17);
                 let secondHalf = lineString.substr(lineString.indexOf(']'));
-                linesArray[i] = firstHalf + secondHalf.replace(']', ' -');
+                linesArray[i] = firstHalf + secondHalf.replace(']', ' -').replace('\r','');
             }
         }
     }
