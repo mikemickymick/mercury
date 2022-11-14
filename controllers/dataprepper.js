@@ -45,7 +45,7 @@ function FormatIOSChats(chatString){
         if(lineString.length > 0){
 
             if(lineString[0] == String.fromCharCode(8206)){
-                lineString = lineString.substr(0);
+                lineString = lineString.substr(1);
             }
 
             if(lineString.indexOf('[') == 0 && lineString.indexOf(']') == 21 && lineString.indexOf(',') == 11){
