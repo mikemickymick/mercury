@@ -1,4 +1,4 @@
-import { Chatter } from "./models/chatter.js";
+//import { Chatter } from "./models/chatter.js";
 
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray){
@@ -12,8 +12,8 @@ function GenerateChatComposition(messageObjectArray){
             }
         });
         if(!chatterInArray){
-            let chatter = new Chatter(messageObjectArray.indexOf(element), element.Author, 1, 0);
-            chatters.push(chatter);
+            //let chatter = new Chatter(messageObjectArray.indexOf(element), element.Author, 1, 0);
+            //chatters.push(chatter);
         }
     });            
 
