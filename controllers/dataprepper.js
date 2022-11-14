@@ -61,26 +61,34 @@ function FormatIOSChats(chatString){
 
 //*Converts Array to Message Object*/
 function ConvertArrayToMessageObject(array){
+    let parsedData = new Array();
     for(let i = 0; i < array.length; i++){
+        let message = chatArray[i];
 
-    }
-
-
-
-
-
-
-
-    let newObj = {};
-    for(let i = 0; i < array.length; i++){
-        let firstChar = array[i][0];
-        if(newObj[firstChar]){
-            newObj[firstChar].push(array[i]);
+        const startsWithDateRegEx = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)(\d{2}|\d{4}), ([0-9][0-9]):([0-9][0-9]) -/g;
+        let m = message.match(startsWithDateRegEx);
+        if (m != null) {
+            //Transform into model
+            let date = message.substr(0, 10);
+            let time = message.substr(12, 5);
+            let tempSubstr = message.substr(message.indexOf('-') + 2);
+            let authorLength = tempSubstr.indexOf(':');
+            let author = message.substr(message.indexOf('-') + 2, authorLength).trim();
+            let messageBody = message.substr(message.indexOf('-') + 4 + authorLength)
+            let messageModel = {};
+            messageModel["Date"] = date;
+            messageModel["Time"] = time;
+            messageModel["Author"] = author;
+            messageModel["MessageBody"] = messageBody;
+            parsedData.push(messageModel);
         } else {
-            newObj[firstChar] = [array[i]];
+            let latestEntry = parsedData[parsedData.length - 1];
+            latestEntry.MessageBody += '\n' + message;
+            parsedData[parsedData.length - 1] = latestEntry;
         }
     }
-    return newObj;
+
+    return parsedData;
 }
 
 //*Removes message about encryption and subject*/
@@ -95,4 +103,4 @@ function RemoveEncryptionAndSubjectMessage(chatString){
     return chatString;
 }
 
-export {FormatFile, FormatIOSChats};
+export {ConvertArrayToMessageObject, FormatFile, FormatIOSChats};
