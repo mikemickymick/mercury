@@ -31,14 +31,7 @@ async function FormatFile (uploadedFile){
         lowerCaseChat = "Oops! Sorry, we only accept .zip .txt or .json files";
     }
 
-
-    lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
-    return FormatIOSChats(lowerCaseChat);
-}
-
-//*Fires on successful format of file*/
-function FileFormattingSuccessful (){
-
+    return RemoveEncryptionAndSubjectMessage(lowerCaseChat);
 }
 
 //*Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
@@ -52,12 +45,12 @@ function FormatIOSChats(chatString){
         if(lineString.length > 0){
 
             if(lineString[0] == String.fromCharCode(8206)){
-                lineString = lineString.substring(0);
+                lineString = lineString.substr(0);
             }
 
             if(lineString.indexOf('[') == 0 && lineString.indexOf(']') == 21 && lineString.indexOf(',') == 11){
-                let firstHalf = lineString.substring(lineString.indexOf('[') + 1, 18);
-                let secondHalf = lineString.substring(lineString.indexOf(']'));
+                let firstHalf = lineString.substr(lineString.indexOf('[') + 1, 18);
+                let secondHalf = lineString.substr(lineString.indexOf(']'));
                 linesArray[i] = firstHalf + secondHalf.replace(']', ' -');
             }
         }
@@ -97,21 +90,9 @@ function RemoveEncryptionAndSubjectMessage(chatString){
     const firstLine = chatString.split("\n")[0];
 
     if(firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage)){
-        chatString = chatString.substring(chatString.indexOf("\n")+1);
+        chatString = chatString.substr(chatString.indexOf("\n")+1);
     }
     return chatString;
 }
 
-//*Searches an indexed Object*/
-function SearchIndexedObject(indexedObj, stringToFind){
-    let firstChar = stringToFind[0];
-    let n = indexedObj[firstChar].length;
-    for(let i = 0 ; i < n; i++) {
-        if(indexedObj[firstChar][i] === stringToFind){
-            return true;
-        }
-    }
-}
-
-
-export {FormatFile};
+export {FormatFile, FormatIOSChats};
