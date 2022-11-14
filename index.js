@@ -2,10 +2,12 @@ import { ChatComposition, FirstEncounter, InstanceCounter, MessageDays, MessageT
 import { ChatChart } from "./models/chatchart.js";
 import { FormatFile } from "./controllers/dataprepper.js";
 import { GenerateChatComposition } from "./controllers/chatcomposition.js";
+import { Chatter } from "./models/chatter.js";
 
 export {
     ChatChart,
     ChatComposition,
+    Chatter,
     FirstEncounter,
     FormatFile,
     GenerateChatComposition,
