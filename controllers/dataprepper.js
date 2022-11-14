@@ -3,7 +3,6 @@ import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https:
 /**Takes a File, formats it, and converts into an indexed Object*/
 async function FormatFile (uploadedFile){
     let lowerCaseChat;
-
     if(uploadedFile.type == "application/zip" || uploadedFile.type == "application/x-zip-compressed"){
         //Unzip file
         const zipFileReader = new BlobReader(uploadedFile);
@@ -14,6 +13,7 @@ async function FormatFile (uploadedFile){
         await zipReader.close();
         lowerCaseChat = data.toLowerCase();
     }else if (uploadedFile.type == "text/plain"){
+        //Stupid but it works. Zip and then unzip file. Gets around the asynchronous nature of FileReader
         const zipFileWriter = new BlobWriter();
         const helloWorldReader = new BlobReader(uploadedFile);
         const zipWriter = new ZipWriter(zipFileWriter);
@@ -31,7 +31,9 @@ async function FormatFile (uploadedFile){
         lowerCaseChat = "Oops! Sorry, we only accept .zip .txt or .json files";
     }
 
-    return RemoveEncryptionAndSubjectMessage(lowerCaseChat);
+    lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
+    let linesArray = FormatIOSChats(lowerCaseChat);
+    return ConvertEntriesToMessageObjects(linesArray);
 }
 
 //*Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
@@ -40,7 +42,6 @@ function FormatIOSChats(chatString){
     linesArray = chatString.split('\n');
     
     for(let i = 0; i < linesArray.length; i++){
-
         let lineString = linesArray[i];
         if(lineString.length > 0){
 
@@ -59,8 +60,8 @@ function FormatIOSChats(chatString){
     return linesArray;
 }
 
-//*Converts Array to Message Object*/
-function ConvertArrayToMessageObject(array){
+//*Converts chat entries to Message objects*/
+function ConvertEntriesToMessageObjects(array){
     const startsWithDateRegEx = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)(\d{2}|\d{4}), ([0-9][0-9]):([0-9][0-9]) -/g;
     let parsedData = new Array();
     for(let i = 0; i < array.length; i++){
@@ -102,4 +103,4 @@ function RemoveEncryptionAndSubjectMessage(chatString){
     return chatString;
 }
 
-export {ConvertArrayToMessageObject, FormatFile, FormatIOSChats};
+export {FormatFile};
