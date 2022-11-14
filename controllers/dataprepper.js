@@ -61,11 +61,10 @@ function FormatIOSChats(chatString){
 
 //*Converts Array to Message Object*/
 function ConvertArrayToMessageObject(array){
+    const startsWithDateRegEx = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)(\d{2}|\d{4}), ([0-9][0-9]):([0-9][0-9]) -/g;
     let parsedData = new Array();
     for(let i = 0; i < array.length; i++){
-        let message = array[i];
-
-        const startsWithDateRegEx = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)(\d{2}|\d{4}), ([0-9][0-9]):([0-9][0-9]) -/g;
+        let message = array[i];        
         let m = message.match(startsWithDateRegEx);
         if (m != null) {
             //Transform into model
