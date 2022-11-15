@@ -1,3 +1,5 @@
+import {Chatter} from 'index.js';
+
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray){
     let chatters = new Array();
@@ -10,7 +12,8 @@ function GenerateChatComposition(messageObjectArray){
             }
         });
         if(!chatterInArray){
-            
+            let chatter = new Chatter(messageObjectArray.indexOf(element), element.Author, 1, 0);
+            chatters.push(chatter);
         }
     });            
 
