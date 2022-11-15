@@ -1,3 +1,5 @@
+import { Chatter } from "././models/chatter.js";
+
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray){
     let chatters = new Array();
