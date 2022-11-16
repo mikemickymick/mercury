@@ -1,6 +1,11 @@
 /**Represents a person within a chat */
-export class Chatter {
-    constructor(){
-        this.Hello = "hello";
-    }
+class Chatter {
+    constructor(authorIndex, author, messageCount, messagePercent){
+        this.AuthorIndex = authorIndex;
+        this.Author = author;
+        this.MessageCount = messageCount;
+        this.MessagePercent = messagePercent;
+    };
 }
+
+export {Chatter}
