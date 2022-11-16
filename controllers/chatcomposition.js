@@ -3,16 +3,18 @@ import {Chatter } from '../models/chatter.js';
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray){
     let chatters = new Array();
+    let authorIndex = 0;
     messageObjectArray.forEach(element => {
         let chatterInArray = false;
         chatters.forEach(x => {
-            if(x.Name == element.Author){
+            if(x.Author == element.Author){
                 chatterInArray = true;
                 x.MessageCount += 1;
             }
         });
         if(!chatterInArray){
-            let chatter = new Chatter(messageObjectArray.indexOf(element), element.Author, 1, 0);
+            authorIndex ++;
+            let chatter = new Chatter(authorIndex, element.Author, 1, 0);
             chatters.push(chatter);
         }
     });            

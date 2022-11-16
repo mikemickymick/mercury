@@ -7,7 +7,7 @@ class Product {
     }
 }
 
-/**Represents a container for everything needed for a Chat Chart*/
+/**Represents a container for a Chat Chart*/
 class ChatChart extends Product {
     constructor(productCode, chatters, startDate, endDate){
         super("Chat Chart", productCode, false);
