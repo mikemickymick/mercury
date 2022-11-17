@@ -5,3 +5,5 @@ class SearchLog {
         this.Count = count;
     }
 }
+
+export {SearchLog}
