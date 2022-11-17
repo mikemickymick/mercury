@@ -28,12 +28,12 @@ class FirstEncounter extends MetricModule {
     }
 }
 
-/**Represents the Instance Counter chat metric*/
-class InstanceCounter extends MetricModule {
-    constructor(name, instance, count) {
-        super(name, false, 1, 1);
-        this.Instance = instance;
-        this.Count = count;
+/**Represents the SearchRecord chat metric*/
+class SearchRecord extends MetricModule {
+    constructor(name, required, width, height, searchLogs, totalCount) {
+        super(name, required, width, height);
+        this.SearchLogs = searchLogs;
+        this.TotalCount = totalCount;
     }
 }
 
@@ -72,7 +72,7 @@ class TopWords extends MetricModule {
 export {
     ChatComposition,
     FirstEncounter,
-    InstanceCounter,
+    SearchRecord,
     MessageDays,
     MessageTimes,
     MetricModule,
