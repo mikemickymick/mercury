@@ -1,6 +1,7 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
 import { SearchRecord } from '../models/metricmodules.js';
+import { EmojiArray } from '../helpers/emojihelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray){
@@ -62,6 +63,9 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
         case "late-night":
             searchTermArr = ["horny","fuck","shag","screw","tits","ass","pussy","vagina","vaj","penis","dick","cock","balls","sex","blowjob","head","anal","bum","arse","spank","🍑","😈","lick","suck","kiss","cum","orgasm","🍆","👅","naughty","kinky","sexy","dirty","💦","🍒","🤤","😏","🥵"];
             break;
+        case "emoji":
+            searchTermArr = EmojiArray;
+            break;
         default:
             //Do nothing
     }
@@ -79,11 +83,22 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
     });
 
     let counter = 0;
-    searchLogs.forEach(x =>{
+    let orderedSearchLogs = new Array();
+    if(searchRecordName == "emoji"){
+        searchLogs.sort((a,b) => {
+            return b.Count - a.Count;
+        });
+        for(let i = 0; i < 15; i++){
+            orderedSearchLogs.push(searchLogs[i]);
+        }
+    } else {
+        searchLogs.forEach(x =>{
             counter += x.Count
-    });
+        });
+        orderedSearchLogs = searchLogs;
+    }
 
-    return new SearchRecord(searchRecordName, required, width, height, searchLogs, counter);
+    return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
 }
 
 export {GenerateChatComposition, GenerateSearchRecord};
