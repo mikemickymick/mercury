@@ -19,11 +19,15 @@ class ChatComposition extends MetricModule {
 
 /**Represents the First Encounter chat metric*/
 class FirstEncounter extends MetricModule {
-    constructor(firstChatter, firstMessage, replyingChatter, replyMessage) {
+    constructor(firstMessageDate, firstMessageTime, firstChatterName, firstMessage, replyMessageDate, replyMessageTime, replyingChatterName, replyMessage) {
         super("First Encounter", true, 2, 2);
-        this.FirstChatter = firstChatter;
-        this.FirstMessage = firstMessage;
-        this.ReplyingChatter = replyingChatter;
+        this.FirstMessageDate = firstMessageDate;
+        this.FirstMessageTime = firstMessageTime;
+        this.FirstChatterName = firstChatterName;
+        this.FirstMessageBody = firstMessage;
+        this.ReplyMessageDate = replyMessageDate;
+        this.ReplyMessageTime = replyMessageTime;
+        this.ReplyingChatterName = replyingChatterName;
         this.ReplyMessage = replyMessage;
     }
 }

@@ -35,7 +35,36 @@ function GenerateChatComposition(messageObjectArray){
 
 /**Generates a Search Record */
 function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, height, searchTermArr){
-    let searchLogs = new Array();   
+    let searchLogs = new Array();
+
+    switch(searchRecordName){
+        case "laugh":
+            searchTermArr = ["haha", "lol", "lmao", "lmfao", "hehe", "😆", "😅", "😂", "🤣"];
+            break;
+        case "morning":
+            searchTermArr = ["morning x", "good morning"];
+            break;
+        case "night":
+            searchTermArr = ["night night", "good night", "night x" ];
+            break;
+        case "audio":
+            searchTermArr = ["audio omitted"];
+            break;
+        case "image":
+            searchTermArr = ["image omitted"];
+            break;
+        case "love":
+            searchTermArr = ["love", "adore", "x", "xx", "xxx", "xxxx", "xxxxx", "❤️", "🫶", "🥰", "😍","😘", "💏"];
+            break;
+        case "swear":
+            searchTermArr = ["fuck", "shit", "cunt", "bollocks", "twat"];
+            break;
+        case "late-night":
+            searchTermArr = ["horny","fuck","shag","screw","tits","ass","pussy","vagina","vaj","penis","dick","cock","balls","sex","blowjob","head","anal","bum","arse","spank","🍑","😈","lick","suck","kiss","cum","orgasm","🍆","👅","naughty","kinky","sexy","dirty","💦","🍒","🤤","😏","🥵"];
+            break;
+        default:
+            //Do nothing
+    }
 
     searchTermArr.forEach(x => {
         let counter = 0;
