@@ -1,5 +1,5 @@
 import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
-import { StartsWithDateRegEx } from "../helpers/searchhelper";
+import { StartsWithDateRegEx } from "../helpers/searchhelper.js";
 
 /**Takes a File, formats it, and converts into an indexed Object*/
 async function FormatFile (uploadedFile){
