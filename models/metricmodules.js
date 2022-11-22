@@ -57,14 +57,6 @@ class MessageTimes extends MetricModule {
     }
 }
 
-/**Represents the Top Emojis chat metric*/
-class TopEmojis extends MetricModule {
-    constructor(topEmojisTable) {
-        super("Top Emojis", false, 1, 2);
-        this.TopEmojisTable = topEmojisTable;
-    }
-}
-
 /**Represents the Top Words chat metric*/
 class TopWords extends MetricModule {
     constructor(topWordsTable) {
@@ -80,6 +72,5 @@ export {
     MessageDays,
     MessageTimes,
     MetricModule,
-    TopEmojis,
     TopWords
 };

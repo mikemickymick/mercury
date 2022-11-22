@@ -1,7 +1,7 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
 import { SearchRecord } from '../models/metricmodules.js';
-import { EmojiArray } from '../helpers/emojihelper.js';
+import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, SkipWords, SwearArray } from '../helpers/searchhelper';
 
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray){
@@ -40,28 +40,28 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
 
     switch(searchRecordName){
         case "laugh":
-            searchTermArr = ["haha", "lol", "lmao", "lmfao", "hehe", "😆", "😅", "😂", "🤣"];
+            searchTermArr = LaughArray;
             break;
         case "morning":
-            searchTermArr = ["morning x", "good morning"];
+            searchTermArr = MorningArray;
             break;
         case "night":
-            searchTermArr = ["night night", "good night", "night x" ];
+            searchTermArr = NightArray;
             break;
         case "audio":
-            searchTermArr = ["audio omitted"];
+            searchTermArr = AudioArray;
             break;
         case "image":
-            searchTermArr = ["image omitted"];
+            searchTermArr = ImageArray;
             break;
         case "love":
-            searchTermArr = ["love", "adore", "x", "xx", "xxx", "xxxx", "xxxxx", "❤️", "🫶", "🥰", "😍","😘", "💏"];
+            searchTermArr = LoveArray;
             break;
         case "swear":
-            searchTermArr = ["fuck", "shit", "cunt", "bollocks", "twat"];
+            searchTermArr = SwearArray;
             break;
         case "late-night":
-            searchTermArr = ["horny","fuck","shag","screw","tits","ass","pussy","vagina","vaj","penis","dick","cock","balls","sex","blowjob","head","anal","bum","arse","spank","🍑","😈","lick","suck","kiss","cum","orgasm","🍆","👅","naughty","kinky","sexy","dirty","💦","🍒","🤤","😏","🥵"];
+            searchTermArr = LateNightArray;
             break;
         case "emoji":
             searchTermArr = EmojiArray;
@@ -99,6 +99,23 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
     }
 
     return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
+}
+
+/**Generates a Top Words metric module */
+function GenerateTopWords(chatObjArr){
+    let topWordsTable = new Array();
+    let skipWords = SkipWords;
+    let kiss = "x";
+    //Remove all the kisses people send eachother
+    for(var i = 0; i < 15; i++) {
+        kiss += "x";
+        skipWords.push(kiss);
+    }
+
+
+
+
+
 }
 
 export {GenerateChatComposition, GenerateSearchRecord};

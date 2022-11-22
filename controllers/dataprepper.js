@@ -1,4 +1,5 @@
 import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
+import { StartsWithDateRegEx } from "../helpers/searchhelper";
 
 /**Takes a File, formats it, and converts into an indexed Object*/
 async function FormatFile (uploadedFile){
@@ -33,7 +34,7 @@ async function FormatFile (uploadedFile){
 
     lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
     let linesArray = FormatIOSChats(lowerCaseChat);
-    return ConvertEntriesToMessageObjects(linesArray);
+    return { ArrayOfStrings: linesArray, ArrayOfMessageObjs: ConvertEntriesToMessageObjects(linesArray)};
 }
 
 //*Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
@@ -62,7 +63,7 @@ function FormatIOSChats(chatString){
 
 //*Converts chat entries to Message objects*/
 function ConvertEntriesToMessageObjects(array){
-    const startsWithDateRegEx = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)(\d{2}|\d{4}), ([0-9][0-9]):([0-9][0-9]) -/g;
+    let startsWithDateRegEx = StartsWithDateRegEx;
     let parsedData = new Array();
     for(let i = 0; i < array.length; i++){
         let message = array[i];        
