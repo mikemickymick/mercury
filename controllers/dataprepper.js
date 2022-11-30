@@ -50,16 +50,83 @@ function FormatIOSChats(chatString){
                 lineString = lineString.substr(1);
             }
 
+            //Normal formatting
             if(lineString.indexOf('[') == 0 && lineString.indexOf(']') == 21 && lineString.indexOf(',') == 11){
                 let firstHalf = lineString.substr(lineString.indexOf('[') + 1, 17);
                 let secondHalf = lineString.substr(lineString.indexOf(']'));
                 linesArray[i] = firstHalf + secondHalf.replace(']', ' -').replace('\r','');
             }
+            //AM PM formatting
+            else if((lineString.indexOf(']') == 19 || lineString.indexOf(']') == 20 || lineString.indexOf(']') == 21 || lineString.indexOf(']') == 22) && (lineString.indexOf(',') == 7 || lineString.indexOf(',') == 8 || lineString.indexOf(',') == 9 || lineString.indexOf(',') == 11)){
+                let colonIndex = GetNthIndex(lineString, ':', 2);
+                let dateAndTimeString = lineString.substr(lineString.indexOf("[") + 1, colonIndex-1);
+                let dateString = dateAndTimeString.split(",")[0];
+                let monthString = dateString.split('/')[0];
+                let dayString = dateString.split('/')[1];
+                let yearString = "20" + dateString.split('/')[2];
+                let timeString = dateAndTimeString.split(", ")[1];
+                let hourString = timeString.split(':')[0];
+                let minuteString = timeString.split(':')[1];
+
+                if (dayString.length == 1) {dayString = "0" + dayString; }
+                if (monthString.length == 1) { monthString = "0" + monthString; }
+
+                let dateAndComma = dayString + '/' + monthString + "/" + yearString + ", ";
+
+                //Take away PM and AM
+                if (lineString.includes(" AM] ")){
+                    if (hourString.length == 1) { hourString = "0" + hourString; }
+                }
+                else if (lineString.includes(" PM] ")){
+                    let newHour;
+                    switch (hourString){
+                        case "1":
+                            newHour = "13";
+                            break;
+                        case "2":
+                            newHour = "14";
+                            break;
+                        case "3":
+                            newHour = "15";
+                            break;
+                        case "4":
+                            newHour = "16";
+                            break;
+                        case "5":
+                            newHour = "17";
+                            break;
+                        case "6":
+                            newHour = "18";
+                            break;
+                        case "7":
+                            newHour = "19";
+                            break;
+                        case "8":
+                            newHour = "20";
+                            break;
+                        case "9":
+                            newHour = "21";
+                            break;
+                        case "10":
+                            newHour = "22";
+                            break;
+                        default:
+                            newHour = "23";
+                            break;
+                    }
+                    hourString = newHour;
+                }
+
+                timeString = hourString + ':' + minuteString;
+                dateAndTimeString = dateAndComma + timeString;
+                let secondHalf = lineString.substr(lineString.indexOf("]"));
+                linesArray[i] = dateAndTimeString + secondHalf.replace("]", " -");
+            }
         }
     }
-
     return linesArray;
 }
+
 
 //*Converts chat entries to Message objects*/
 function ConvertEntriesToMessageObjects(array){
@@ -102,6 +169,23 @@ function RemoveEncryptionAndSubjectMessage(chatString){
         chatString = chatString.substr(chatString.indexOf("\n")+1);
     }
     return chatString;
+}
+
+//*Finds the nth index of a character in a string*/
+function GetNthIndex(s, t, n){
+    let count = 0;
+    for (let i = 0; i < s.length; i++)
+    {
+        if (s[i] == t)
+        {
+            count++;
+            if (count == n)
+            {
+                return i;
+            }
+        }
+    }
+    return -1;
 }
 
 export {FormatFile};

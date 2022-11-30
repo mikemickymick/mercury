@@ -69,6 +69,7 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
         default:
             //Do nothing
     }
+    
 
     searchTermArr.forEach(x => {
         let counter = 0;
