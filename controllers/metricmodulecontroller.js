@@ -72,13 +72,8 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
     
 
     searchTermArr.forEach(x => {
-        let counter = 0;
         let instanceRegEx = new RegExp(x.toLowerCase(),"g");
-        chatObjArr.forEach(y => {
-            if (y.MessageBody.match(instanceRegEx)){
-                counter++
-            }
-        });
+        let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
         let searchLog = new SearchLog(x, counter);
         searchLogs.push(searchLog);
     });
