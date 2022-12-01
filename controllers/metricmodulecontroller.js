@@ -1,7 +1,7 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
 import { SearchRecord } from '../models/metricmodules.js';
-import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, SkipWords, SwearArray } from '../helpers/searchhelper.js';
+import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray){
@@ -98,20 +98,29 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
 }
 
 /**Generates a Top Words metric module */
-function GenerateTopWords(chatObjArr){
+function GenerateTopWords(linesArray){
     let topWordsTable = new Array();
-    let skipWords = SkipWords;
-    let kiss = "x";
-    //Remove all the kisses people send eachother
-    for(var i = 0; i < 15; i++) {
-        kiss += "x";
-        skipWords.push(kiss);
-    }
+    let wordsArr = new Array();
+    let punctuationRegEx = new RegExp(PunctuationRegEx, "g");
 
+    //Making sure we don't include punctuation, emojis, or skipwords in this table
+    linesArray.filter(x => !SkipWords.includes(x) && !EmojiArray.includes(x) && !x.match(punctuationRegEx));
+    let newArr = groupByArray(chatObjArr);
 
+    //TO DO
+}
 
-
-
+function groupByArray(xs, key) { 
+    return xs.reduce(function (rv, x) { 
+        let v = key instanceof Function ? key(x) : x[key];
+        let el = rv.find((r) => r && r.key === v);
+        if (el) { 
+            el.values.push(x);
+        } else {
+            rv.push({ key: v, values: [x] });
+        }
+        return rv;
+    },[]);
 }
 
 export {GenerateChatComposition, GenerateSearchRecord};

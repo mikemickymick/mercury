@@ -34,7 +34,7 @@ async function FormatFile (uploadedFile){
 
     lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
     let linesArray = FormatIOSChats(lowerCaseChat);
-    return { ArrayOfStrings: linesArray, ArrayOfMessageObjs: ConvertEntriesToMessageObjects(linesArray)};
+    return { WholeChatString: lowerCaseChat, ArrayOfLines: linesArray, ArrayOfMessageObjs: ConvertEntriesToMessageObjects(linesArray)};
 }
 
 //*Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
