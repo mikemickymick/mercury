@@ -1,6 +1,6 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
-import { SearchRecord, TopWords } from '../models/metricmodules.js';
+import { FirstEncounter, SearchRecord, TopWords } from '../models/metricmodules.js';
 import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, NumberRegEx, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
@@ -32,6 +32,30 @@ function GenerateChatComposition(messageObjectArray){
     });
 
     return chatters;
+}
+
+/**Generates a First Encounter module */
+function GenerateFirstEncounter(chatObjArr){
+    let firstMessage = chatObjArr[0];
+    let firstMessageDate = firstMessage["Date"];
+    let firstMessageTime = firstMessage["Time"];
+    let firstMessageAuthor = firstMessage["Author"];
+    let firstMessageBody = firstMessage["MessageBody"];
+
+    let replierIndex = chatObjArr.indexOf(chatObjArr.find(x => x.Author != author));
+    let replyMessage = chatObjArr[replierIndex];
+    let replyDate = replyMessage["Date"];
+    let replyTime = replyMessage["Time"];
+    let replyAuthor = replyMessage["Author"];
+    let replyMessageBody = replyMessage["MessageBody"];
+
+    let arrFromSecondAuth = chatObjArr.slice(replierIndex,50);
+    let thirdAuthorIndex = arrFromSecondAuth.indexOf(arrFromSecondAuth.find(x => x.Author != replyAuthor));
+
+    firstMessageBody = GenerateChatComposition(chatObjArr, replierIndex, firstMessageBody);
+    replyMessageBody = GenerateChatComposition(arrFromSecondAuth, thirdAuthorIndex, replyMessageBody);
+
+    return new FirstEncounter(firstMessageDate, firstMessageTime, firstMessageAuthor, firstMessageBody, replyDate, replyTime, replyAuthor, replyMessageBody);
 }
 
 /**Generates a Search Record */
@@ -120,4 +144,22 @@ function GenerateTopWords(wholeChatString, namesArray){
     return new TopWords(topWordsTable.sort((a, b) => b.Count - a.Count).slice(0,15));
 }
 
-export {GenerateChatComposition, GenerateSearchRecord, GenerateTopWords};
+/**Generates a composite of all messages until the next author in a chat */
+function GetMessageComposite(chatObjArr, replierIndex, message){
+    if(replierIndex > 1){
+        for(let x = 1; x < replierIndex; x++){
+            let currentMessage = chatObjArr[x];
+
+            let puncRegEx = new RegExp(PunctuationRegEx,"g");
+
+            if(message.match(puncRegEx)){
+                message += " " + currentMessage["MessageBody"];
+            }else{
+                message += ". " + currentMessage["MessageBody"];
+            }
+        }
+    }
+    return message;
+}
+
+export {GenerateChatComposition, GenerateFirstEncounter, GenerateSearchRecord, GenerateTopWords};
