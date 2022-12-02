@@ -42,7 +42,7 @@ function GenerateFirstEncounter(chatObjArr){
     let firstMessageAuthor = firstMessage["Author"];
     let firstMessageBody = firstMessage["MessageBody"];
 
-    let replierIndex = chatObjArr.indexOf(chatObjArr.find(x => x.Author != author));
+    let replierIndex = chatObjArr.indexOf(chatObjArr.find(x => x.Author != firstMessageAuthor));
     let replyMessage = chatObjArr[replierIndex];
     let replyDate = replyMessage["Date"];
     let replyTime = replyMessage["Time"];
