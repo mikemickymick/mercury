@@ -1,7 +1,7 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
-import { SearchRecord } from '../models/metricmodules.js';
-import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
+import { SearchRecord, TopWords } from '../models/metricmodules.js';
+import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, NumberRegEx, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray){
@@ -98,29 +98,26 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
 }
 
 /**Generates a Top Words metric module */
-function GenerateTopWords(linesArray){
+function GenerateTopWords(wholeChatString, namesArray){
     let topWordsTable = new Array();
-    let wordsArr = new Array();
     let punctuationRegEx = new RegExp(PunctuationRegEx, "g");
+    let numberRegEx = new RegExp(NumberRegEx, "g");
 
-    //Making sure we don't include punctuation, emojis, or skipwords in this table
-    linesArray.filter(x => !SkipWords.includes(x) && !EmojiArray.includes(x) && !x.match(punctuationRegEx));
-    let newArr = groupByArray(chatObjArr);
+    //Split entire chat into words Array
+    let wordsArray = wholeChatString.split(' ');
 
-    //TO DO
+    //Making sure we don't include punctuation, emojis, numbers, or skipwords in this table
+    let filteredArray = wordsArray.filter(x => !SkipWords.includes(x) && !EmojiArray.includes(x) && !x.match(punctuationRegEx) && !x.match(numberRegEx) && !namesArray.includes(x));
+    let counts = {};
+    for (const num of filteredArray) {
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+    
+    for (const property in counts) {
+	    topWordsTable.push({Word: property, Count: counts[property]});
+    }
+
+    return new TopWords(topWordsTable.sort((a, b) => b.Count - a.Count).slice(0,15));
 }
 
-function groupByArray(xs, key) { 
-    return xs.reduce(function (rv, x) { 
-        let v = key instanceof Function ? key(x) : x[key];
-        let el = rv.find((r) => r && r.key === v);
-        if (el) { 
-            el.values.push(x);
-        } else {
-            rv.push({ key: v, values: [x] });
-        }
-        return rv;
-    },[]);
-}
-
-export {GenerateChatComposition, GenerateSearchRecord};
+export {GenerateChatComposition, GenerateSearchRecord, GenerateTopWords};

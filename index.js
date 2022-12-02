@@ -2,7 +2,7 @@ import { ChatComposition, FirstEncounter, SearchRecord, MessageDays, MessageTime
 import { ChatChart } from "./models/products.js";
 import { Chatter } from "./models/chatter.js";
 import { FormatFile } from "./controllers/dataprepper.js";
-import { GenerateChatComposition, GenerateSearchRecord } from "./controllers/metricmodulecontroller.js";
+import { GenerateChatComposition, GenerateSearchRecord, GenerateTopWords } from "./controllers/metricmodulecontroller.js";
 
 export {
     ChatChart,
@@ -12,6 +12,7 @@ export {
     FormatFile,
     GenerateChatComposition,
     GenerateSearchRecord,
+    GenerateTopWords,
     SearchRecord,
     MessageDays,
     MessageTimes,
