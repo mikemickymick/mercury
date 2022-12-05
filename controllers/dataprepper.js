@@ -34,7 +34,8 @@ async function FormatFile (uploadedFile){
 
     lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
     let linesArray = FormatIOSChats(lowerCaseChat);
-    return { WholeChatString: lowerCaseChat, ArrayOfLines: linesArray, ArrayOfMessageObjs: ConvertEntriesToMessageObjects(linesArray)};
+    let chatObjArr = ConvertEntriesToMessageObjects(linesArray);
+    return { WholeChatString: lowerCaseChat, ArrayOfLines: linesArray, ArrayOfMessageObjs: chatObjArr};
 }
 
 //*Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
@@ -74,10 +75,10 @@ function FormatIOSChats(chatString){
                 let dateAndComma = dayString + '/' + monthString + "/" + yearString + ", ";
 
                 //Take away PM and AM
-                if (lineString.includes(" AM] ")){
+                if (lineString.includes(" am] ")){
                     if (hourString.length == 1) { hourString = "0" + hourString; }
                 }
-                else if (lineString.includes(" PM] ")){
+                else if (lineString.includes(" pm] ")){
                     let newHour;
                     switch (hourString){
                         case "1":

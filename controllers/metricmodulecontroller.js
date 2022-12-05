@@ -93,7 +93,6 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
         default:
             //Do nothing
     }
-    
 
     searchTermArr.forEach(x => {
         let instanceRegEx = new RegExp(x.toLowerCase(),"g");
@@ -119,6 +118,19 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
     }
 
     return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
+}
+
+/**Generates a Message Times metric module */
+function GenerateMessageTimes(chatObjArr){
+    let timeArray= [];
+
+    //Add 0 prefix
+            for(let i = 0; i <10; i++){
+                timeArray.push({Hour: "0" + i.toString(), Count: 0});
+            }
+            for(let i = 10; i <24; i++){
+                timeArray.push({Hour: i.toString(), Count: 0});
+            }
 }
 
 /**Generates a Top Words metric module */
