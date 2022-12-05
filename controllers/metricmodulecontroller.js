@@ -123,14 +123,23 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
 /**Generates a Message Times metric module */
 function GenerateMessageTimes(chatObjArr){
     let timeArray= [];
+    for(let i = 0; i <10; i++){
+        timeArray.push({Hour: "0" + i.toString(), Count: 0});
+    }
+    for(let i = 10; i <24; i++){
+        timeArray.push({Hour: i.toString(), Count: 0});
+    }
 
-    //Add 0 prefix
-            for(let i = 0; i <10; i++){
-                timeArray.push({Hour: "0" + i.toString(), Count: 0});
+    chatObjArr.forEach(x => {
+        let hour = x.Time.split(':')[0];
+        timeArray.forEach(y => {
+            if(hour === y.Hour){
+                y.Count ++;
             }
-            for(let i = 10; i <24; i++){
-                timeArray.push({Hour: i.toString(), Count: 0});
-            }
+        });
+    });
+
+    return timeArray;
 }
 
 /**Generates a Top Words metric module */
@@ -174,4 +183,4 @@ function GetMessageComposite(chatObjArr, replierIndex, message){
     return message;
 }
 
-export {GenerateChatComposition, GenerateFirstEncounter, GenerateSearchRecord, GenerateTopWords};
+export {GenerateChatComposition, GenerateFirstEncounter, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords};
