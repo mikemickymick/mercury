@@ -76,7 +76,11 @@ function FormatIOSChats(chatString){
 
                 //Take away PM and AM
                 if (lineString.includes(" am] ")){
-                    if (hourString.length == 1) { hourString = "0" + hourString; }
+                    if (hourString.length == 1) { 
+                        hourString = "0" + hourString; 
+                    }else if (hourString == "12"){
+                        hourString = "00";
+                    }
                 }
                 else if (lineString.includes(" pm] ")){
                     let newHour;
