@@ -115,9 +115,11 @@ function FormatIOSChats(chatString){
                         case "10":
                             newHour = "22";
                             break;
-                        default:
+                        case "11":
                             newHour = "23";
                             break;
+                        default:
+                            newHour = "12";
                     }
                     hourString = newHour;
                 }
