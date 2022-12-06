@@ -1,6 +1,6 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
-import { FirstEncounter, SearchRecord, TopWords } from '../models/metricmodules.js';
+import { FirstEncounter, MessageDays, MessageTimes, SearchRecord, TopWords } from '../models/metricmodules.js';
 import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, NumberRegEx, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
@@ -120,6 +120,30 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
     return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
 }
 
+/**Generates a Message Days metric module */
+function GenerateMessageDays(chatObjArr){
+    let dayArray = [{Day: "Monday", Count: 0}, {Day: "Tuesday", Count: 0}, {Day: "Wednesday", Count: 0}, {Day: "Thursday", Count: 0}, {Day: "Friday", Count: 0}, {Day: "Saturday", Count: 0}, {Day: "Sunday", Count: 0}];
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    chatObjArr.forEach(x => {
+        let dateString = x.Date;
+        let date = parseInt(dateString.split('/')[0]);
+        let month = parseInt(dateString.split('/')[1]);
+        let year = parseInt(dateString.split('/')[2]);
+
+        let dateBuilder = new Date();
+        dateBuilder.setDate(date);
+        dateBuilder.setMonth(month- 1);
+        dateBuilder.setFullYear(year);
+        
+        let day = days[dateBuilder.getDay()];
+
+        dayArray.forEach(y => day === y.Day ? y.Count ++ : null);
+    });
+
+    return new MessageDays(dayArray);
+}
+
 /**Generates a Message Times metric module */
 function GenerateMessageTimes(chatObjArr){
     let timeArray= [];
@@ -139,7 +163,7 @@ function GenerateMessageTimes(chatObjArr){
         });
     });
 
-    return timeArray;
+    return new MessageTimes(timeArray);
 }
 
 /**Generates a Top Words metric module */
@@ -183,4 +207,4 @@ function GetMessageComposite(chatObjArr, replierIndex, message){
     return message;
 }
 
-export {GenerateChatComposition, GenerateFirstEncounter, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords};
+export {GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords};
