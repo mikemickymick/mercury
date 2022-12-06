@@ -35,7 +35,7 @@ class ChatChart extends Product {
     }
 
     RemoveMetricModule(metricModule){
-        if (!this.MetricModules.includes(metricModule)){ return; }
+        if (!this.MetricModules.includes(metricModule)) { return; }
 
         this.MetricModules.splice(this.MetricModules.indexOf(metricModule),1);
         let modulePercent = Math.round((metricModule.Area/24)*100);

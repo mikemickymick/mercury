@@ -1,6 +1,6 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
-import { FirstEncounter, MessageDays, MessageTimes, SearchRecord, TopWords } from '../models/metricmodules.js';
+import { ChatComposition, FirstEncounter, MessageDays, MessageTimes, SearchRecord, TopWords } from '../models/metricmodules.js';
 import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, NumberRegEx, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
@@ -31,7 +31,7 @@ function GenerateChatComposition(messageObjectArray){
         y.MessagePercent = Math.round((y.MessageCount / totalMessages) * 100);
     });
 
-    return chatters;
+    return new ChatComposition(chatters);
 }
 
 /**Generates a First Encounter module */
