@@ -24,7 +24,7 @@ export async function PopulateProductBuilder (uploadedFile){
     let audioSearchRecord = GenerateSearchRecord(chatObjArr, "audio", false, 2, 1, null);
     audioSearchRecord != null ? searchRecordArr.pushc(audioSearchRecord) : null;
     let imageSearchRecord = GenerateSearchRecord(chatObjArr, "image", false, 2, 1, null);
-    imageSearchRecord != null ? searchRecordArr.pushc(imageSearchRecord) : null;
+    imageSearchRecord != null ? searchRecordArr.push(imageSearchRecord) : null;
 
     let authors =  [];
     chatComposition.forEach(x => authors.push(x.Author));
