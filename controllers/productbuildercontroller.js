@@ -27,7 +27,7 @@ export async function PopulateProductBuilder (uploadedFile){
     imageSearchRecord != null ? searchRecordArr.push(imageSearchRecord) : null;
 
     let authors =  [];
-    chatComposition.forEach(x => authors.push(x.Author));
+    chatComposition.Chatters.forEach(x => authors.push(x.Author));
     let tWtable = GenerateTopWords(chatMaster.WholeChatString, authors);
 
     //to do total time
