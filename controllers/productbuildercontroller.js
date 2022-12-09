@@ -2,7 +2,7 @@ import { ProductBuilder } from '../models/productbuilder.js';
 import { FormatFile } from './dataprepper.js';
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from './metricmodulecontroller.js';
 
-/**Function to populate a Product renderer */
+/**Function to populate a Product Builder */
 export async function PopulateProductBuilder (uploadedFile){
 
     let chatMaster = await FormatFile(uploadedFile);
@@ -22,7 +22,7 @@ export async function PopulateProductBuilder (uploadedFile){
     searchRecordArr.push(GenerateSearchRecord(chatObjArr, "swear", false, 2, 1, null));
     searchRecordArr.push(GenerateSearchRecord(chatObjArr, "emoji", false, 2, 1, null));
     let audioSearchRecord = GenerateSearchRecord(chatObjArr, "audio", false, 2, 1, null);
-    audioSearchRecord != null ? searchRecordArr.pushc(audioSearchRecord) : null;
+    audioSearchRecord != null ? searchRecordArr.push(audioSearchRecord) : null;
     let imageSearchRecord = GenerateSearchRecord(chatObjArr, "image", false, 2, 1, null);
     imageSearchRecord != null ? searchRecordArr.push(imageSearchRecord) : null;
 
