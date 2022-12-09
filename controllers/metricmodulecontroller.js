@@ -118,13 +118,13 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
     }
 
     if(searchRecordName == "audio" || searchRecordName == "image"){
-        if(orderedSearchLogs.length == 0){
+        if(counter == 0){
             return null;
         }else{
             return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
         }
     }else{
-        new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
+        return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
     }
 }
 
