@@ -15,7 +15,8 @@ export async function PopulateProductBuilder (uploadedFile){
     let firstEncounter = GenerateFirstEncounter(chatObjArr);
 
     let searchRecordArr = [];
-    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "laugh", false, 2, 1, null));
+    let laughSR = GenerateSearchRecord(chatObjArr, "laugh", false, 2, 1, null)
+    searchRecordArr.push(laughSR);
     searchRecordArr.push(GenerateSearchRecord(chatObjArr, "morning", false, 2, 1, null));
     searchRecordArr.push(GenerateSearchRecord(chatObjArr, "night", false, 2, 1, null));
     searchRecordArr.push(GenerateSearchRecord(chatObjArr, "love", false, 2, 1, null));
