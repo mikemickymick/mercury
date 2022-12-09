@@ -3,6 +3,9 @@ import { ChatChart } from "./models/products.js";
 import { Chatter } from "./models/chatter.js";
 import { FormatFile } from "./controllers/dataprepper.js";
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from "./controllers/metricmodulecontroller.js";
+import { PopulateProductBuilder } from "./controllers/productbuildercontroller.js";
+
+//TODO - Remove all functions other than PopulateProductBuilder
 
 export {
     ChatChart,
@@ -16,6 +19,7 @@ export {
     GenerateMessageTimes,
     GenerateSearchRecord,
     GenerateTopWords,
+    PopulateProductBuilder,
     SearchRecord,
     MessageDays,
     MessageTimes,

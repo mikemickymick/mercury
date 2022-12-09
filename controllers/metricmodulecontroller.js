@@ -117,7 +117,15 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
         orderedSearchLogs = searchLogs;
     }
 
-    return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
+    if(searchRecordName == "audio" || searchRecordName == "image"){
+        if(orderedSearchLogs.length == 0){
+            return null;
+        }else{
+            return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
+        }
+    }else{
+        new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
+    }
 }
 
 /**Generates a Message Days metric module */
