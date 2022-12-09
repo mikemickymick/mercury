@@ -8,8 +8,8 @@ export async function PopulateProductBuilder (uploadedFile){
     let chatMaster = await FormatFile(uploadedFile);
     let chatObjArr = chatMaster.ArrayOfMessageObjs;
     let chatComposition = GenerateChatComposition(chatMaster.ArrayOfMessageObjs);
-    let fromDate = chatObjArr[0].Date;
-    let toDate = chatObjArr.reverse()[0].Date;
+    let fromDateStr = chatObjArr[0].Date;
+    let toDateStr = chatObjArr.reverse()[0].Date;
     let timeArray = GenerateMessageTimes(chatObjArr);
     let dayArray = GenerateMessageDays(chatObjArr);
     let firstEncounter = GenerateFirstEncounter(chatObjArr);
@@ -31,8 +31,24 @@ export async function PopulateProductBuilder (uploadedFile){
     chatComposition.Chatters.forEach(x => authors.push(x.Author));
     let tWtable = GenerateTopWords(chatMaster.WholeChatString, authors);
 
-    //to do total time
+    let fromDay = fromDateStr.split('/')[0];
+    let fromMonth = fromDateStr.split('/')[1];
+    let fromYear = fromDateStr.split('/')[2];
+    let fromDate = new Date();
+    fromDate.setDate(fromDay);
+    fromDate.setMonth(fromMonth-1);
+    fromDate.setYear(fromYear);
+
+    let toDay = toDateStr.split('/')[0];
+    let toMonth = toDateStr.split('/')[1];
+    let toYear = toDateStr.split('/')[2];
+    let toDate = new Date();
+    toDate.setDate(toDay);
+    toDate.setMonth(toMonth-1);
+    toDate.setYear(toYear);
+
+    let daysDifference = (toDate - fromDate)/1000/60/60/24;
     
-    return new ProductBuilder(chatComposition,fromDate,toDate,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr);
+    return new ProductBuilder(chatComposition,fromDateStr,toDateStr,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr, daysDifference);
 
 }
