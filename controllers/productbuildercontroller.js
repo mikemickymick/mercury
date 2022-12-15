@@ -1,5 +1,5 @@
 import { ProductBuilder } from '../models/productbuilder.js';
-import { FormatFile } from './dataprepper.js';
+import { FormatFile } from './datacontroller.js';
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from './metricmodulecontroller.js';
 
 /**Function to populate a Product Builder */
@@ -47,8 +47,7 @@ export async function PopulateProductBuilder (uploadedFile){
     toDate.setMonth(toMonth-1);
     toDate.setYear(toYear);
 
-    let daysDifference = (toDate - fromDate)/1000/60/60/24;
+    let daysDifference = Math.round((toDate - fromDate)/1000/60/60/24);
     
-    return new ProductBuilder(chatComposition,fromDateStr,toDateStr,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr, daysDifference);
-
+    return new ProductBuilder(chatComposition,fromDateStr,toDateStr,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr,daysDifference);
 }

@@ -1,7 +1,7 @@
 import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
 import { StartsWithDateRegEx } from "../helpers/searchhelper.js";
 
-//*Converts chat entries to Message objects*/
+/**Converts chat entries to Message objects*/
 function ConvertEntriesToMessageObjects(array){
     let startsWithDateRegEx = StartsWithDateRegEx;
     let parsedData = new Array();
@@ -68,7 +68,7 @@ async function FormatFile (uploadedFile){
     return { WholeChatString: lowerCaseChat, ArrayOfLines: linesArray, ArrayOfMessageObjs: chatObjArr};
 }
 
-//*Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
+/**Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
 function FormatIOSChats(chatString){
     let linesArray = new Array();
     linesArray = chatString.split('\n');
@@ -164,7 +164,7 @@ function FormatIOSChats(chatString){
     return linesArray;
 }
 
-//*Finds the nth index of a character in a string*/
+/**Finds the nth index of a character in a string*/
 function GetNthIndex(s, t, n){
     let count = 0;
     for (let i = 0; i < s.length; i++)
@@ -181,7 +181,15 @@ function GetNthIndex(s, t, n){
     return -1;
 }
 
-//*Removes message about encryption and subject*/
+/**Parses productBuilder data into a http request */
+function ParseProductBuilder(productBuilder){
+    //TODO
+    let data = {};
+
+
+}
+
+/**Removes message about encryption and subject*/
 function RemoveEncryptionAndSubjectMessage(chatString){
     const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";
     const subjectChangeMessage = " changed the subject to ";
@@ -193,4 +201,9 @@ function RemoveEncryptionAndSubjectMessage(chatString){
     return chatString;
 }
 
-export {FormatFile};
+/**Sends request to logic app to create csv*/
+function SendChatChartRequest(productbuilder){
+
+}
+
+export {ConvertEntriesToMessageObjects, FormatFile, FormatIOSChats, RemoveEncryptionAndSubjectMessage};
