@@ -4,7 +4,7 @@ import { Chatter } from "./models/chatter.js";
 import { FormatFile } from "./controllers/datacontroller.js";
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from "./controllers/metricmodulecontroller.js";
 import { PopulateProductBuilder } from "./controllers/productbuildercontroller.js";
-import { GetChatAuthors } from "./controllers/litecontroller.js";
+import { CountPersonalWord } from "./controllers/litecontroller.js";
 
 //TODO - Remove obsolete functions
 
@@ -12,6 +12,7 @@ export {
     ChatChart,
     ChatComposition,
     Chatter,
+    CountPersonalWord,
     FirstEncounter,
     FormatFile,
     GenerateChatComposition,
@@ -20,7 +21,6 @@ export {
     GenerateMessageTimes,
     GenerateSearchRecord,
     GenerateTopWords,
-    GetChatAuthors,
     PopulateProductBuilder,
     SearchRecord,
     MessageDays,

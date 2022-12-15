@@ -7,7 +7,8 @@ export async function PopulateProductBuilder (uploadedFile){
 
     let chatMaster = await FormatFile(uploadedFile);
     let chatObjArr = chatMaster.ArrayOfMessageObjs;
-    let chatComposition = GenerateChatComposition(chatMaster.ArrayOfMessageObjs);
+    let wholeChatString = chatMaster.WholeChatString;
+    let chatComposition = GenerateChatComposition(chatObjArr);
     let fromDateStr = chatObjArr[0].Date;
     let toDateStr = chatObjArr.reverse()[0].Date;
     let timeArray = GenerateMessageTimes(chatObjArr);
@@ -29,7 +30,7 @@ export async function PopulateProductBuilder (uploadedFile){
 
     let authors =  [];
     chatComposition.Chatters.forEach(x => authors.push(x.Author));
-    let tWtable = GenerateTopWords(chatMaster.WholeChatString, authors);
+    let tWtable = GenerateTopWords(wholeChatString, authors);
 
     let fromDay = fromDateStr.split('/')[0];
     let fromMonth = fromDateStr.split('/')[1];

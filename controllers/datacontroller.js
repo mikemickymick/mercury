@@ -65,7 +65,22 @@ async function FormatFile (uploadedFile){
     lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
     let linesArray = FormatIOSChats(lowerCaseChat);
     let chatObjArr = ConvertEntriesToMessageObjects(linesArray);
-    return { WholeChatString: lowerCaseChat, ArrayOfLines: linesArray, ArrayOfMessageObjs: chatObjArr};
+
+    let chatters = new Array();
+    formatFileObject.ArrayOfMessageObjs.forEach(element => {
+        let chatterInArray = false;
+        chatters.forEach(x => {
+            if(x == element.Author){
+                chatterInArray = true;
+            }
+        });
+        if(!chatterInArray){
+            authorIndex ++;
+            chatters.push(element.Author);
+        }
+    });
+
+    return { WholeChatString: lowerCaseChat, ArrayOfMessageObjs: chatObjArr, Chatters: chatters};
 }
 
 /**Converts string to ensure WhatsApp chats from iOS devices are formatted properly*/
