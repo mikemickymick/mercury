@@ -41,7 +41,7 @@ async function GetChatAuthors(uploadedFile){
     chatObjArr.forEach(element => {
         let chatterInArray = false;
         chatters.forEach(x => {
-            if(x.Author == element.Author){
+            if(x == element.Author){
                 chatterInArray = true;
             }
         });
