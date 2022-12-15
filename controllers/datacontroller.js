@@ -67,7 +67,7 @@ async function FormatFile (uploadedFile){
     let chatObjArr = ConvertEntriesToMessageObjects(linesArray);
 
     let chatters = new Array();
-    formatFileObject.ArrayOfMessageObjs.forEach(element => {
+    chatObjArr.forEach(element => {
         let chatterInArray = false;
         chatters.forEach(x => {
             if(x == element.Author){
