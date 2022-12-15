@@ -75,7 +75,6 @@ async function FormatFile (uploadedFile){
             }
         });
         if(!chatterInArray){
-            authorIndex ++;
             chatters.push(element.Author);
         }
     });
