@@ -179,12 +179,16 @@ function GenerateTopWords(wholeChatString, namesArray){
     let topWordsTable = new Array();
     let punctuationRegEx = new RegExp(PunctuationRegEx, "g");
     let numberRegEx = new RegExp(NumberRegEx, "g");
+    let newNameArray = [];
+    namesArray.forEach(x => {
+        x.split(" ").forEach(y => newNameArray.push(y));
+    });
 
     //Split entire chat into words Array
     let wordsArray = wholeChatString.split(' ');
 
     //Making sure we don't include punctuation, emojis, numbers, or skipwords in this table
-    let filteredArray = wordsArray.filter(x => !SkipWords.includes(x) && !EmojiArray.includes(x) && !x.match(punctuationRegEx) && !x.match(numberRegEx) && !namesArray.includes(x));
+    let filteredArray = wordsArray.filter(x => !SkipWords.includes(x) && !EmojiArray.includes(x) && !x.match(punctuationRegEx) && !x.match(numberRegEx) && !newNameArray.includes(x));
     let counts = {};
     for (const num of filteredArray) {
         counts[num] = counts[num] ? counts[num] + 1 : 1;

@@ -195,14 +195,6 @@ function GetNthIndex(s, t, n){
     return -1;
 }
 
-/**Parses productBuilder data into a http request */
-function ParseProductBuilder(productBuilder){
-    //TODO
-    let data = {};
-
-
-}
-
 /**Removes message about encryption and subject*/
 function RemoveEncryptionAndSubjectMessage(chatString){
     const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";

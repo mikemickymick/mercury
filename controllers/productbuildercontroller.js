@@ -2,10 +2,8 @@ import { ProductBuilder } from '../models/productbuilder.js';
 import { FormatFile } from './datacontroller.js';
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from './metricmodulecontroller.js';
 
-/**Function to populate a Product Builder */
-export async function PopulateProductBuilder (uploadedFile){
-
-    let chatMaster = await FormatFile(uploadedFile);
+/**Function to populate a Product Builder - takes a parameter of the FileFormat output*/
+async function PopulateProductBuilder (chatMaster){
     let chatObjArr = chatMaster.ArrayOfMessageObjs;
     let wholeChatString = chatMaster.WholeChatString;
     let chatComposition = GenerateChatComposition(chatObjArr);
@@ -52,3 +50,13 @@ export async function PopulateProductBuilder (uploadedFile){
     
     return new ProductBuilder(chatComposition,fromDateStr,toDateStr,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr,daysDifference);
 }
+
+/**Parses productBuilder data into a http request */
+async function ParseProductBuilder(productBuilder){
+    //TODO
+    let data = {};
+
+
+}
+
+export { PopulateProductBuilder, ParseProductBuilder }
