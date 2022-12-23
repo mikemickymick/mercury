@@ -185,7 +185,7 @@ function GenerateTopWords(wholeChatString, namesArray){
     });
 
     //Split entire chat into words Array
-    let wordsArray = wholeChatString.replace("'s","").replace("’s","").split(' ');
+    let wordsArray = wholeChatString.replace(/(’s)/g,"").replace(/('s)/g,"").split(' ');
 
     //Making sure we don't include punctuation, emojis, numbers, or skipwords in this table
     let filteredArray = wordsArray.filter(x => !SkipWords.includes(x) && !EmojiArray.includes(x) && !x.match(punctuationRegEx) && !x.match(numberRegEx) && !newNameArray.includes(x));
