@@ -138,8 +138,9 @@ function GenerateSearchRecord(wholeChatString, searchRecordName, required, width
 
 /**Generates a Message Days metric module */
 function GenerateMessageDays(chatObjArr){
-    let dayArray = [{Day: "Monday", Count: 0}, {Day: "Tuesday", Count: 0}, {Day: "Wednesday", Count: 0}, {Day: "Thursday", Count: 0}, {Day: "Friday", Count: 0}, {Day: "Saturday", Count: 0}, {Day: "Sunday", Count: 0}];
+    let dayArray = [{Day: "Monday", Count: 0, Percent: 0}, {Day: "Tuesday", Count: 0, Percent: 0}, {Day: "Wednesday", Count: 0, Percent: 0}, {Day: "Thursday", Count: 0, Percent: 0}, {Day: "Friday", Count: 0, Percent: 0}, {Day: "Saturday", Count: 0, Percent: 0}, {Day: "Sunday", Count: 0, Percent: 0}];
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let totalCount = 0;
 
     chatObjArr.forEach(x => {
         let dateString = x.Date;
@@ -155,7 +156,12 @@ function GenerateMessageDays(chatObjArr){
         let day = days[dateBuilder.getDay()];
 
         dayArray.forEach(y => day === y.Day ? y.Count ++ : null);
+        totalCount ++;
     });
+
+    dayArray.forEach(x => {
+        x.Percent = (x.Count / totalCount) * 100;
+    })
 
     return new MessageDays(dayArray);
 }
