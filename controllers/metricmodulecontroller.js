@@ -94,20 +94,6 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
             //Do nothing
     }
 
-    //Split entire chat into words Array
-    let wordsArray = wholeChatString.replace(/(’s)/g,"").replace(/('s)/g,"").split(' ');
-
-    //Making sure we don't include punctuation, emojis, numbers, or skipwords in this table
-    let filteredArray = wordsArray.filter(x => !SkipWords.includes(x) && !EmojiArray.includes(x) && !x.match(punctuationRegEx) && !x.match(numberRegEx) && !newNameArray.includes(x));
-    let counts = {};
-    for (const num of filteredArray) {
-        counts[num] = counts[num] ? counts[num] + 1 : 1;
-    }
-    
-    for (const property in counts) {
-	    topWordsTable.push({Word: property, Count: counts[property]});
-    }
-
     searchTermArr.forEach(x => {
         let instanceRegEx = new RegExp(x.toLowerCase(),"g");
         let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
