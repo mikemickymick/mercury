@@ -61,7 +61,6 @@ function GenerateFirstEncounter(chatObjArr){
 /**Generates a Search Record */
 function GenerateSearchRecord(wholeChatString, searchRecordName, required, width, height, searchTermArr){
     let searchLogs = new Array();
-    let isCustomWord = false;
 
     switch(searchRecordName){
         case "laugh":
@@ -92,7 +91,7 @@ function GenerateSearchRecord(wholeChatString, searchRecordName, required, width
             searchTermArr = EmojiArray;
             break;
         default:
-            isCustomWord = true;
+            //Do nothing
     }
 
     let wordsArray = wholeChatString.replace(/(’s)/g,"").replace(/('s)/g,"").split(' ');
@@ -103,8 +102,6 @@ function GenerateSearchRecord(wholeChatString, searchRecordName, required, width
 
     searchTermArr.forEach(x => {
         let counter = counts[x];
-        // let instanceRegEx = new RegExp(x.toLowerCase(),"g");
-        // let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
         let searchLog = new SearchLog(x, counter);
         searchLogs.push(searchLog);
     });

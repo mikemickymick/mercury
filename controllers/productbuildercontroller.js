@@ -1,9 +1,8 @@
 import { ProductBuilder } from '../models/productbuilder.js';
-import { FormatFile } from './datacontroller.js';
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from './metricmodulecontroller.js';
 
 /**Function to populate a Product Builder - takes a parameter of the FileFormat output*/
-async function PopulateProductBuilder (chatMaster){
+async function PopulateProductBuilder (chatMaster, personalWord){
     let chatObjArr = chatMaster.ArrayOfMessageObjs;
     let wholeChatString = chatMaster.WholeChatString;
     let chatComposition = GenerateChatComposition(chatObjArr);
@@ -21,6 +20,7 @@ async function PopulateProductBuilder (chatMaster){
     searchRecordArr.push(GenerateSearchRecord(wholeChatString, "love", false, 2, 1, null));
     searchRecordArr.push(GenerateSearchRecord(wholeChatString, "swear", false, 2, 1, null));
     searchRecordArr.push(GenerateSearchRecord(wholeChatString, "emoji", false, 2, 1, null));
+    searchRecordArr.push(GenerateSearchRecord(wholeChatString, "personal", false, 2, 1, [personalWord]));
     let audioSearchRecord = GenerateSearchRecord(wholeChatString, "audio", false, 2, 1, null);
     audioSearchRecord != null ? searchRecordArr.push(audioSearchRecord) : null;
     let imageSearchRecord = GenerateSearchRecord(wholeChatString, "image", false, 2, 1, null);
@@ -48,13 +48,20 @@ async function PopulateProductBuilder (chatMaster){
 
     let daysDifference = Math.round((toDate - fromDate)/1000/60/60/24);
     
-    return new ProductBuilder(chatComposition,fromDateStr,toDateStr,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr,daysDifference);
+    return new ProductBuilder(chatComposition,fromDateStr,toDateStr,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr,daysDifference,personalWord);
 }
 
 /**Parses productBuilder data into a http request */
 async function ParseProductBuilder(productBuilder){
-    //TODO
+    
     let data = {};
+    data.ShippingAddress = null;
+    data.OrderNumber = "xxxx";
+    data.ProductName = "test product";
+    data.DateFrom = productBuilder.FromDate;
+    data.DateTo = productBuilder.ToDate;
+    data.AuthorCount = productBuilder.ChatComposition.Chatters.length;
+    data.AuthorDataList = productBuilder.ChatComposition.Chatters;
     data.MondayCount = productBuilder.MessageDays.MessageDaysTable[0].Count;
     data.TuesdayCount =  productBuilder.MessageDays.MessageDaysTable[1].Count;
     data.WednesdayCount = productBuilder.MessageDays.MessageDaysTable[2].Count;
@@ -93,36 +100,45 @@ async function ParseProductBuilder(productBuilder){
     data.Time21 = productBuilder.MessageTimes.MessageTimesTable[21];
     data.Time22 = productBuilder.MessageTimes.MessageTimesTable[22];
     data.Time23 = productBuilder.MessageTimes.MessageTimesTable[23];
+    data.FirstMessageSender = productBuilder.FirstEncounter.FirstChatterName;
+    data.FirstMessageDate = productBuilder.FirstEncounter.FirstMessageDate;
+    data.FirstMessageTime = productBuilder.FirstEncounter.FirstMessageTime;
+    data.FirstMessageBody = productBuilder.FirstEncounter.FirstMessageBody;
+    data.Replier = productBuilder.FirstEncounter.ReplyingChatterName;
+    data.ReplierDate = productBuilder.FirstEncounter.ReplyMessageDate;
+    data.ReplierTime = productBuilder.FirstEncounter.ReplyMessageTime;
+    data.ReplierMessageBody = productBuilder.FirstEncounter.ReplyMessage;
+    data.WordIndexCount = productBuilder.TopWords.TopWordsTable.length;    
 
-    //TODO
-    //EMOJIS
-    //WORDS
-    data.PersonalWord = productBuilder;
-    data.PersonalWordCount = productBuilder;
-    data.DateFrom = productBuilder;
-    data.DateTo = productBuilder;
-    data.FirstMessageSender = productBuilder;
-    data.FirstMessageDate = productBuilder;
-    data.FirstMessageTime = productBuilder;
-    data.FirstMessageBody = productBuilder;
-    data.Replier = productBuilder;
-    data.ReplierDate = productBuilder;
-    data.ReplierTime = productBuilder;
-    data.ReplierMessageBody = productBuilder;
-    data.OrderNumber = productBuilder;
-    data.ProductName = productBuilder;
-    data.ShippingAddress = productBuilder;
-    data.MorningCount = productBuilder;
-    data.NightCounter = productBuilder;
-    data.LaughCounter = productBuilder;
-    data.AuthorCount = productBuilder;
-    data.AuthorDataList = productBuilder;
-    data.EmojiIndexCount = productBuilder;
-    data.WordIndexCount = productBuilder;
+    productBuilder.SearchRecordArray.forEach(x => {
+        if(x.Name == "personal"){
+            data.PersonalWord = x.SearchLogs[0].SearchTerm;
+            data.PersonalWordCount = x.TotalCount;
+        }else if(x.Name == "morning"){
+            data.MorningCount = x.TotalCount;
+        }else if(x.Name == "night"){
+            data.NightCount = x.TotalCount;
+        }else if(x.Name == "laugh"){
+            data.LaughCount = x.TotalCount;
+        }else if (x.Name == "emoji"){
+            data.EmojiIndexCount = x.SearchLogs.length;
+            for(let i = 0; i++; i < x.SearchLogs.length -1){
+                let searchLog = x.SearchLogs[i];
+                let searchProp = "Emoji" + (i+1);
+                data[searchProp] = searchLog.SearchTerm;
+                let countProp = "EmojiCount" + (i+1);
+                data[countProp] = searchLog.Count;
+            }
+        }
+    });
 
-
-
-
+    for (let i = 0; i++; productBuilder.TopWords.TopWordsTable.length -1){
+        let wordLog = productBuilder.TopWords.TopWordsTable[i];
+        let wordProp = "Word" + (i+1);
+        data[wordProp] = wordLog.Word;
+        let countProp = "WordCount" + (i+1);
+        data[countProp] = wordLog.Count;
+    }
 
     return {
         headers:{
