@@ -3,7 +3,7 @@ export class ProductBuilder{
         this.ChatComposition = chatComposition,
         this.FromDate = fromDate,
         this.ToDate = toDate,
-        this.MesageTimes = messageTimes,
+        this.MessageTimes = messageTimes,
         this.MessageDays = messageDays,
         this.FirsEncounter = firstEncounter,
         this.TopWords = topWords,
