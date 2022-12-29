@@ -102,6 +102,9 @@ function GenerateSearchRecord(wholeChatString, searchRecordName, required, width
 
     searchTermArr.forEach(x => {
         let counter = counts[x];
+        if(counter == undefined){
+            counter = 0;
+        }
         let searchLog = new SearchLog(x, counter);
         searchLogs.push(searchLog);
     });
@@ -157,7 +160,7 @@ function GenerateMessageDays(chatObjArr){
     });
 
     dayArray.forEach(x => {
-        x.Percent = (x.Count / totalCount) * 100;
+        x.Percent = Math.round((x.Count / totalCount) * 100);
     })
 
     return new MessageDays(dayArray);
