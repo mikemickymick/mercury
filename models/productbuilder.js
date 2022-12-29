@@ -5,7 +5,7 @@ export class ProductBuilder{
         this.ToDate = toDate,
         this.MessageTimes = messageTimes,
         this.MessageDays = messageDays,
-        this.FirsEncounter = firstEncounter,
+        this.FirstEncounter = firstEncounter,
         this.TopWords = topWords,
         this.SearchRecordArray = searchRecordArray,
         this.DaysDifference = daysDifference
