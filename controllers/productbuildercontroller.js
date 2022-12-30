@@ -13,17 +13,17 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     let firstEncounter = GenerateFirstEncounter(chatObjArr);
 
     let searchRecordArr = [];
-    let laughSR = GenerateSearchRecord(wholeChatString, "laugh", false, 2, 1, null)
+    let laughSR = GenerateSearchRecord(chatObjArr, "laugh", false, 2, 1, null)
     searchRecordArr.push(laughSR);
-    searchRecordArr.push(GenerateSearchRecord(wholeChatString, "morning", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(wholeChatString, "night", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(wholeChatString, "love", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(wholeChatString, "swear", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(wholeChatString, "emoji", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(wholeChatString, "personal", false, 2, 1, [personalWord]));
-    let audioSearchRecord = GenerateSearchRecord(wholeChatString, "audio", false, 2, 1, null);
+    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "morning", false, 2, 1, null));
+    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "night", false, 2, 1, null));
+    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "love", false, 2, 1, null));
+    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "swear", false, 2, 1, null));
+    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "emoji", false, 2, 1, null));
+    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "personal", false, 2, 1, [personalWord]));
+    let audioSearchRecord = GenerateSearchRecord(chatObjArr, "audio", false, 2, 1, null);
     audioSearchRecord != null ? searchRecordArr.push(audioSearchRecord) : null;
-    let imageSearchRecord = GenerateSearchRecord(wholeChatString, "image", false, 2, 1, null);
+    let imageSearchRecord = GenerateSearchRecord(chatObjArr, "image", false, 2, 1, null);
     imageSearchRecord != null ? searchRecordArr.push(imageSearchRecord) : null;
 
     let authors =  [];

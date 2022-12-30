@@ -59,7 +59,7 @@ function GenerateFirstEncounter(chatObjArr){
 }
 
 /**Generates a Search Record */
-function GenerateSearchRecord(wholeChatString, searchRecordName, required, width, height, searchTermArr){
+function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, height, searchTermArr){
     let searchLogs = new Array();
 
     switch(searchRecordName){
@@ -94,17 +94,9 @@ function GenerateSearchRecord(wholeChatString, searchRecordName, required, width
             //Do nothing
     }
 
-    let wordsArray = wholeChatString.replace(/(’s)/g,"").replace(/('s)/g,"").split(' ');
-    let counts = {};
-    for (const num of wordsArray) {
-        counts[num] = counts[num] ? counts[num] + 1 : 1;
-    }
-
     searchTermArr.forEach(x => {
-        let counter = counts[x];
-        if(counter == undefined){
-            counter = 0;
-        }
+        let instanceRegEx = new RegExp(x.toLowerCase(),"g");
+        let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
         let searchLog = new SearchLog(x, counter);
         searchLogs.push(searchLog);
     });
