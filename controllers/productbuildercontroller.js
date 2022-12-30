@@ -29,7 +29,7 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     imageSearchRecord != null ? searchRecordArr.push(imageSearchRecord) : null;
 
     let authors =  [];
-    chatComposition.Chatters.forEach(x => authors.push(x.Author));
+    chatComposition.Chatters.forEach(x => authors.push(x.Name));
     let tWtable = GenerateTopWords(wholeChatString, authors);
 
 
