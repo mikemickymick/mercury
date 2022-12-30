@@ -146,7 +146,7 @@ async function ParseProductBuilder(productBuilder){
         }
     });
 
-    for (let i = 0; i++; productBuilder.TopWords.TopWordsTable.length -1){
+    for (let i = 0; productBuilder.TopWords.TopWordsTable.length-1; i++){
         let wordLog = productBuilder.TopWords.TopWordsTable[i];
         let wordProp = "Word" + (i+1);
         data[wordProp] = wordLog.Word;
