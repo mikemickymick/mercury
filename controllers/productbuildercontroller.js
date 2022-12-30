@@ -69,7 +69,23 @@ async function PopulateProductBuilder (chatMaster, personalWord){
 async function ParseProductBuilder(productBuilder){
     
     let data = {};
-    data.ShippingAddress = {"first_name":"MICHAEL","address1":"505 TEST ROAD","phone":"07577773222","city":"London","zip":"SE3 T2T","province":"England","country":"United Kingdom","last_name":"TEST SURNAME","address2":null,"company":null,"latitude":51.408755,"longitude":0.4956772,"name":"TEST NAME","country_code":"GB","province_code":"ENG"};
+    data.ShippingAddress = {
+        "First_Name": "MIKE",
+        "Address1": "505 TEST ROAD",
+        "Phone": "07777777777",
+        "City": "London",
+        "Zip": "SE3 T2T",
+        "Province": "England",
+        "Country": "United Kingdom",
+        "Last_Name": "TEST SURNAME",
+        "Address2": "TEST TOWN",
+        "Company": null,
+        "Latitude": 53.412287,
+        "Longitude": -2.5558833,
+        "Name": "TEST FULLNAME",
+        "Country_Code": "GB",
+        "Province_Code": "ENG"
+    };
     data.OrderNumber = "xxxx";
     data.ProductName = "test product";
     data.DateFrom = productBuilder.FromDate;
