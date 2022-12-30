@@ -41,7 +41,7 @@ async function PopulateProductBuilder (chatMaster, personalWord){
 
     });
 
-    tWtable.topWordsTable.sort((a, b) => b.Count - a.Count);
+    tWtable.TopWordsTable.sort((a, b) => b.Count - a.Count);
 
     let fromDay = fromDateStr.split('/')[0];
     let fromMonth = fromDateStr.split('/')[1];
