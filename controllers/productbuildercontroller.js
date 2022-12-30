@@ -136,7 +136,7 @@ async function ParseProductBuilder(productBuilder){
             data.LaughCount = x.TotalCount;
         }else if (x.Name == "emoji"){
             data.EmojiIndexCount = x.SearchLogs.length;
-            for(let i = 0; i < x.SearchLogs.length-1; i++){
+            for(let i = 0; i < x.SearchLogs.length; i++){
                 let searchLog = x.SearchLogs[i];
                 let searchProp = "Emoji" + (i+1);
                 data[searchProp] = searchLog.SearchTerm;
