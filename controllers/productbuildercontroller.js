@@ -8,6 +8,7 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     let chatComposition = GenerateChatComposition(chatObjArr);
     let fromDateStr = chatObjArr[0].Date;
     let toDateStr = chatObjArr.reverse()[0].Date;
+    chatObjArr.reverse(); //Reverse it back
     let timeArray = GenerateMessageTimes(chatObjArr);
     let dayArray = GenerateMessageDays(chatObjArr);
     let firstEncounter = GenerateFirstEncounter(chatObjArr);
