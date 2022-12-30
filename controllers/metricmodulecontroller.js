@@ -10,7 +10,7 @@ function GenerateChatComposition(messageObjectArray){
     messageObjectArray.forEach(element => {
         let chatterInArray = false;
         chatters.forEach(x => {
-            if(x.Author == element.Author){
+            if(x.Name == element.Author){
                 chatterInArray = true;
                 x.MessageCount += 1;
             }
