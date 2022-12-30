@@ -11,6 +11,7 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     let timeArray = GenerateMessageTimes(chatObjArr);
     let dayArray = GenerateMessageDays(chatObjArr);
     let firstEncounter = GenerateFirstEncounter(chatObjArr);
+    let personalWordSearchRecord = GenerateSearchRecord(chatObjArr, "personal", false, 2, 1, [personalWord]);
 
     let searchRecordArr = [];
     let laughSR = GenerateSearchRecord(chatObjArr, "laugh", false, 2, 1, null)
@@ -20,7 +21,7 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     searchRecordArr.push(GenerateSearchRecord(chatObjArr, "love", false, 2, 1, null));
     searchRecordArr.push(GenerateSearchRecord(chatObjArr, "swear", false, 2, 1, null));
     searchRecordArr.push(GenerateSearchRecord(chatObjArr, "emoji", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "personal", false, 2, 1, [personalWord]));
+    searchRecordArr.push(personalWordSearchRecord);
     let audioSearchRecord = GenerateSearchRecord(chatObjArr, "audio", false, 2, 1, null);
     audioSearchRecord != null ? searchRecordArr.push(audioSearchRecord) : null;
     let imageSearchRecord = GenerateSearchRecord(chatObjArr, "image", false, 2, 1, null);
@@ -29,6 +30,18 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     let authors =  [];
     chatComposition.Chatters.forEach(x => authors.push(x.Author));
     let tWtable = GenerateTopWords(wholeChatString, authors);
+
+
+    //Top Words has to split the whole chat into an array to search, however SearchRecords have to use RegEx, so the personal word
+    //can show up with 2 separate counts. To fix this, we default both to the personal word count and re-sort the Top Words table
+    tWtable.TopWordsTable.forEach(x => {
+        if(x.Word == personalWord){
+            x.Count = personalWordSearchRecord.TotalCount;
+        }
+
+    });
+
+    tWtable.topWordsTable.sort((a, b) => b.Count - a.Count);
 
     let fromDay = fromDateStr.split('/')[0];
     let fromMonth = fromDateStr.split('/')[1];
