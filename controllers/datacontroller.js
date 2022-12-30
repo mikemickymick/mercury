@@ -210,8 +210,7 @@ function RemoveEncryptionAndSubjectMessage(chatString){
 /**Sends request to logic app to create csv*/
 async function SendChatChartRequest(httpRequest){
     let url = 'https://prod-14.uksouth.logic.azure.com:443/workflows/6f40b458f6d447cf931ad42dc778db92/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Xxz51scEThNC4v_zdGkWd0EB2FWl0OOUO5FtUlOpDe8';
-    let res = await fetch(url, httpRequest);
-    return await res.json();
+    return await fetch(url, httpRequest);
 }
 
 export {ConvertEntriesToMessageObjects, FormatFile, FormatIOSChats, RemoveEncryptionAndSubjectMessage, SendChatChartRequest};
