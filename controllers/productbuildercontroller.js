@@ -32,14 +32,12 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     chatComposition.Chatters.forEach(x => authors.push(x.Name));
     let tWtable = GenerateTopWords(wholeChatString, authors);
 
-
     //Top Words has to split the whole chat into an array to search, however SearchRecords have to use RegEx, so the personal word
     //can show up with 2 separate counts. To fix this, we default both to the personal word count and re-sort the Top Words table
     tWtable.TopWordsTable.forEach(x => {
         if(x.Word == personalWord){
             x.Count = personalWordSearchRecord.TotalCount;
         }
-
     });
 
     tWtable.TopWordsTable.sort((a, b) => b.Count - a.Count);
@@ -61,8 +59,12 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     toDate.setYear(toYear);
 
     let daysDifference = Math.round((toDate - fromDate)/1000/60/60/24);
+
+    //formatting for the logic app
+    let finalFromDate = fromYear + "-" + fromMonth + "-" + fromDay + "T00:00:00";
+    let finalToDate = toYear + "-" + toMonth + "-" + toDay + "T00:00:00";
     
-    return new ProductBuilder(chatComposition,fromDateStr,toDateStr,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr,daysDifference,personalWord);
+    return new ProductBuilder(chatComposition,finalFromDate,finalToDate,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr,daysDifference,personalWord);
 }
 
 /**Parses productBuilder data into a http request */
