@@ -208,7 +208,7 @@ function RemoveEncryptionAndSubjectMessage(chatString){
 }
 
 /**Sends request to logic app to create csv*/
-function SendChatChartRequest(productbuilder){
+function SendChatChartRequest(httpRequest){
 
 }
 
