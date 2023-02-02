@@ -1,7 +1,7 @@
 import { ChatComposition, FirstEncounter, SearchRecord, MessageDays, MessageTimes, MetricModule, TopWords  } from "./models/metricmodules.js";
 import { ChatChart } from "./models/products.js";
 import { Chatter } from "./models/chatter.js";
-import { FormatFile, SendChatChartRequest } from "./controllers/datacontroller.js";
+import { ConvertEntriesToMessageObjects, FormatFile, FormatIOSChats, RemoveEncryptionAndSubjectMessage, SendChatChartRequest } from "./controllers/datacontroller.js";
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from "./controllers/metricmodulecontroller.js";
 import { ParseProductBuilder, PopulateProductBuilder } from "./controllers/productbuildercontroller.js";
 import { CountPersonalWord } from "./controllers/litecontroller.js";
@@ -12,9 +12,11 @@ export {
     ChatChart,
     ChatComposition,
     Chatter,
+    ConvertEntriesToMessageObjects,
     CountPersonalWord,
     FirstEncounter,
     FormatFile,
+    FormatIOSChats,
     GenerateChatComposition,
     GenerateFirstEncounter,
     GenerateMessageDays,
@@ -23,6 +25,7 @@ export {
     GenerateTopWords,
     ParseProductBuilder,
     PopulateProductBuilder,
+    RemoveEncryptionAndSubjectMessage,
     SearchRecord,
     SendChatChartRequest,
     MessageDays,
