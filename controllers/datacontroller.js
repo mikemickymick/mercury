@@ -58,6 +58,8 @@ async function FormatFile (uploadedFile){
         const data = await entries[0].getData(helloWorldWriter);
         await zipReader.close();
         lowerCaseChat = data.toLowerCase(); 
+    }else if(uploadedFile.type == "application/json"){
+        //TODO add functionality
     }else{
         lowerCaseChat = "Oops! Sorry, we only accept .zip .txt or .json files";
     }
@@ -199,11 +201,14 @@ function GetNthIndex(s, t, n){
 function RemoveEncryptionAndSubjectMessage(chatString){
     const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";
     const subjectChangeMessage = " changed the subject to ";
-    const firstLine = chatString.split("\n")[0];
+    const numberChangeMessage = "changed their phone number";
+    let firstLine = lowerCaseChat.split("\n")[0];
 
-    if(firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage)){
-        chatString = chatString.substr(chatString.indexOf("\n")+1);
+    while(firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage) || firstLine.includes(numberChangeMessage)){
+        lowerCaseChat = lowerCaseChat.substr(lowerCaseChat.indexOf("\n")+1);
+        firstLine = lowerCaseChat.split("\n")[0];
     }
+    
     return chatString;
 }
 
