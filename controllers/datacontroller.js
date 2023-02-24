@@ -202,11 +202,11 @@ function RemoveEncryptionAndSubjectMessage(chatString){
     const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";
     const subjectChangeMessage = " changed the subject to ";
     const numberChangeMessage = "changed their phone number";
-    let firstLine = lowerCaseChat.split("\n")[0];
+    let firstLine = chatString.split("\n")[0];
 
     while(firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage) || firstLine.includes(numberChangeMessage)){
-        lowerCaseChat = lowerCaseChat.substr(lowerCaseChat.indexOf("\n")+1);
-        firstLine = lowerCaseChat.split("\n")[0];
+        chatString = chatString.substr(chatString.indexOf("\n")+1);
+        firstLine = chatString.split("\n")[0];
     }
     
     return chatString;
