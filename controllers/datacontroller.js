@@ -17,9 +17,9 @@ function ConvertEntriesToMessageObjects(array){
             let author = message.substr(message.indexOf('-') + 2, authorLength).trim();
 
             //Remove emojis from names
-            for (var i = 0; i < author.length; i++) {
-                if (EmojiArray.includes(author.charAt(i))){
-                    author.split(author.charAt(i)).join("");
+            for (var j = 0; j < author.length; j++) {
+                if (EmojiArray.includes(author.charAt(j))){
+                    author.split(author.charAt(j)).join("");
                 }
             }
 
