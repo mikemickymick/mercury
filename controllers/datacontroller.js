@@ -1,5 +1,5 @@
 import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
-import { StartsWithDateRegEx } from "../helpers/searchhelper.js";
+import { EmojiArray, StartsWithDateRegEx } from "../helpers/searchhelper.js";
 
 /**Converts chat entries to Message objects*/
 function ConvertEntriesToMessageObjects(array){
@@ -15,6 +15,14 @@ function ConvertEntriesToMessageObjects(array){
             let tempSubstr = message.substr(message.indexOf('-') + 2);
             let authorLength = tempSubstr.indexOf(':');
             let author = message.substr(message.indexOf('-') + 2, authorLength).trim();
+
+            //Remove emojis from names
+            for (var i = 0; i < author.length; i++) {
+                if (EmojiArray.includes(author.charAt(i))){
+                    author.split(author.charAt(i)).join("");
+                }
+            }
+
             let messageBody = message.substr(message.indexOf('-') + 4 + authorLength)
             let messageModel = {};
             messageModel["Date"] = date;
