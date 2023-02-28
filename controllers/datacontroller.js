@@ -15,14 +15,9 @@ function ConvertEntriesToMessageObjects(array){
             let tempSubstr = message.substr(message.indexOf('-') + 2);
             let authorLength = tempSubstr.indexOf(':');
             let author = message.substr(message.indexOf('-') + 2, authorLength).trim();
-
             //Remove emojis from names
-            for (var j = 0; j < author.length; j++) {
-                if (EmojiArray.includes(author.charAt(j))){
-                    author.split(author.charAt(j)).join("");
-                }
-            }
-
+            author.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2580-\u27BF]|\uD83E[\uDD10-\uDDFF]/g, '');
+            
             let messageBody = message.substr(message.indexOf('-') + 4 + authorLength)
             let messageModel = {};
             messageModel["Date"] = date;
