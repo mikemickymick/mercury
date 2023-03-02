@@ -97,6 +97,7 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
     if (searchRecordName == "emoji"){
         let unicodeStrings = new Array();
         searchTermArr.forEach(x => {
+            let instanceRegEx = new RegExp(x.toLowerCase(),"g");
             let unicodeString = x.codePointAt(0).toString(16);
             let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
             unicodeStrings.forEach(i => {
