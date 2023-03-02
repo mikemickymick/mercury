@@ -15,15 +15,13 @@ function ConvertEntriesToMessageObjects(array){
             let tempSubstr = message.substr(message.indexOf('-') + 2);
             let authorLength = tempSubstr.indexOf(':');
             let author = message.substr(message.indexOf('-') + 2, authorLength);
-            //Remove emojis from names
-            let bareAuthor = author.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2580-\u27BF]|\uD83E[\uDD10-\uDDFF]/g, '');
-            let trimAuthor = bareAuthor.trim();
-            
+            //Remove emojis and invisible characters from names
+            let trimmedAuthor = author.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2580-\u27BF]|\uD83E[\uDD10-\uDDFF]/g, '').replace(/[^\x20-\x7E]/g, '').trim();
             let messageBody = message.substr(message.indexOf('-') + 4 + authorLength)
             let messageModel = {};
             messageModel["Date"] = date;
             messageModel["Time"] = time;
-            messageModel["Author"] = trimAuthor;
+            messageModel["Author"] = trimmedAuthor;
             messageModel["MessageBody"] = messageBody;
             parsedData.push(messageModel);
         } else {
