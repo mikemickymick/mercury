@@ -6,13 +6,13 @@ async function PopulateProductBuilder (chatMaster, personalWord){
     let chatObjArr = chatMaster.ArrayOfMessageObjs;
     let wholeChatString = chatMaster.WholeChatString;
     let chatComposition = GenerateChatComposition(chatObjArr);
-    let fromDateStr = chatObjArr[0].Date;
-    let toDateStr = chatObjArr.reverse()[0].Date;
-    chatObjArr.reverse(); //Reverse it back
     let timeArray = GenerateMessageTimes(chatObjArr);
     let dayArray = GenerateMessageDays(chatObjArr);
     let firstEncounter = GenerateFirstEncounter(chatObjArr);
     let personalWordSearchRecord = GenerateSearchRecord(chatObjArr, "personal", false, 2, 1, [personalWord]);
+    let fromDateStr = firstEncounter.FirstMessageDate;
+    let toDateStr = chatObjArr.reverse()[0].Date;
+    chatObjArr.reverse(); //Reverse it back
 
     let searchRecordArr = [];
     let laughSR = GenerateSearchRecord(chatObjArr, "laugh", false, 2, 1, null)

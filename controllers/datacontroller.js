@@ -1,5 +1,5 @@
 import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
-import { EmojiArray, StartsWithDateRegEx } from "../helpers/searchhelper.js";
+import { StartsWithDateRegEx } from "../helpers/searchhelper.js";
 
 /**Converts chat entries to Message objects*/
 function ConvertEntriesToMessageObjects(array){
