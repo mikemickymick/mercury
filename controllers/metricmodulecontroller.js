@@ -94,12 +94,37 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
             //Do nothing
     }
 
-    searchTermArr.forEach(x => {
-        let instanceRegEx = new RegExp(x.toLowerCase(),"g");
-        let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
-        let searchLog = new SearchLog(x, counter);
-        searchLogs.push(searchLog);
-    });
+    if (searchRecordName == "emoji"){
+        let unicodeStrings = new Array();
+        searchTermArr.forEach(x => {
+            let unicodeString = x.codePointAt(0).toString(16);
+            let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
+            unicodeStrings.forEach(i => {
+                if(i.uniStr == unicodeString){
+                    i.emojiCount += counter;
+                }else{
+                    unicodeStrings.push({
+                        emoji: x,
+                        uniStr: unicodeString,
+                        emojiCount: counter
+                    });
+                }
+            });
+        });
+
+        unicodeStrings.forEach(j => {
+            let searchLog = new SearchLog(j.emoji, j.emojiCount);
+            searchLogs.push(searchLog);
+        })
+
+    }else{
+        searchTermArr.forEach(x => {
+            let instanceRegEx = new RegExp(x.toLowerCase(),"g");
+            let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
+            let searchLog = new SearchLog(x, counter);
+            searchLogs.push(searchLog);
+        });
+    }
 
     let counter = 0;
     let orderedSearchLogs = new Array();
