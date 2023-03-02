@@ -100,17 +100,22 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
             let instanceRegEx = new RegExp(x.toLowerCase(),"g");
             let unicodeString = x.codePointAt(0).toString(16);
             let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
-            unicodeStrings.forEach(i => {
-                if(i.uniStr == unicodeString){
-                    i.emojiCount += counter;
-                }else{
-                    unicodeStrings.push({
-                        emoji: x,
-                        uniStr: unicodeString,
-                        emojiCount: counter
-                    });
-                }
-            });
+
+            if (!unicodeStrings.find(v => v.uniStr === unicodeString)){
+                unicodeStrings.push({
+                    emoji: x,
+                    uniStr: unicodeString,
+                    emojiCount: counter
+                });
+            } else {
+                unicodeStrings.find((o, i) => {
+                    if (o.uniStr === unicodeString) {
+                        unicodeStrings[i] = { emoji: o.emoji, uniStr: o.uniStr, emojiCount: o.emojiCount + counter };
+                        return true; // stop searching
+                    }
+                });
+            }
+            
         });
 
         unicodeStrings.forEach(j => {
