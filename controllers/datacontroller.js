@@ -3,6 +3,7 @@ import { StartsWithDateRegEx } from "../helpers/searchhelper.js";
 
 /**Converts chat entries to Message objects*/
 function ConvertEntriesToMessageObjects(array){
+    console.log("hello");
     let startsWithDateRegEx = StartsWithDateRegEx;
     let parsedData = new Array();
     for(let i = 0; i < array.length; i++){
