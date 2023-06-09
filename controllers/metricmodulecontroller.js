@@ -184,14 +184,14 @@ function GenerateMessageDays(chatObjArr){
 
     let percentTotal = 0;
     dayArray.forEach(x => {
-        if(indexOf(x) == 6){
+        if(dayArray.indexOf(x) == 6){
             x.Percent = 100 - percentTotal;
         }else{
             x.Percent = Math.round((x.Count / totalCount) * 100);
             percentTotal += x.Percent;
         }
     });
-    
+
     return new MessageDays(dayArray);
 }
 
