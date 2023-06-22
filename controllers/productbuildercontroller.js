@@ -1,7 +1,7 @@
 import { ProductBuilder } from '../models/productbuilder.js';
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from './metricmodulecontroller.js';
 
-/**Function to populate a Product Builder - takes a parameter of the FileFormat output*/
+/**Function to populate a Product Builder - takes a parameter of the FileFormat output.*/
 async function PopulateProductBuilder (chatMaster, personalWord){
     let chatObjArr = chatMaster.ArrayOfMessageObjs;
     let wholeChatString = chatMaster.WholeChatString;

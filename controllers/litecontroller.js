@@ -6,4 +6,4 @@ async function CountPersonalWord(chatObjArr, personalWord){
     return GenerateSearchRecord(chatObjArr,null,true,null,null,searchTermArr);
 }
 
-export {CountPersonalWord}
+export {CountPersonalWord} 

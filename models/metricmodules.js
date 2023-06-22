@@ -1,4 +1,4 @@
-/**Represents a container for a chat metric*/
+/**Represents a container for a chat metric.*/
 class MetricModule {
     constructor(name, required, width, height) {
         this.Name = name;

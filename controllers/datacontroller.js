@@ -1,7 +1,7 @@
 import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
 import { StartsWithDateRegEx } from "../helpers/searchhelper.js";
 
-/**Converts chat entries to Message objects*/
+/**Converts chat entries to Message objects.*/
 function ConvertEntriesToMessageObjects(array){
     let startsWithDateRegEx = StartsWithDateRegEx;
     let parsedData = new Array();

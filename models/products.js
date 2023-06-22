@@ -1,4 +1,4 @@
-/**Represents the Product class which all CC products will be a sub-class of */
+/**Represents the Product class which all CC products will be a sub-class of.*/
 class Product {
     constructor(productName, productCode, sendRequestToPoD){
         this.ProductName = productName;

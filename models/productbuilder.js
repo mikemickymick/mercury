@@ -10,4 +10,4 @@ export class ProductBuilder{
         this.SearchRecordArray = searchRecordArray,
         this.DaysDifference = daysDifference
     }
-}
+} 
