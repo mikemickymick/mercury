@@ -5,7 +5,7 @@ class Chatter {
         this.Name = name;
         this.MessageCount = messageCount;
         this.MessagePercent = messagePercent;
-    };
+    }
 }
 
 export {Chatter}

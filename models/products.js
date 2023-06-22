@@ -18,29 +18,26 @@ class ChatChart extends Product {
         this.ProgressPercent = 0;
     }
 
-    AddMetricModule (metricModule){
-        let areaSum = 0;
-        this.MetricModules.forEach(x => {
-            areaSum += x.Area;
-        });
-
-        if(areaSum > 24){
-            //Throw error
-            alert("Sorry, we can't fit anymore graphics on your Chat Chart! Try removing something.");
-        }else{
+    AddMetricModule(metricModule) {
+        let areaSum = this.MetricModules.reduce((sum, x) => sum + x.Area, 0);
+        
+        if (areaSum > 24) {
+            alert("Sorry, we can't fit any more graphics on your Chat Chart! Try removing something.");
+        } else {
             this.MetricModules.push(metricModule);
-            let modulePercent = Math.round((metricModule.Area/24)*100);
-            this.ProgressPercent += modulePercent;
+            let modulePercent = (metricModule.Area / 24) * 100;
+            this.ProgressPercent += Math.round(modulePercent);
         }
     }
 
-    RemoveMetricModule(metricModule){
-        if (!this.MetricModules.includes(metricModule)) { return; }
-
-        this.MetricModules.splice(this.MetricModules.indexOf(metricModule),1);
-        let modulePercent = Math.round((metricModule.Area/24)*100);
-        this.ProgressPercent += modulePercent;
-    }
+    RemoveMetricModule(metricModule) {
+        const index = this.MetricModules.findIndex(x => x === metricModule);
+        if (index === -1) { return; }
+    
+        let modulePercent = (metricModule.Area / 24) * 100;
+        this.ProgressPercent -= Math.round(modulePercent);
+        this.MetricModules.splice(index, 1);
+    }    
 }
 
 export {

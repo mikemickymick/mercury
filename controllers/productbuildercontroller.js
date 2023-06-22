@@ -8,6 +8,12 @@ import {
   GenerateTopWords
 } from './metricmodulecontroller.js';
 
+/**
+ * Build a product from a chat
+ * @param {Object} chatMaster - Object containing chat analysis
+ * @param {string} personalWord - Personal word to count
+ * @returns {Promise<ProductBuilder>} - Promise that resolves to the Product Builder object
+ */
 async function PopulateProductBuilder(chatMaster, personalWord) {
   const chatObjArr = chatMaster.ArrayOfMessageObjs;
   const wholeChatString = chatMaster.WholeChatString;
@@ -77,6 +83,11 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
   );
 }
 
+/**
+ * Converts a Product Builder into a http request
+ * @param {ProductBuilder} productBuilder - Product builder
+ * @returns {Promise<Object>} - Promise that resolves to a http request containing all information needed
+ */
 async function ParseProductBuilder(productBuilder) {
   const data = {};
   data.ShippingAddress = {
