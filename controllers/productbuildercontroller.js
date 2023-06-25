@@ -8,16 +8,32 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
     WholeChatString
   } = chatMaster;
 
+  const start = Date.now();
   const chatComposition = GenerateChatComposition(ArrayOfMessageObjs);
+  const t1 = Date.now();
+  const marker1 = `Chat Composition: ${t1 - start} ms`
+  HitBeeceptor(marker1);
   const timeArray = GenerateMessageTimes(ArrayOfMessageObjs);
+  const t2 = Date.now();
+  const marker2 = `GenerateMessageTimes: ${t2 - t1} ms`
+  HitBeeceptor(marker2);
   const dayArray = GenerateMessageDays(ArrayOfMessageObjs);
+  const t3 = Date.now();
+  const marker3 = `GenerateMessageDays: ${t3 - t2} ms`
+  HitBeeceptor(marker3);
   const firstEncounter = GenerateFirstEncounter(ArrayOfMessageObjs);
+  const t4 = Date.now();
+  const marker4 = `GenerateFirstEncounter: ${t4 - t3} ms`
+  HitBeeceptor(marker4);
   const personalWordSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "personal", false, 2, 1, [personalWord]);
+  const t5 = Date.now();
+  const marker5 = `PersonalSearchRecord: ${t5 - t4} ms`
+  HitBeeceptor(marker5);
   const fromDateStr = firstEncounter.FirstMessageDate;
   const toDateStr = ArrayOfMessageObjs[ArrayOfMessageObjs.length - 1].Date;
 
   const searchRecordArr = [];
-  const searchRecordNames = ["laugh", "morning", "night", "love", "swear", "emoji"];
+  const searchRecordNames = ["laugh", "morning", "night", "emoji"];
   searchRecordNames.forEach((name) => {
     const record = GenerateSearchRecord(ArrayOfMessageObjs, name, false, 2, 1, null);
     if (record) {
@@ -26,7 +42,11 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
   });
   searchRecordArr.push(personalWordSearchRecord);
 
-  const audioSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "audio", false, 2, 1, null);
+  const t6 = Date.now();
+  const marker6 = `laughmorningnightemoji: ${t6 - t5} ms`
+  HitBeeceptor(marker6);
+
+  /*const audioSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "audio", false, 2, 1, null);
   if (audioSearchRecord) {
     searchRecordArr.push(audioSearchRecord);
   }
@@ -34,10 +54,14 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
   const imageSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "image", false, 2, 1, null);
   if (imageSearchRecord) {
     searchRecordArr.push(imageSearchRecord);
-  }
+  }*/
 
   const authors = chatComposition.Chatters.map(x => x.Name);
   const tWtable = GenerateTopWords(WholeChatString, authors);
+
+  const t7 = Date.now();
+  const marker7 = `Top Words: ${t7 - t6} ms`
+  HitBeeceptor(marker7);
 
   // Set personal word count in the top words table
   tWtable.TopWordsTable.forEach((x) => {
@@ -74,6 +98,12 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
   );
 }
 
+function HitBeeceptor(marker){
+  const Http = new XMLHttpRequest();
+  const url='https://jsonplaceholder.typicode.com/posts';
+  Http.open("POST", url);
+  Http.send(marker);
+}
 
 /**Parses productBuilder data into a http request */
 async function ParseProductBuilder(productBuilder){
