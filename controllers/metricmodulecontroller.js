@@ -163,40 +163,47 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
 }
 
 /**Generates a Message Days metric module */
-function GenerateMessageDays(chatObjArr){
-    let dayArray = [{Day: "Monday", Count: 0, Percent: 0}, {Day: "Tuesday", Count: 0, Percent: 0}, {Day: "Wednesday", Count: 0, Percent: 0}, {Day: "Thursday", Count: 0, Percent: 0}, {Day: "Friday", Count: 0, Percent: 0}, {Day: "Saturday", Count: 0, Percent: 0}, {Day: "Sunday", Count: 0, Percent: 0}];
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let totalCount = 0;
+function GenerateMessageDays(chatObjArr) {
+  const dayMap = new Map([
+    ["Sunday", { Day: "Sunday", Count: 0, Percent: 0 }],
+    ["Monday", { Day: "Monday", Count: 0, Percent: 0 }],
+    ["Tuesday", { Day: "Tuesday", Count: 0, Percent: 0 }],
+    ["Wednesday", { Day: "Wednesday", Count: 0, Percent: 0 }],
+    ["Thursday", { Day: "Thursday", Count: 0, Percent: 0 }],
+    ["Friday", { Day: "Friday", Count: 0, Percent: 0 }],
+    ["Saturday", { Day: "Saturday", Count: 0, Percent: 0 }],
+  ]);
 
-    chatObjArr.forEach(x => {
-        let dateString = x.Date;
-        let date = parseInt(dateString.split('/')[0]);
-        let month = parseInt(dateString.split('/')[1]);
-        let year = parseInt(dateString.split('/')[2]);
+  let totalCount = 0;
 
-        let dateBuilder = new Date();
-        dateBuilder.setDate(date);
-        dateBuilder.setMonth(month- 1);
-        dateBuilder.setFullYear(year);
-        
-        let day = days[dateBuilder.getDay()];
+  chatObjArr.forEach((message) => {
+    const dateString = message.Date;
+    const [date, month, year] = dateString.split("/");
 
-        dayArray.forEach(y => day === y.Day ? y.Count ++ : null);
-        totalCount ++;
-    });
+    const dateBuilder = new Date(year, month - 1, date);
+    const day = dateBuilder.toLocaleDateString("en-US", { weekday: "long" });
 
-    let percentTotal = 0;
-    dayArray.forEach(x => {
-        if(dayArray.indexOf(x) == 6){
-            x.Percent = 100 - percentTotal;
-        }else{
-            x.Percent = Math.round((x.Count / totalCount) * 100);
-            percentTotal += x.Percent;
-        }
-    });
+    const dayObj = dayMap.get(day);
+    if (dayObj) {
+      dayObj.Count++;
+    }
+    totalCount++;
+  });
 
-    return new MessageDays(dayArray);
+  let percentTotal = 0;
+  const dayArray = Array.from(dayMap.values());
+  dayArray.forEach((dayObj, index) => {
+    if (index === 6) {
+      dayObj.Percent = 100 - percentTotal;
+    } else {
+      dayObj.Percent = Math.round((dayObj.Count / totalCount) * 100);
+      percentTotal += dayObj.Percent;
+    }
+  });
+
+  return new MessageDays(dayArray);
 }
+
 
 /**Generates a Message Times metric module */
 function GenerateMessageTimes(chatObjArr){
