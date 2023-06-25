@@ -1,6 +1,8 @@
 import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
 import { StartsWithDateRegEx } from "../helpers/searchhelper.js";
 
+const startsWithDateRegEx = StartsWithDateRegEx;
+
 /**Converts chat entries to Message objects.*/
 function ConvertEntriesToMessageObjects(array){
     let startsWithDateRegEx = StartsWithDateRegEx;
@@ -33,14 +35,36 @@ function ConvertEntriesToMessageObjects(array){
     return parsedData;
 }
 
+function ConvertEntriesToMessageObjects(array) {
+  const parsedData = [];
+  for (let i = 0; i < array.length; i++) {
+    const message = array[i];
+    const m = message.match(startsWithDateRegEx);
+    if (m !== null) {
+      const [, date, time, author, messageBody] = m;
+      const trimmedAuthor = author.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2580-\u27BF]|\uD83E[\uDD10-\uDDFF]/g, '').replace(/[^\x20-\x7E]/g, '').trim();
+      const messageModel = {
+        Date: date,
+        Time: time,
+        Author: trimmedAuthor,
+        MessageBody: messageBody
+      };
+      parsedData.push(messageModel);
+    } else {
+      const latestEntry = parsedData[parsedData.length - 1];
+      latestEntry.MessageBody += '\n' + message;
+    }
+  }
+  return parsedData;
+}
+
 async function FormatFile(uploadedFile) {
   let lowerCaseChat;
   if (uploadedFile.type === "application/zip" || uploadedFile.type === "application/x-zip-compressed") {
     const zipFileReader = new BlobReader(uploadedFile);
-    const helloWorldWriter = new TextWriter();
     const zipReader = new ZipReader(zipFileReader);
     const entries = await zipReader.getEntries();
-    const data = await entries[0].getData(helloWorldWriter);
+    const data = await entries[0].getData(new TextWriter());
     await zipReader.close();
     lowerCaseChat = data.toLowerCase();
   } else if (uploadedFile.type === "text/plain") {
@@ -51,14 +75,14 @@ async function FormatFile(uploadedFile) {
     await zipWriter.close();
     const zipFileBlob = await zipFileWriter.getData();
     const zipFileReader = new BlobReader(zipFileBlob);
-    const helloWorldWriter = new TextWriter();
     const zipReader = new ZipReader(zipFileReader);
     const entries = await zipReader.getEntries();
-    const data = await entries[0].getData(helloWorldWriter);
+    const data = await entries[0].getData(new TextWriter());
     await zipReader.close();
     lowerCaseChat = data.toLowerCase();
   } else if (uploadedFile.type === "application/json") {
     // TODO: add functionality
+    return;
   } else {
     lowerCaseChat = "Oops! Sorry, we only accept .zip, .txt, or .json files";
   }
