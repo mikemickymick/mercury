@@ -199,26 +199,29 @@ function GenerateMessageDays(chatObjArr){
 }
 
 /**Generates a Message Times metric module */
-function GenerateMessageTimes(chatObjArr){
-    let timeArray= [];
-    for(let i = 0; i <10; i++){
-        timeArray.push({Hour: "0" + i.toString(), Count: 0});
+function GenerateMessageTimes(chatObjArr) {
+    const timeMap = new Map();
+  
+    // Initialize timeMap with hour-count pairs
+    for (let i = 0; i < 10; i++) {
+      timeMap.set("0" + i, 0);
     }
-    for(let i = 10; i <24; i++){
-        timeArray.push({Hour: i.toString(), Count: 0});
+    for (let i = 10; i < 24; i++) {
+      timeMap.set(i.toString(), 0);
     }
-
-    chatObjArr.forEach(x => {
-        let hour = x.Time.split(':')[0];
-        timeArray.forEach(y => {
-            if(hour === y.Hour){
-                y.Count ++;
-            }
-        });
+  
+    // Update the count for each hour
+    chatObjArr.forEach((message) => {
+      const hour = message.Time.split(":")[0];
+      if (timeMap.has(hour)) {
+        timeMap.set(hour, timeMap.get(hour) + 1);
+      }
     });
-
+  
+    // Convert the map to an array of objects
+    const timeArray = Array.from(timeMap, ([Hour, Count]) => ({ Hour, Count }));
     return new MessageTimes(timeArray);
-}
+  }  
 
 /**Generates a Top Words metric module */
 function GenerateTopWords(wholeChatString, namesArray) {
