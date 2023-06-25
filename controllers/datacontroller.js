@@ -82,26 +82,41 @@ async function FormatFile(uploadedFile) {
 
 function FormatIOSChats(chatString) {
   const linesArray = chatString.split('\n');
-  
+  const formattedLinesArray = [];
+
   for (let i = 0; i < linesArray.length; i++) {
-    let lineString = linesArray[i];
+    const lineString = linesArray[i];
+    
     if (lineString.length > 0) {
-      if (lineString[0] === String.fromCharCode(8206)) {
+      if (lineString.charCodeAt(0) === 8206) {
         lineString = lineString.substr(1);
       }
 
-      if (lineString.indexOf('[') === 0 && lineString.indexOf(']') === 21 && lineString.indexOf(',') === 11) {
-        const firstHalf = lineString.substr(lineString.indexOf('[') + 1, 17);
-        const secondHalf = lineString.substr(lineString.indexOf(']'));
-        linesArray[i] = firstHalf + secondHalf.replace(']', ' -').replace('\r', '');
-      } else if ((lineString.indexOf(']') >= 19 && lineString.indexOf(']') <= 22) && (lineString.indexOf(',') >= 7 && lineString.indexOf(',') <= 11)) {
+      const openingBracketIndex = lineString.indexOf('[');
+      const closingBracketIndex = lineString.indexOf(']');
+      const commaIndex = lineString.indexOf(',');
+
+      if (
+        openingBracketIndex === 0 &&
+        closingBracketIndex === 21 &&
+        commaIndex === 11
+      ) {
+        const firstHalf = lineString.substr(openingBracketIndex + 1, 17);
+        const secondHalf = lineString.substr(closingBracketIndex);
+        const formattedLine = firstHalf + secondHalf.replace(']', ' -').replace('\r', '');
+        formattedLinesArray.push(formattedLine);
+      } else if (
+        closingBracketIndex >= 19 && closingBracketIndex <= 22 &&
+        commaIndex >= 7 && commaIndex <= 11
+      ) {
         const colonIndex = GetNthIndex(lineString, ':', 2);
-        const dateAndTimeString = lineString.substr(lineString.indexOf("[") + 1, colonIndex - 1);
-        const dateString = dateAndTimeString.split(",")[0];
-        const monthString = dateString.split('/')[0].padStart(2, '0');
-        const dayString = dateString.split('/')[1].padStart(2, '0');
-        const yearString = "20" + dateString.split('/')[2];
-        const timeString = dateAndTimeString.split(", ")[1];
+        const dateAndTimeString = lineString.substring(openingBracketIndex + 1, colonIndex - 1);
+        const dateString = dateAndTimeString.substring(0, commaIndex);
+        const [day, month, year] = dateString.split('/');
+        const monthString = month.padStart(2, '0');
+        const dayString = day.padStart(2, '0');
+        const yearString = "20" + year;
+        const timeString = dateAndTimeString.substring(commaIndex + 2);
         let hourString = timeString.split(':')[0];
         const minuteString = timeString.split(':')[1];
 
@@ -112,57 +127,25 @@ function FormatIOSChats(chatString) {
             hourString = "00";
           }
         } else if (lineString.includes(" pm] ")) {
-          let newHour;
-          switch (hourString) {
-            case "1":
-              newHour = "13";
-              break;
-            case "2":
-              newHour = "14";
-              break;
-            case "3":
-              newHour = "15";
-              break;
-            case "4":
-              newHour = "16";
-              break;
-            case "5":
-              newHour = "17";
-              break;
-            case "6":
-              newHour = "18";
-              break;
-            case "7":
-              newHour = "19";
-              break;
-            case "8":
-              newHour = "20";
-              break;
-            case "9":
-              newHour = "21";
-              break;
-            case "10":
-              newHour = "22";
-              break;
-            case "11":
-              newHour = "23";
-              break;
-            default:
-              newHour = "12";
-          }
-          hourString = newHour;
+          const hourLookupTable = {
+            "1": "13", "2": "14", "3": "15", "4": "16",
+            "5": "17", "6": "18", "7": "19", "8": "20",
+            "9": "21", "10": "22", "11": "23"
+          };
+          hourString = hourLookupTable[hourString] || "12";
         }
 
         const dateAndComma = `${dayString}/${monthString}/${yearString}, `;
         const timeStringFormatted = `${hourString}:${minuteString}`;
         const dateAndTimeStringFormatted = dateAndComma + timeStringFormatted;
-        const secondHalf = lineString.substr(lineString.indexOf("]"));
-        linesArray[i] = dateAndTimeStringFormatted + secondHalf.replace("]", " -");
+        const secondHalf = lineString.substr(closingBracketIndex);
+        const formattedLine = dateAndTimeStringFormatted + secondHalf.replace("]", " -");
+        formattedLinesArray.push(formattedLine);
       }
     }
   }
 
-  return linesArray;
+  return formattedLinesArray;
 }
 
 function GetNthIndex(s, t, n) {
@@ -177,6 +160,7 @@ function GetNthIndex(s, t, n) {
   }
   return -1;
 }
+
 
 function RemoveEncryptionAndSubjectMessage(chatString) {
   const whatsappEncryptionMessage = /messages and calls are end-to-end encrypted/;
