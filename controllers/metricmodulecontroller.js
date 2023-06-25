@@ -235,7 +235,7 @@ function GenerateTopWords(wholeChatString, namesArray) {
     });
   
     // Split entire chat into words array
-    const wordsArray = wholeChatString.split(/\s+/);
+    const wordsArray = wholeChatString.replace(/(’s)/g,"").replace(/('s)/g,"").split(' ');
   
     // Filter out unwanted words
     wordsArray.forEach((word) => {
