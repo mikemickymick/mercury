@@ -62,105 +62,74 @@ function GenerateFirstEncounter(chatObjArr){
 }
 
 /**Generates a Search Record */
-function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, height, searchTermArr){
-    let searchLogs = new Array();
-
-    switch(searchRecordName){
-        case "laugh":
-            searchTermArr = LaughArray;
-            break;
-        case "morning":
-            searchTermArr = MorningArray;
-            break;
-        case "night":
-            searchTermArr = NightArray;
-            break;
-        case "audio":
-            searchTermArr = AudioArray;
-            break;
-        case "image":
-            searchTermArr = ImageArray;
-            break;
-        case "love":
-            searchTermArr = LoveArray;
-            break;
-        case "swear":
-            searchTermArr = SwearArray;
-            break;
-        case "late-night":
-            searchTermArr = LateNightArray;
-            break;
-        case "emoji":
-            searchTermArr = EmojiArray;
-            break;
-        default:
-            //Do nothing
-    }
-
-    if (searchRecordName == "emoji"){
-        let unicodeStrings = new Array();
-        searchTermArr.forEach(x => {
-            let instanceRegEx = new RegExp(x.toLowerCase(),"g");
-            let unicodeString = x.codePointAt(0).toString(16);
-            let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
-
-            if (!unicodeStrings.find(v => v.uniStr === unicodeString)){
-                unicodeStrings.push({
-                    emoji: x,
-                    uniStr: unicodeString,
-                    emojiCount: counter
-                });
-            } else {
-                unicodeStrings.find((o, i) => {
-                    if (o.uniStr === unicodeString) {
-                        unicodeStrings[i] = { emoji: o.emoji, uniStr: o.uniStr, emojiCount: o.emojiCount + counter };
-                        return true; // stop searching
-                    }
-                });
-            }
-            
+function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, height, searchTermArr) {
+    let searchTermMap;
+  
+    switch (searchRecordName) {
+      case "laugh":
+        searchTermMap = LaughMap;
+        break;
+      case "morning":
+        searchTermMap = MorningMap;
+        break;
+      case "night":
+        searchTermMap = NightMap;
+        break;
+      case "audio":
+        searchTermMap = AudioMap;
+        break;
+      case "image":
+        searchTermMap = ImageMap;
+        break;
+      case "love":
+        searchTermMap = LoveMap;
+        break;
+      case "swear":
+        searchTermMap = SwearMap;
+        break;
+      case "late-night":
+        searchTermMap = LateNightMap;
+        break;
+      case "emoji":
+        searchTermMap = new Map();
+        searchTermArr.forEach((emoji) => {
+          const instanceRegEx = new RegExp(emoji.toLowerCase(), "g");
+          const counter = chatObjArr.filter((message) => message.MessageBody.match(instanceRegEx)).length;
+  
+          if (searchTermMap.has(emoji)) {
+            const existingCount = searchTermMap.get(emoji);
+            searchTermMap.set(emoji, existingCount + counter);
+          } else {
+            searchTermMap.set(emoji, counter);
+          }
         });
-
-        unicodeStrings.forEach(j => {
-            let searchLog = new SearchLog(j.emoji, j.emojiCount);
-            searchLogs.push(searchLog);
-        })
-
-    }else{
-        searchTermArr.forEach(x => {
-            let instanceRegEx = new RegExp(x.toLowerCase(),"g");
-            let counter = chatObjArr.filter(x => x.MessageBody.match(instanceRegEx)).length;
-            let searchLog = new SearchLog(x, counter);
-            searchLogs.push(searchLog);
-        });
+        break;
+      default:
+        // Do nothing
     }
-
+  
+    const searchLogs = Array.from(searchTermMap, ([term, count]) => new SearchLog(term, count));
+    let orderedSearchLogs;
     let counter = 0;
-    let orderedSearchLogs = new Array();
-    if(searchRecordName == "emoji"){
-        searchLogs.sort((a,b) => {
-            return b.Count - a.Count;
-        });
-        for(let i = 0; i < 15; i++){
-            orderedSearchLogs.push(searchLogs[i]);
-        }
+  
+    if (searchRecordName === "emoji") {
+      searchLogs.sort((a, b) => b.Count - a.Count);
+      orderedSearchLogs = searchLogs.slice(0, 15);
     } else {
-        searchLogs.forEach(x =>{
-            counter += x.Count
-        });
-        orderedSearchLogs = searchLogs;
+      searchLogs.forEach((log) => {
+        counter += log.Count;
+      });
+      orderedSearchLogs = searchLogs;
     }
-
-    if(searchRecordName == "audio" || searchRecordName == "image"){
-        if(counter == 0){
-            return null;
-        }else{
-            return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
-        }
-    }else{
-        return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
+  
+    if (searchRecordName === "audio" || searchRecordName === "image") {
+      if (counter === 0) {
+        return null;
+      }
     }
-}
+  
+    return new SearchRecord(searchRecordName, required, width, height, orderedSearchLogs, counter);
+  }  
 
 /**Generates a Message Days metric module */
 function GenerateMessageDays(chatObjArr){
