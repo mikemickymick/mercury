@@ -5,8 +5,7 @@ const startsWithDateRegEx = StartsWithDateRegEx;
 
 /**Converts chat entries to Message objects.*/
 function ConvertEntriesToMessageObjects(array){
-    let startsWithDateRegEx = StartsWithDateRegEx;
-    let parsedData = new Array();
+    const parsedData = [];
     for(let i = 0; i < array.length; i++){
         let message = array[i];        
         let m = message.match(startsWithDateRegEx);
@@ -20,11 +19,12 @@ function ConvertEntriesToMessageObjects(array){
             //Remove emojis and invisible characters from names
             let trimmedAuthor = author.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2580-\u27BF]|\uD83E[\uDD10-\uDDFF]/g, '').replace(/[^\x20-\x7E]/g, '').trim();
             let messageBody = message.substr(message.indexOf('-') + 4 + authorLength)
-            let messageModel = {};
-            messageModel["Date"] = date;
-            messageModel["Time"] = time;
-            messageModel["Author"] = trimmedAuthor;
-            messageModel["MessageBody"] = messageBody;
+            const messageModel = {
+              Date: date,
+              Time: time,
+              Author: trimmedAuthor,
+              MessageBody: messageBody
+            };
             parsedData.push(messageModel);
         } else {
             let latestEntry = parsedData[parsedData.length - 1];
@@ -33,29 +33,6 @@ function ConvertEntriesToMessageObjects(array){
         }
     }
     return parsedData;
-}
-
-function ConvertEntriesToMessageObjects(array) {
-  const parsedData = [];
-  for (let i = 0; i < array.length; i++) {
-    const message = array[i];
-    const m = message.match(startsWithDateRegEx);
-    if (m !== null) {
-      const [, date, time, author, messageBody] = m;
-      const trimmedAuthor = author.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2580-\u27BF]|\uD83E[\uDD10-\uDDFF]/g, '').replace(/[^\x20-\x7E]/g, '').trim();
-      const messageModel = {
-        Date: date,
-        Time: time,
-        Author: trimmedAuthor,
-        MessageBody: messageBody
-      };
-      parsedData.push(messageModel);
-    } else {
-      const latestEntry = parsedData[parsedData.length - 1];
-      latestEntry.MessageBody += '\n' + message;
-    }
-  }
-  return parsedData;
 }
 
 async function FormatFile(uploadedFile) {
