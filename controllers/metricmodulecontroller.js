@@ -4,35 +4,39 @@ import { ChatComposition, FirstEncounter, MessageDays, MessageTimes, SearchRecor
 import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, NumberRegEx, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
-function GenerateChatComposition(messageObjectArray){
-    let chatters = new Array();
+function GenerateChatComposition(messageObjectArray) {
+    let chatters = [];
     let authorIndex = 0;
-    messageObjectArray.forEach(element => {
-        let chatterInArray = false;
-        chatters.forEach(x => {
-            if(x.Name == element.Author){
-                chatterInArray = true;
-                x.MessageCount += 1;
-            }
-        });
-        if(!chatterInArray){
-            authorIndex ++;
-            let chatter = new Chatter(authorIndex, element.Author, 1, 0);
-            chatters.push(chatter);
+  
+    for (const element of messageObjectArray) {
+      let chatterInArray = false;
+  
+      for (const x of chatters) {
+        if (x.Name === element.Author) {
+          chatterInArray = true;
+          x.MessageCount += 1;
         }
-    });            
-
-    //Add percentages
+      }
+  
+      if (!chatterInArray) {
+        authorIndex++;
+        let chatter = new Chatter(authorIndex, element.Author, 1, 0);
+        chatters.push(chatter);
+      }
+    }
+  
     let totalMessages = 0;
-    chatters.forEach(m => {
-        totalMessages += m.MessageCount;
-    });
-    chatters.forEach(y => {
-        y.MessagePercent = Math.round((y.MessageCount / totalMessages) * 100);
-    });
-
+    for (const m of chatters) {
+      totalMessages += m.MessageCount;
+    }
+  
+    for (const y of chatters) {
+      y.MessagePercent = Math.round((y.MessageCount / totalMessages) * 100);
+    }
+  
     return new ChatComposition(chatters);
-}
+  }
+  
 
 /**Generates a First Encounter module */
 function GenerateFirstEncounter(chatObjArr){
