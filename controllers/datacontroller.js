@@ -85,7 +85,7 @@ function FormatIOSChats(chatString) {
   const formattedLinesArray = [];
 
   for (let i = 0; i < linesArray.length; i++) {
-    const lineString = linesArray[i];
+    let lineString = linesArray[i];
     
     if (lineString.length > 0) {
       if (lineString.charCodeAt(0) === 8206) {
@@ -102,7 +102,7 @@ function FormatIOSChats(chatString) {
         commaIndex === 11
       ) {
         const firstHalf = lineString.substr(openingBracketIndex + 1, 17);
-        const secondHalf = lineString.substr(closingBracketIndex);
+        let secondHalf = lineString.substr(closingBracketIndex);
         const formattedLine = firstHalf + secondHalf.replace(']', ' -').replace('\r', '');
         formattedLinesArray.push(formattedLine);
       } else if (
