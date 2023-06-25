@@ -36,7 +36,6 @@ function GenerateChatComposition(messageObjectArray) {
   
     return new ChatComposition(chatters);
   }
-  
 
 /**Generates a First Encounter module */
 function GenerateFirstEncounter(chatObjArr){
@@ -249,21 +248,25 @@ function GenerateTopWords(wholeChatString, namesArray){
 }
 
 /**Generates a composite of all messages until the next author in a chat */
-function GetMessageComposite(chatObjArr, replierIndex, message){
-    if(replierIndex > 1){
-        for(let x = 1; x < replierIndex; x++){
-            let currentMessage = chatObjArr[x];
-
-            let puncRegEx = new RegExp(PunctuationRegEx,"g");
-
-            if(message.match(puncRegEx)){
-                message += " " + currentMessage["MessageBody"];
-            }else{
-                message += ". " + currentMessage["MessageBody"];
-            }
+function GetMessageComposite(chatObjArr, replierIndex, message) {
+    if (replierIndex > 1) {
+      const messageBodies = chatObjArr
+        .slice(1, replierIndex)
+        .map((currentMessage) => currentMessage["MessageBody"]);
+  
+      if (messageBodies.length > 0) {
+        const joinedMessageBodies = messageBodies.join(". ");
+        const puncRegEx = new RegExp(PunctuationRegEx, "g");
+  
+        if (message.match(puncRegEx)) {
+          message += " " + joinedMessageBodies;
+        } else {
+          message += ". " + joinedMessageBodies;
         }
+      }
     }
+  
     return message;
-}
+  }  
 
 export {GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords};
