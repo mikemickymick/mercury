@@ -68,119 +68,106 @@ async function PopulateProductBuilder (chatMaster, personalWord){
 }
 
 /**Parses productBuilder data into a http request */
-async function ParseProductBuilder(productBuilder){
-    
-    let data = {};
-    data.ShippingAddress = {
-        "First_Name": "MIKE",
-        "Address1": "505 TEST ROAD",
-        "Phone": "07777777777",
-        "City": "London",
-        "Zip": "SE3 T2T",
-        "Province": "England",
-        "Country": "United Kingdom",
-        "Last_Name": "TEST SURNAME",
-        "Address2": "TEST TOWN",
-        "Company": null,
-        "Latitude": 53.412287,
-        "Longitude": -2.5558833,
-        "Name": "TEST FULLNAME",
-        "Country_Code": "GB",
-        "Province_Code": "ENG"
+async function ParseProductBuilder(productBuilder) {
+  const data = {
+    ShippingAddress: {
+      "First_Name": "MIKE",
+      "Address1": "505 TEST ROAD",
+      "Phone": "07777777777",
+      "City": "London",
+      "Zip": "SE3 T2T",
+      "Province": "England",
+      "Country": "United Kingdom",
+      "Last_Name": "TEST SURNAME",
+      "Address2": "TEST TOWN",
+      "Company": null,
+      "Latitude": 53.412287,
+      "Longitude": -2.5558833,
+      "Name": "TEST FULLNAME",
+      "Country_Code": "GB",
+      "Province_Code": "ENG"
+    },
+    OrderNumber: "xxxx",
+    ProductName: "test product",
+    DateFrom: productBuilder.FromDate,
+    DateTo: productBuilder.ToDate,
+    AuthorCount: productBuilder.ChatComposition.Chatters.length,
+    AuthorDataList: productBuilder.ChatComposition.Chatters,
+    WordIndexCount: productBuilder.TopWords.TopWordsTable.length,
+    FirstMessageSender: productBuilder.FirstEncounter.FirstChatterName,
+    FirstMessageDate: productBuilder.FirstEncounter.FirstMessageDate,
+    FirstMessageTime: productBuilder.FirstEncounter.FirstMessageTime,
+    FirstMessageBody: productBuilder.FirstEncounter.FirstMessageBody,
+    Replier: productBuilder.FirstEncounter.ReplyingChatterName,
+    ReplierDate: productBuilder.FirstEncounter.ReplyMessageDate,
+    ReplierTime: productBuilder.FirstEncounter.ReplyMessageTime,
+    ReplierMessageBody: productBuilder.FirstEncounter.ReplyMessage
+  };
+
+  const messageDaysTable = productBuilder.MessageDays.MessageDaysTable;
+  const messageTimesTable = productBuilder.MessageTimes.MessageTimesTable;
+  const topWordsTable = productBuilder.TopWords.TopWordsTable;
+
+  const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+  dayNames.forEach((day, index) => {
+    data[`${day}Count`] = messageDaysTable[index].Count;
+    data[`${day}Percent`] = messageDaysTable[index].Percent;
+  });
+
+  for (let i = 0; i < 24; i++) {
+    data[`Time${i}`] = messageTimesTable[i].Count;
+  }
+
+  productBuilder.SearchRecordArray.forEach((record) => {
+    const name = record.Name;
+
+    const recordMappings = {
+      personal: { prop: "PersonalWord", countProp: "PersonalWordCount", indexCountProp: "TotalCount" },
+      morning: { countProp: "MorningCount" },
+      night: { countProp: "NightCount" },
+      laugh: { countProp: "LaughCount" },
+      emoji: {
+        indexCountProp: "SearchLogs",
+        prefix: "Emoji",
+        countPrefix: "EmojiCount"
+      }
     };
-    data.OrderNumber = "xxxx";
-    data.ProductName = "test product";
-    data.DateFrom = productBuilder.FromDate;
-    data.DateTo = productBuilder.ToDate;
-    data.AuthorCount = productBuilder.ChatComposition.Chatters.length;
-    data.AuthorDataList = productBuilder.ChatComposition.Chatters;
-    data.MondayCount = productBuilder.MessageDays.MessageDaysTable[0].Count;
-    data.TuesdayCount =  productBuilder.MessageDays.MessageDaysTable[1].Count;
-    data.WednesdayCount = productBuilder.MessageDays.MessageDaysTable[2].Count;
-    data.ThursdayCount = productBuilder.MessageDays.MessageDaysTable[3].Count;
-    data.FridayCount = productBuilder.MessageDays.MessageDaysTable[4].Count;
-    data.SaturdayCount = productBuilder.MessageDays.MessageDaysTable[5].Count;
-    data.SundayCount = productBuilder.MessageDays.MessageDaysTable[6].Count;
-    data.MondayPercent = productBuilder.MessageDays.MessageDaysTable[0].Percent;
-    data.TuesdayPercent =  productBuilder.MessageDays.MessageDaysTable[1].Percent;
-    data.WednesdayPercent = productBuilder.MessageDays.MessageDaysTable[2].Percent;
-    data.ThursdayPercent = productBuilder.MessageDays.MessageDaysTable[3].Percent;
-    data.FridayPercent = productBuilder.MessageDays.MessageDaysTable[4].Percent;
-    data.SaturdayPercent = productBuilder.MessageDays.MessageDaysTable[5].Percent;
-    data.SundayPercent = productBuilder.MessageDays.MessageDaysTable[6].Percent;
-    data.Time0 = productBuilder.MessageTimes.MessageTimesTable[0].Count;
-    data.Time1 = productBuilder.MessageTimes.MessageTimesTable[1].Count;
-    data.Time2 = productBuilder.MessageTimes.MessageTimesTable[2].Count;
-    data.Time3 = productBuilder.MessageTimes.MessageTimesTable[3].Count;
-    data.Time4 = productBuilder.MessageTimes.MessageTimesTable[4].Count;
-    data.Time5 = productBuilder.MessageTimes.MessageTimesTable[5].Count;
-    data.Time6 = productBuilder.MessageTimes.MessageTimesTable[6].Count;
-    data.Time7 = productBuilder.MessageTimes.MessageTimesTable[7].Count;
-    data.Time8 = productBuilder.MessageTimes.MessageTimesTable[8].Count;
-    data.Time9 = productBuilder.MessageTimes.MessageTimesTable[9].Count;
-    data.Time10 = productBuilder.MessageTimes.MessageTimesTable[10].Count;
-    data.Time11 = productBuilder.MessageTimes.MessageTimesTable[11].Count;
-    data.Time12 = productBuilder.MessageTimes.MessageTimesTable[12].Count;
-    data.Time13 = productBuilder.MessageTimes.MessageTimesTable[13].Count;
-    data.Time14 = productBuilder.MessageTimes.MessageTimesTable[14].Count;
-    data.Time15 = productBuilder.MessageTimes.MessageTimesTable[15].Count;
-    data.Time16 = productBuilder.MessageTimes.MessageTimesTable[16].Count;
-    data.Time17 = productBuilder.MessageTimes.MessageTimesTable[17].Count;
-    data.Time18 = productBuilder.MessageTimes.MessageTimesTable[18].Count;
-    data.Time19 = productBuilder.MessageTimes.MessageTimesTable[19].Count;
-    data.Time20 = productBuilder.MessageTimes.MessageTimesTable[20].Count;
-    data.Time21 = productBuilder.MessageTimes.MessageTimesTable[21].Count;
-    data.Time22 = productBuilder.MessageTimes.MessageTimesTable[22].Count;
-    data.Time23 = productBuilder.MessageTimes.MessageTimesTable[23].Count;
-    data.FirstMessageSender = productBuilder.FirstEncounter.FirstChatterName;
-    data.FirstMessageDate = productBuilder.FirstEncounter.FirstMessageDate;
-    data.FirstMessageTime = productBuilder.FirstEncounter.FirstMessageTime;
-    data.FirstMessageBody = productBuilder.FirstEncounter.FirstMessageBody;
-    data.Replier = productBuilder.FirstEncounter.ReplyingChatterName;
-    data.ReplierDate = productBuilder.FirstEncounter.ReplyMessageDate;
-    data.ReplierTime = productBuilder.FirstEncounter.ReplyMessageTime;
-    data.ReplierMessageBody = productBuilder.FirstEncounter.ReplyMessage;
-    data.WordIndexCount = productBuilder.TopWords.TopWordsTable.length;    
 
-    productBuilder.SearchRecordArray.forEach(x => {
-        if(x.Name == "personal"){
-            data.PersonalWord = x.SearchLogs[0].SearchTerm;
-            data.PersonalWordCount = x.TotalCount;
-        }else if(x.Name == "morning"){
-            data.MorningCount = x.TotalCount;
-        }else if(x.Name == "night"){
-            data.NightCount = x.TotalCount;
-        }else if(x.Name == "laugh"){
-            data.LaughCount = x.TotalCount;
-        }else if (x.Name == "emoji"){
-            data.EmojiIndexCount = x.SearchLogs.length;
-            for(let i = 0; i < x.SearchLogs.length; i++){
-                let searchLog = x.SearchLogs[i];
-                let searchProp = "Emoji" + (i+1);
-                data[searchProp] = searchLog.SearchTerm;
-                let countProp = "EmojiCount" + (i+1);
-                data[countProp] = searchLog.Count;
-            }
-        }
-    });
+    if (name in recordMappings) {
+      const mapping = recordMappings[name];
 
-    for (let i = 0; i < productBuilder.TopWords.TopWordsTable.length; i++){
-        let wordLog = productBuilder.TopWords.TopWordsTable[i];
-        let wordProp = "Word" + (i+1);
-        data[wordProp] = wordLog.Word;
-        let countProp = "WordCount" + (i+1);
-        data[countProp] = wordLog.Count;
+      if (mapping.prop) {
+        data[mapping.prop] = record[mapping.indexCountProp][0].SearchTerm;
+      }
+      if (mapping.countProp) {
+        data[mapping.countProp] = record.TotalCount;
+      }
+      if (mapping.indexCountProp) {
+        const logs = record[mapping.indexCountProp];
+        logs.forEach((log, i) => {
+          data[`${mapping.prefix}${i + 1}`] = log.SearchTerm;
+          data[`${mapping.countPrefix}${i + 1}`] = log.Count;
+        });
+      }
     }
+  });
 
-    return {
-        headers:{
-            "content-type":"application/json; charset=utf-8",
-            "Accept": "application/json",
-            "Host": "prod-14.uksouth.logic.azure.com",
-        },
-        method:"POST",
-        body: JSON.stringify(data)
-    }
+  topWordsTable.forEach((wordLog, i) => {
+    data[`Word${i + 1}`] = wordLog.Word;
+    data[`WordCount${i + 1}`] = wordLog.Count;
+  });
+
+  return {
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      "Accept": "application/json",
+      "Host": "prod-14.uksouth.logic.azure.com",
+    },
+    method: "POST",
+    body: JSON.stringify(data)
+  };
 }
+
 
 export { PopulateProductBuilder, ParseProductBuilder }
