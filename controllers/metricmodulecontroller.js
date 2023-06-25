@@ -1,7 +1,7 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
 import { ChatComposition, FirstEncounter, MessageDays, MessageTimes, SearchRecord, TopWords } from '../models/metricmodules.js';
-import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, NumberRegEx, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
+import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray) {
@@ -221,31 +221,52 @@ function GenerateMessageTimes(chatObjArr){
 }
 
 /**Generates a Top Words metric module */
-function GenerateTopWords(wholeChatString, namesArray){
-    let topWordsTable = new Array();
-    let punctuationRegEx = new RegExp(PunctuationRegEx, "g");
-    let numberRegEx = new RegExp(NumberRegEx, "g");
-    let newNameArray = [];
-    namesArray.forEach(x => {
-        x.split(" ").forEach(y => newNameArray.push(y));
+function GenerateTopWords(wholeChatString, namesArray) {
+    const topWordsTable = [];
+    const punctuationRegEx = /[!?,.:;_)]$/g;
+    const numberRegEx = /([0-9])+/g;
+    const newNameSet = new Set();
+    const filteredArray = [];
+    const counts = new Map();
+  
+    // Prepare the new name set
+    namesArray.forEach((name) => {
+      name.split(" ").forEach((word) => newNameSet.add(word));
     });
-
-    //Split entire chat into words Array
-    let wordsArray = wholeChatString.replace(/(’s)/g,"").replace(/('s)/g,"").split(' ');
-
-    //Making sure we don't include punctuation, emojis, numbers, or skipwords in this table
-    let filteredArray = wordsArray.filter(x => !SkipWords.includes(x) && !EmojiArray.includes(x) && !x.match(punctuationRegEx) && !x.match(numberRegEx) && !newNameArray.includes(x) && x.length < 10);
-    let counts = {};
-    for (const num of filteredArray) {
-        counts[num] = counts[num] ? counts[num] + 1 : 1;
-    }
-    
-    for (const property in counts) {
-	    topWordsTable.push({Word: property, Count: counts[property]});
-    }
-
-    return new TopWords(topWordsTable.sort((a, b) => b.Count - a.Count).slice(0,15));
-}
+  
+    // Split entire chat into words array
+    const wordsArray = wholeChatString.split(/\s+/);
+  
+    // Filter out unwanted words
+    wordsArray.forEach((word) => {
+      if (
+        word.length < 10 &&
+        !SkipWords.includes(word) &&
+        !EmojiArray.includes(word) &&
+        !word.match(punctuationRegEx) &&
+        !word.match(numberRegEx) &&
+        !newNameSet.has(word)
+      ) {
+        filteredArray.push(word);
+      }
+    });
+  
+    // Count word occurrences
+    filteredArray.forEach((word) => {
+      counts.set(word, (counts.get(word) || 0) + 1);
+    });
+  
+    // Convert the map to an array of objects
+    counts.forEach((count, word) => {
+      topWordsTable.push({ Word: word, Count: count });
+    });
+  
+    // Sort and get the top 15 words
+    topWordsTable.sort((a, b) => b.Count - a.Count);
+    topWordsTable.length = Math.min(topWordsTable.length, 15);
+  
+    return new TopWords(topWordsTable);
+  }
 
 /**Generates a composite of all messages until the next author in a chat */
 function GetMessageComposite(chatObjArr, replierIndex, message) {
