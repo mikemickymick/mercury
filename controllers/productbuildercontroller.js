@@ -2,70 +2,78 @@ import { ProductBuilder } from '../models/productbuilder.js';
 import { GenerateChatComposition, GenerateFirstEncounter, GenerateMessageDays, GenerateMessageTimes, GenerateSearchRecord, GenerateTopWords } from './metricmodulecontroller.js';
 
 /**Function to populate a Product Builder - takes a parameter of the FileFormat output*/
-async function PopulateProductBuilder (chatMaster, personalWord){
-    let chatObjArr = chatMaster.ArrayOfMessageObjs;
-    let wholeChatString = chatMaster.WholeChatString;
-    let chatComposition = GenerateChatComposition(chatObjArr);
-    let timeArray = GenerateMessageTimes(chatObjArr);
-    let dayArray = GenerateMessageDays(chatObjArr);
-    let firstEncounter = GenerateFirstEncounter(chatObjArr);
-    let personalWordSearchRecord = GenerateSearchRecord(chatObjArr, "personal", false, 2, 1, [personalWord]);
-    let fromDateStr = firstEncounter.FirstMessageDate;
-    let toDateStr = chatObjArr.reverse()[0].Date;
-    chatObjArr.reverse(); //Reverse it back
+async function PopulateProductBuilder(chatMaster, personalWord) {
+  const {
+    ArrayOfMessageObjs,
+    WholeChatString
+  } = chatMaster;
 
-    let searchRecordArr = [];
-    let laughSR = GenerateSearchRecord(chatObjArr, "laugh", false, 2, 1, null)
-    searchRecordArr.push(laughSR);
-    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "morning", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "night", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "love", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "swear", false, 2, 1, null));
-    searchRecordArr.push(GenerateSearchRecord(chatObjArr, "emoji", false, 2, 1, null));
-    searchRecordArr.push(personalWordSearchRecord);
-    let audioSearchRecord = GenerateSearchRecord(chatObjArr, "audio", false, 2, 1, null);
-    audioSearchRecord != null ? searchRecordArr.push(audioSearchRecord) : null;
-    let imageSearchRecord = GenerateSearchRecord(chatObjArr, "image", false, 2, 1, null);
-    imageSearchRecord != null ? searchRecordArr.push(imageSearchRecord) : null;
+  const chatComposition = GenerateChatComposition(ArrayOfMessageObjs);
+  const timeArray = GenerateMessageTimes(ArrayOfMessageObjs);
+  const dayArray = GenerateMessageDays(ArrayOfMessageObjs);
+  const firstEncounter = GenerateFirstEncounter(ArrayOfMessageObjs);
+  const personalWordSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "personal", false, 2, 1, [personalWord]);
+  const fromDateStr = firstEncounter.FirstMessageDate;
+  const toDateStr = ArrayOfMessageObjs[ArrayOfMessageObjs.length - 1].Date;
 
-    let authors =  [];
-    chatComposition.Chatters.forEach(x => authors.push(x.Name));
-    let tWtable = GenerateTopWords(wholeChatString, authors);
+  const searchRecordArr = [];
+  const searchRecordNames = ["laugh", "morning", "night", "love", "swear", "emoji"];
+  searchRecordNames.forEach((name) => {
+    const record = GenerateSearchRecord(ArrayOfMessageObjs, name, false, 2, 1, null);
+    if (record) {
+      searchRecordArr.push(record);
+    }
+  });
+  searchRecordArr.push(personalWordSearchRecord);
 
-    //Top Words has to split the whole chat into an array to search, however SearchRecords have to use RegEx, so the personal word
-    //can show up with 2 separate counts. To fix this, we default both to the personal word count and re-sort the Top Words table
-    tWtable.TopWordsTable.forEach(x => {
-        if(x.Word == personalWord){
-            x.Count = personalWordSearchRecord.TotalCount;
-        }
-    });
+  const audioSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "audio", false, 2, 1, null);
+  if (audioSearchRecord) {
+    searchRecordArr.push(audioSearchRecord);
+  }
 
-    tWtable.TopWordsTable.sort((a, b) => b.Count - a.Count);
+  const imageSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "image", false, 2, 1, null);
+  if (imageSearchRecord) {
+    searchRecordArr.push(imageSearchRecord);
+  }
 
-    let fromDay = fromDateStr.split('/')[0];
-    let fromMonth = fromDateStr.split('/')[1];
-    let fromYear = fromDateStr.split('/')[2];
-    let fromDate = new Date();
-    fromDate.setDate(fromDay);
-    fromDate.setMonth(fromMonth-1);
-    fromDate.setYear(fromYear);
+  const authors = chatComposition.Chatters.map(x => x.Name);
+  const tWtable = GenerateTopWords(WholeChatString, authors);
 
-    let toDay = toDateStr.split('/')[0];
-    let toMonth = toDateStr.split('/')[1];
-    let toYear = toDateStr.split('/')[2];
-    let toDate = new Date();
-    toDate.setDate(toDay);
-    toDate.setMonth(toMonth-1);
-    toDate.setYear(toYear);
+  // Set personal word count in the top words table
+  tWtable.TopWordsTable.forEach((x) => {
+    if (x.Word === personalWord) {
+      x.Count = personalWordSearchRecord.TotalCount;
+    }
+  });
 
-    let daysDifference = Math.round((toDate - fromDate)/1000/60/60/24);
+  tWtable.TopWordsTable.sort((a, b) => b.Count - a.Count);
 
-    //formatting for the logic app
-    let finalFromDate = fromYear + "-" + fromMonth + "-" + fromDay + "T00:00:00";
-    let finalToDate = toYear + "-" + toMonth + "-" + toDay + "T00:00:00";
-    
-    return new ProductBuilder(chatComposition,finalFromDate,finalToDate,timeArray,dayArray,firstEncounter,tWtable,searchRecordArr,daysDifference,personalWord);
+  const [fromDay, fromMonth, fromYear] = fromDateStr.split('/');
+  const fromDate = new Date(fromYear, fromMonth - 1, fromDay);
+
+  const [toDay, toMonth, toYear] = toDateStr.split('/');
+  const toDate = new Date(toYear, toMonth - 1, toDay);
+
+  const daysDifference = Math.round((toDate - fromDate) / 1000 / 60 / 60 / 24);
+
+  // Formatting for the logic app
+  const finalFromDate = `${fromYear}-${fromMonth}-${fromDay}T00:00:00`;
+  const finalToDate = `${toYear}-${toMonth}-${toDay}T00:00:00`;
+
+  return new ProductBuilder(
+    chatComposition,
+    finalFromDate,
+    finalToDate,
+    timeArray,
+    dayArray,
+    firstEncounter,
+    tWtable,
+    searchRecordArr,
+    daysDifference,
+    personalWord
+  );
 }
+
 
 /**Parses productBuilder data into a http request */
 async function ParseProductBuilder(productBuilder){
