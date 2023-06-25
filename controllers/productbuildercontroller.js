@@ -100,7 +100,7 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
 
 function HitBeeceptor(marker){
   const Http = new XMLHttpRequest();
-  const url='https://jsonplaceholder.typicode.com/posts';
+  const url='https://mikey.free.beeceptor.com';
   Http.open("POST", url);
   Http.send(marker);
 }
