@@ -1,3 +1,12 @@
+## [0.0.165](https://github.com/mikemickymick/mercury/compare/v0.0.164...v0.0.165) (2023-07-12)
+
+
+### Bug Fixes
+
+* errors on RemoveEncryption and FormatIOSChats ([b47432a](https://github.com/mikemickymick/mercury/commit/b47432a6a074566512858c456962619be8f69e19))
+
+
+
 ## [0.0.164](https://github.com/mikemickymick/mercury/compare/v0.0.163...v0.0.164) (2023-07-12)
 
 
