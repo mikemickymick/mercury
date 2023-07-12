@@ -1,6 +1,6 @@
 # 🪐 Mercury
 
-[Deno](https://deno.land) module starter repository.
+[Coding Pro](https://hackertyper.com/) sandbox.
 
 ## Usage
 
