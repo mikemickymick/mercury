@@ -1,3 +1,12 @@
+## [0.0.166](https://github.com/mikemickymick/mercury/compare/v0.0.165...v0.0.166) (2023-07-12)
+
+
+### Bug Fixes
+
+* new bundle ([c480938](https://github.com/mikemickymick/mercury/commit/c480938eb41d6ec40ce646d664a222003d770bb4))
+
+
+
 ## [0.0.165](https://github.com/mikemickymick/mercury/compare/v0.0.164...v0.0.165) (2023-07-12)
 
 
@@ -31,20 +40,6 @@
 ### Bug Fixes
 
 * test release ([dfb65c2](https://github.com/mikemickymick/mercury/commit/dfb65c20e909b12189a934bdbf3dfedd34c7f0c3))
-
-
-
-## [0.0.161](https://github.com/mikemickymick/mercury/compare/dede6d14b5e5a2afe1121ea98c50131ce73f27ee...v0.0.161) (2023-06-30)
-
-
-### Bug Fixes
-
-* add auto release ([51874a1](https://github.com/mikemickymick/mercury/commit/51874a1b17be360f73f2da4017c0b40cca3becce))
-
-
-### Reverts
-
-* Revert "metricmodulecontroller refactor" ([dede6d1](https://github.com/mikemickymick/mercury/commit/dede6d14b5e5a2afe1121ea98c50131ce73f27ee))
 
 
 
