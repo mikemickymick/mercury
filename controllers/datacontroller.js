@@ -82,71 +82,66 @@ async function FormatFile(uploadedFile) {
 }
 
 function FormatIOSChats(chatString) {
-  const linesArray = chatString.split('\n');
-  const formattedLinesArray = [];
-
-  for (let i = 0; i < linesArray.length; i++) {
-    let lineString = linesArray[i];
+    let linesArray = new Array();
+    linesArray = chatString.split('\n');
     
-    if (lineString.length > 0) {
-      if (lineString.charCodeAt(0) === 8206) {
-        lineString = lineString.substr(1);
-      }
+    for(let i = 0; i < linesArray.length; i++){
+        let lineString = linesArray[i];
+        if(lineString.length > 0){
 
-      const openingBracketIndex = lineString.indexOf('[');
-      const closingBracketIndex = lineString.indexOf(']');
-      const commaIndex = lineString.indexOf(',');
+            if(lineString[0] == String.fromCharCode(8206)){ lineString = lineString.substr(1); }
 
-      if (
-        openingBracketIndex === 0 &&
-        closingBracketIndex === 21 &&
-        commaIndex === 11
-      ) {
-        const firstHalf = lineString.substr(openingBracketIndex + 1, 17);
-        let secondHalf = lineString.substr(closingBracketIndex);
-        const formattedLine = firstHalf + secondHalf.replace(']', ' -').replace('\r', '');
-        formattedLinesArray.push(formattedLine);
-      } else if (
-        closingBracketIndex >= 19 && closingBracketIndex <= 22 &&
-        commaIndex >= 7 && commaIndex <= 11
-      ) {
-        const colonIndex = GetNthIndex(lineString, ':', 2);
-        const dateAndTimeString = lineString.substring(openingBracketIndex + 1, colonIndex - 1);
-        const dateString = dateAndTimeString.substring(0, commaIndex);
-        const [day, month, year] = dateString.split('/');
-        const monthString = month.padStart(2, '0');
-        const dayString = day.padStart(2, '0');
-        const yearString = "20" + year;
-        const timeString = dateAndTimeString.substring(commaIndex + 2);
-        let hourString = timeString.split(':')[0];
-        const minuteString = timeString.split(':')[1];
+            const openingBracketIndex = lineString.indexOf('[');
+            const closingBracketIndex = lineString.indexOf(']');
+            const commaIndex = lineString.indexOf(',');
 
-        if (lineString.includes(" am] ")) {
-          if (hourString.length === 1) {
-            hourString = "0" + hourString;
-          } else if (hourString === "12") {
-            hourString = "00";
-          }
-        } else if (lineString.includes(" pm] ")) {
-          const hourLookupTable = {
-            "1": "13", "2": "14", "3": "15", "4": "16",
-            "5": "17", "6": "18", "7": "19", "8": "20",
-            "9": "21", "10": "22", "11": "23"
-          };
-          hourString = hourLookupTable[hourString] || "12";
+            //Normal formatting
+            if(openingBracketIndex == 0 && closingBracketIndex == 21 && commaIndex == 11){
+                let firstHalf = lineString.substr(openingBracketIndex + 1, 17);
+                let secondHalf = lineString.substr(closingBracketIndex);
+                linesArray[i] = firstHalf + secondHalf.replace(']', ' -').replace('\r','');
+            }
+            //AM PM formatting
+            else if((closingBracketIndex == 19 || closingBracketIndex == 20 || closingBracketIndex == 21 || closingBracketIndex == 22) && (commaIndex == 7 || commaIndex == 8 || commaIndex == 9 || commaIndex == 11)){
+                let colonIndex = GetNthIndex(lineString, ':', 2);
+                let dateAndTimeString = lineString.substr(openingBracketIndex + 1, colonIndex-1);
+                let dateString = dateAndTimeString.split(",")[0];
+                let monthString = dateString.split('/')[0];
+                let dayString = dateString.split('/')[1];
+                let yearString = "20" + dateString.split('/')[2];
+                let timeString = dateAndTimeString.split(", ")[1];
+                let hourString = timeString.split(':')[0];
+                let minuteString = timeString.split(':')[1];
+
+                if (dayString.length == 1) {dayString = "0" + dayString; }
+                if (monthString.length == 1) { monthString = "0" + monthString; }
+
+                //Take away PM and AM
+                if (lineString.includes(" am] ")){
+                    if (hourString.length == 1) { 
+                        hourString = "0" + hourString; 
+                    }else if (hourString == "12"){
+                        hourString = "00";
+                    }
+                }
+                else if (lineString.includes(" pm] ")){
+                    const hourLookupTable = {
+                        "1": "13", "2": "14", "3": "15", "4": "16",
+                        "5": "17", "6": "18", "7": "19", "8": "20",
+                        "9": "21", "10": "22", "11": "23"
+                      };
+                      hourString = hourLookupTable[hourString] || "12";
+                }
+
+                const dateAndComma = `${dayString}/${monthString}/${yearString}, `;
+                const timeStringFormatted = `${hourString}:${minuteString}`;
+                const dateAndTimeStringFormatted = dateAndComma + timeStringFormatted;
+                const secondHalf = lineString.substr(closingBracketIndex);
+                linesArray[i] = dateAndTimeStringFormatted + secondHalf.replace("]", " -");
+            }
         }
-
-        const dateAndComma = `${dayString}/${monthString}/${yearString}, `;
-        const timeStringFormatted = `${hourString}:${minuteString}`;
-        const dateAndTimeStringFormatted = dateAndComma + timeStringFormatted;
-        const secondHalf = lineString.substr(closingBracketIndex);
-        const formattedLine = dateAndTimeStringFormatted + secondHalf.replace("]", " -");
-        formattedLinesArray.push(formattedLine);
-      }
     }
-  }
-
-  return formattedLinesArray;
+  return linesArray;
 }
 
 function GetNthIndex(s, t, n) {
@@ -164,22 +159,17 @@ function GetNthIndex(s, t, n) {
 
 
 function RemoveEncryptionAndSubjectMessage(chatString) {
-  const whatsappEncryptionMessage = /messages and calls are end-to-end encrypted/;
-  const subjectChangeMessage = / changed the subject to /;
-  const numberChangeMessage = /changed their phone number/;
-  let firstLine = chatString;
+  const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";
+    const subjectChangeMessage = " changed the subject to ";
+    const numberChangeMessage = "changed their phone number";
+    let firstLine = chatString.split("\n")[0];
 
-  while (
-    whatsappEncryptionMessage.test(firstLine) ||
-    subjectChangeMessage.test(firstLine) ||
-    numberChangeMessage.test(firstLine)
-  ) {
-    const newLineIndex = chatString.indexOf("\n", firstLine.length);
-    if (newLineIndex === -1) break;
-    firstLine = chatString.substring(newLineIndex + 1);
-  }
+    while (firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage) || firstLine.includes(numberChangeMessage)) {
+        chatString = chatString.substr(chatString.indexOf("\n") + 1);
+        firstLine = chatString.split("\n")[0];
+    }
 
-  return firstLine;
+    return chatString;
 }
 
 
