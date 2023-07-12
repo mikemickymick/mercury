@@ -1,3 +1,12 @@
+## [0.0.164](https://github.com/mikemickymick/mercury/compare/v0.0.163...v0.0.164) (2023-07-12)
+
+
+### Bug Fixes
+
+* retest auto releasing ([9ab58f5](https://github.com/mikemickymick/mercury/commit/9ab58f524ce6da97d953da73f0dd481095ec77be))
+
+
+
 ## [0.0.163](https://github.com/mikemickymick/mercury/compare/v0.0.162...v0.0.163) (2023-07-03)
 
 
