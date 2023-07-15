@@ -17,7 +17,7 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
   const toDateStr = ArrayOfMessageObjs[ArrayOfMessageObjs.length - 1].Date;
 
   const searchRecordArr = [];
-  const searchRecordNames = ["laugh", "morning", "night", "love", "swear", "emoji"];
+  const searchRecordNames = ["laugh", "morning", "night", "emoji"];
   searchRecordNames.forEach((name) => {
     const record = GenerateSearchRecord(ArrayOfMessageObjs, name, false, 2, 1, null);
     if (record) {
@@ -85,25 +85,6 @@ function HitBeeceptor(marker){
 async function ParseProductBuilder(productBuilder){
     
     let data = {};
-    data.ShippingAddress = {
-        "First_Name": "MIKE",
-        "Address1": "505 TEST ROAD",
-        "Phone": "07777777777",
-        "City": "London",
-        "Zip": "SE3 T2T",
-        "Province": "England",
-        "Country": "United Kingdom",
-        "Last_Name": "TEST SURNAME",
-        "Address2": "TEST TOWN",
-        "Company": null,
-        "Latitude": 53.412287,
-        "Longitude": -2.5558833,
-        "Name": "TEST FULLNAME",
-        "Country_Code": "GB",
-        "Province_Code": "ENG"
-    };
-    data.OrderNumber = "xxxx";
-    data.ProductName = "test product";
     data.DateFrom = productBuilder.FromDate;
     data.DateTo = productBuilder.ToDate;
     data.AuthorCount = productBuilder.ChatComposition.Chatters.length;
