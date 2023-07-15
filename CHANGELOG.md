@@ -1,3 +1,12 @@
+## [0.0.168](https://github.com/mikemickymick/mercury/compare/v0.0.167...v0.0.168) (2023-07-15)
+
+
+### Bug Fixes
+
+* remove unneccessary search logs ([a62e574](https://github.com/mikemickymick/mercury/commit/a62e574b41d7b80364df0a74291131fbf4a9929b))
+
+
+
 ## [0.0.167](https://github.com/mikemickymick/mercury/compare/v0.0.166...v0.0.167) (2023-07-12)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * retest auto releasing ([9ab58f5](https://github.com/mikemickymick/mercury/commit/9ab58f524ce6da97d953da73f0dd481095ec77be))
-
-
-
-## [0.0.163](https://github.com/mikemickymick/mercury/compare/v0.0.162...v0.0.163) (2023-07-03)
-
-
-### Bug Fixes
-
-* rebundle ([f376d6e](https://github.com/mikemickymick/mercury/commit/f376d6e139a2a8af0d9eaae86d04fd99390720bb))
 
 
 
