@@ -1,3 +1,12 @@
+## [0.0.167](https://github.com/mikemickymick/mercury/compare/v0.0.166...v0.0.167) (2023-07-12)
+
+
+### Bug Fixes
+
+* add mercury.bundle.min.js ([228bc5f](https://github.com/mikemickymick/mercury/commit/228bc5f114418561f8701c8aa5616caba65cc348))
+
+
+
 ## [0.0.166](https://github.com/mikemickymick/mercury/compare/v0.0.165...v0.0.166) (2023-07-12)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * rebundle ([f376d6e](https://github.com/mikemickymick/mercury/commit/f376d6e139a2a8af0d9eaae86d04fd99390720bb))
-
-
-
-## [0.0.162](https://github.com/mikemickymick/mercury/compare/v0.0.161...v0.0.162) (2023-06-30)
-
-
-### Bug Fixes
-
-* test release ([dfb65c2](https://github.com/mikemickymick/mercury/commit/dfb65c20e909b12189a934bdbf3dfedd34c7f0c3))
 
 
 
