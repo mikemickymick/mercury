@@ -1,3 +1,12 @@
+## [0.0.169](https://github.com/mikemickymick/mercury/compare/v0.0.168...v0.0.169) (2023-08-08)
+
+
+### Bug Fixes
+
+* remove carriage returns from FE ([eb3b721](https://github.com/mikemickymick/mercury/commit/eb3b72165fee437197ab4719b1d02f5e02000499))
+
+
+
 ## [0.0.168](https://github.com/mikemickymick/mercury/compare/v0.0.167...v0.0.168) (2023-07-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * errors on RemoveEncryption and FormatIOSChats ([b47432a](https://github.com/mikemickymick/mercury/commit/b47432a6a074566512858c456962619be8f69e19))
-
-
-
-## [0.0.164](https://github.com/mikemickymick/mercury/compare/v0.0.163...v0.0.164) (2023-07-12)
-
-
-### Bug Fixes
-
-* retest auto releasing ([9ab58f5](https://github.com/mikemickymick/mercury/commit/9ab58f524ce6da97d953da73f0dd481095ec77be))
 
 
 
