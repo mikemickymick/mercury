@@ -10494,6 +10494,7 @@ const SkipWords = [
     '‎image'
 ];
 const PunctuationRegEx = /[!?,.:;_)]$/g;
+const ReturnCarriageRegEx = /[\r\n]+|\.|[\r\n]+$/g;
 const StartsWithDateRegEx = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)(\d{2}|\d{4}), ([0-9][0-9]):([0-9][0-9]) -/g;
 const EmojiArray = [
     "😀",
@@ -13755,6 +13756,8 @@ function GenerateTopWords(wholeChatString, namesArray) {
     return new TopWords(topWordsTable);
 }
 function GetMessageComposite(chatObjArr, replierIndex, message) {
+    const returnRegEx = new RegExp(ReturnCarriageRegEx, "g");
+    message = message.replace(returnRegEx, ". ");
     if (replierIndex > 1) {
         const messageBodies = chatObjArr.slice(1, replierIndex).map((currentMessage)=>currentMessage["MessageBody"]);
         if (messageBodies.length > 0) {
@@ -13790,8 +13793,6 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
         "laugh",
         "morning",
         "night",
-        "love",
-        "swear",
         "emoji"
     ];
     searchRecordNames.forEach((name)=>{
@@ -13828,25 +13829,6 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
 }
 async function ParseProductBuilder(productBuilder) {
     let data = {};
-    data.ShippingAddress = {
-        "First_Name": "MIKE",
-        "Address1": "505 TEST ROAD",
-        "Phone": "07777777777",
-        "City": "London",
-        "Zip": "SE3 T2T",
-        "Province": "England",
-        "Country": "United Kingdom",
-        "Last_Name": "TEST SURNAME",
-        "Address2": "TEST TOWN",
-        "Company": null,
-        "Latitude": 53.412287,
-        "Longitude": -2.5558833,
-        "Name": "TEST FULLNAME",
-        "Country_Code": "GB",
-        "Province_Code": "ENG"
-    };
-    data.OrderNumber = "xxxx";
-    data.ProductName = "test product";
     data.DateFrom = productBuilder.FromDate;
     data.DateTo = productBuilder.ToDate;
     data.AuthorCount = productBuilder.ChatComposition.Chatters.length;
