@@ -1,7 +1,7 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
 import { ChatComposition, FirstEncounter, MessageDays, MessageTimes, SearchRecord, TopWords } from '../models/metricmodules.js';
-import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, PunctuationRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
+import { AudioArray, EmojiArray, ImageArray, LateNightArray, LaughArray, LoveArray, MorningArray, NightArray, PunctuationRegEx, ReturnCarriageRegEx, SkipWords, SwearArray } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray) {
@@ -270,6 +270,9 @@ function GenerateTopWords(wholeChatString, namesArray) {
 
 /**Generates a composite of all messages until the next author in a chat */
 function GetMessageComposite(chatObjArr, replierIndex, message) {
+    const returnRegEx = new RegExp(ReturnCarriageRegEx,"g");
+    message = message.replace(returnRegEx, ". ");
+
     if (replierIndex > 1) {
       const messageBodies = chatObjArr
         .slice(1, replierIndex)
@@ -277,8 +280,7 @@ function GetMessageComposite(chatObjArr, replierIndex, message) {
   
       if (messageBodies.length > 0) {
         const joinedMessageBodies = messageBodies.join(". ");
-        const puncRegEx = new RegExp(PunctuationRegEx, "g");
-  
+        const puncRegEx = new RegExp(PunctuationRegEx, "g");  
         if (message.match(puncRegEx)) {
           message += " " + joinedMessageBodies;
         } else {
