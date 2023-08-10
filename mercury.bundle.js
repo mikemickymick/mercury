@@ -10288,53 +10288,6 @@ const AudioArray = [
 const ImageArray = [
     "image omitted"
 ];
-const LateNightArray = [
-    "horny",
-    "fuck",
-    "shag",
-    "screw",
-    "tits",
-    "ass",
-    "pussy",
-    "vagina",
-    "vaj",
-    "penis",
-    "dick",
-    "cock",
-    "balls",
-    "sex",
-    "blowjob",
-    "head",
-    "anal",
-    "bum",
-    "arse",
-    "spank",
-    "🍑",
-    "😈",
-    "lick",
-    "suck",
-    "kiss",
-    "cum",
-    "orgasm",
-    "🍆",
-    "👅",
-    "naughty",
-    "kinky",
-    "sexy",
-    "dirty",
-    "💦",
-    "🍒",
-    "🤤",
-    "😏",
-    "🥵"
-];
-const SwearArray = [
-    "fuck",
-    "shit",
-    "cunt",
-    "bollocks",
-    "twat"
-];
 const LaughArray = [
     "haha",
     "lol",
@@ -10345,21 +10298,6 @@ const LaughArray = [
     "😅",
     "😂",
     "🤣"
-];
-const LoveArray = [
-    "love",
-    "adore",
-    "x",
-    "xx",
-    "xxx",
-    "xxxx",
-    "xxxxx",
-    "❤️",
-    "🫶",
-    "🥰",
-    "😍",
-    "😘",
-    "💏"
 ];
 const MorningArray = [
     "morning x",
@@ -13271,17 +13209,6 @@ const EmojiArray = [
     "▫️",
     "◾️",
     "◽️",
-    "◼️",
-    "◻️",
-    "🟥",
-    "🟧",
-    "🟨",
-    "🟩",
-    "🟦",
-    "🟪",
-    "⬛️",
-    "⬜️",
-    "🟫",
     "🔈",
     "🔇",
     "🔉",
@@ -13553,15 +13480,6 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
             break;
         case "image":
             searchTermArr = ImageArray;
-            break;
-        case "love":
-            searchTermArr = LoveArray;
-            break;
-        case "swear":
-            searchTermArr = SwearArray;
-            break;
-        case "late-night":
-            searchTermArr = LateNightArray;
             break;
         case "emoji":
             searchTermArr = EmojiArray;
