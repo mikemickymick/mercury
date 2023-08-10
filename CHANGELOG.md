@@ -1,3 +1,12 @@
+## [0.0.172](https://github.com/mikemickymick/mercury/compare/v0.0.171...v0.0.172) (2023-08-10)
+
+
+### Bug Fixes
+
+* bundling and minifying ([753d6bf](https://github.com/mikemickymick/mercury/commit/753d6bf7a3cf2287997c824e68a0189c3f3f17c4))
+
+
+
 ## [0.0.171](https://github.com/mikemickymick/mercury/compare/v0.0.170...v0.0.171) (2023-08-10)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * remove unneccessary search logs ([a62e574](https://github.com/mikemickymick/mercury/commit/a62e574b41d7b80364df0a74291131fbf4a9929b))
-
-
-
-## [0.0.167](https://github.com/mikemickymick/mercury/compare/v0.0.166...v0.0.167) (2023-07-12)
-
-
-### Bug Fixes
-
-* add mercury.bundle.min.js ([228bc5f](https://github.com/mikemickymick/mercury/commit/228bc5f114418561f8701c8aa5616caba65cc348))
 
 
 
