@@ -1,3 +1,12 @@
+## [0.0.170](https://github.com/mikemickymick/mercury/compare/v0.0.169...v0.0.170) (2023-08-08)
+
+
+### Bug Fixes
+
+* bundling ([af536ba](https://github.com/mikemickymick/mercury/commit/af536ba033684a153a4716a18262232aea5f5dab))
+
+
+
 ## [0.0.169](https://github.com/mikemickymick/mercury/compare/v0.0.168...v0.0.169) (2023-08-08)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * new bundle ([c480938](https://github.com/mikemickymick/mercury/commit/c480938eb41d6ec40ce646d664a222003d770bb4))
-
-
-
-## [0.0.165](https://github.com/mikemickymick/mercury/compare/v0.0.164...v0.0.165) (2023-07-12)
-
-
-### Bug Fixes
-
-* errors on RemoveEncryption and FormatIOSChats ([b47432a](https://github.com/mikemickymick/mercury/commit/b47432a6a074566512858c456962619be8f69e19))
 
 
 
