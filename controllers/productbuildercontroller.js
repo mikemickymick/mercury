@@ -62,8 +62,8 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
 
   return new ProductBuilder(
     chatComposition,
-    finalFromDate,
-    finalToDate,
+    fromDateStr,
+    toDateStr,
     timeArray,
     dayArray,
     firstEncounter,
@@ -72,13 +72,6 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
     daysDifference,
     personalWord
   );
-}
-
-function HitBeeceptor(marker){
-  const Http = new XMLHttpRequest();
-  const url='https://jsonplaceholder.typicode.com/posts';
-  Http.open("POST", url);
-  Http.send(marker);
 }
 
 /**Parses productBuilder data into a http request */
