@@ -13741,9 +13741,7 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
     const [toDay, toMonth, toYear] = toDateStr.split('/');
     const toDate = new Date(toYear, toMonth - 1, toDay);
     const daysDifference = Math.round((toDate - fromDate) / 1000 / 60 / 60 / 24);
-    const finalFromDate = `${fromYear}-${fromMonth}-${fromDay}T00:00:00`;
-    const finalToDate = `${toYear}-${toMonth}-${toDay}T00:00:00`;
-    return new ProductBuilder(chatComposition, finalFromDate, finalToDate, timeArray, dayArray, firstEncounter, tWtable, searchRecordArr, daysDifference, personalWord);
+    return new ProductBuilder(chatComposition, fromDateStr, toDateStr, timeArray, dayArray, firstEncounter, tWtable, searchRecordArr, daysDifference, personalWord);
 }
 async function ParseProductBuilder(productBuilder) {
     let data = {};
@@ -13842,4 +13840,3 @@ async function CountPersonalWord(chatObjArr, personalWord) {
     ];
     return GenerateSearchRecord(chatObjArr, null, true, null, null, searchTermArr);
 }
-export { ChatChart as ChatChart, ChatComposition as ChatComposition, Chatter as Chatter, ConvertEntriesToMessageObjects as ConvertEntriesToMessageObjects, CountPersonalWord as CountPersonalWord, FirstEncounter as FirstEncounter, FormatFile as FormatFile, FormatIOSChats as FormatIOSChats, GenerateChatComposition as GenerateChatComposition, GenerateFirstEncounter as GenerateFirstEncounter, GenerateMessageDays as GenerateMessageDays, GenerateMessageTimes as GenerateMessageTimes, GenerateSearchRecord as GenerateSearchRecord, GenerateTopWords as GenerateTopWords, ParseProductBuilder as ParseProductBuilder, PopulateProductBuilder as PopulateProductBuilder, RemoveEncryptionAndSubjectMessage as RemoveEncryptionAndSubjectMessage, SearchRecord as SearchRecord, SendChatChartRequest as SendChatChartRequest, MessageDays as MessageDays, MessageTimes as MessageTimes, MetricModule as MetricModule, TopWords as TopWords };
