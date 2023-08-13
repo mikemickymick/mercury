@@ -13272,7 +13272,11 @@ function ConvertEntriesToMessageObjects(array) {
                 Author: trimmedAuthor,
                 MessageBody: messageBody
             };
-            parsedData.push(messageModel);
+            
+            if(author != ""){
+                parsedData.push(messageModel);
+            }
+
         } else {
             let latestEntry = parsedData[parsedData.length - 1];
             latestEntry.MessageBody += '\n' + message;
@@ -13402,12 +13406,14 @@ function RemoveEncryptionAndSubjectMessage(chatString) {
     const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";
     const subjectChangeMessage = " changed the subject to ";
     const numberChangeMessage = "changed their phone number";
-    let firstLine = chatString.split("\n")[0];
-    while(firstLine.includes(whatsappEncryptionMessage) || firstLine.includes(subjectChangeMessage) || firstLine.includes(numberChangeMessage)){
-        chatString = chatString.substr(chatString.indexOf("\n") + 1);
-        firstLine = chatString.split("\n")[0];
+    let chatSplitArr = chatString.split("\n");
+    for(var x = 0; x < 5; x++){
+        let currentLine = chatSplitArr[x];
+        if (currentLine.includes(whatsappEncryptionMessage) || currentLine.includes(subjectChangeMessage) || currentLine.includes(numberChangeMessage)){
+            chatSplitArr[x] = '';
+        }
     }
-    return chatString;
+    return chatSplitArr.join("\n");
 }
 async function SendChatChartRequest(httpRequest) {
     const url = 'https://prod-14.uksouth.logic.azure.com:443/workflows/6f40b458f6d447cf931ad42dc778db92/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Xxz51scEThNC4v_zdGkWd0EB2FWl0OOUO5FtUlOpDe8';
