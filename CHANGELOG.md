@@ -1,3 +1,12 @@
+## [0.0.175](https://github.com/mikemickymick/mercury/compare/v0.0.174...v0.0.175) (2023-08-13)
+
+
+### Bug Fixes
+
+* fix empty author and late encryption message ([33b8fea](https://github.com/mikemickymick/mercury/commit/33b8fea7c8ead55958141e4fe6f0ed567cc959ac))
+
+
+
 ## [0.0.174](https://github.com/mikemickymick/mercury/compare/v0.0.173...v0.0.174) (2023-08-12)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * force release ([9b07555](https://github.com/mikemickymick/mercury/commit/9b0755535c32a1e76d0bcd2a4f913b29b6b99a34))
-
-
-
-## [0.0.170](https://github.com/mikemickymick/mercury/compare/v0.0.169...v0.0.170) (2023-08-08)
-
-
-### Bug Fixes
-
-* bundling ([af536ba](https://github.com/mikemickymick/mercury/commit/af536ba033684a153a4716a18262232aea5f5dab))
 
 
 
