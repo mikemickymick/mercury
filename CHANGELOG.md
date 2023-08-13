@@ -1,3 +1,12 @@
+## [0.0.174](https://github.com/mikemickymick/mercury/compare/v0.0.173...v0.0.174) (2023-08-12)
+
+
+### Bug Fixes
+
+* bundling ([3e6527e](https://github.com/mikemickymick/mercury/commit/3e6527e155de7abdd5de38cac1f840c969f45868))
+
+
+
 ## [0.0.173](https://github.com/mikemickymick/mercury/compare/v0.0.172...v0.0.173) (2023-08-11)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * bundling ([af536ba](https://github.com/mikemickymick/mercury/commit/af536ba033684a153a4716a18262232aea5f5dab))
-
-
-
-## [0.0.169](https://github.com/mikemickymick/mercury/compare/v0.0.168...v0.0.169) (2023-08-08)
-
-
-### Bug Fixes
-
-* remove carriage returns from FE ([eb3b721](https://github.com/mikemickymick/mercury/commit/eb3b72165fee437197ab4719b1d02f5e02000499))
 
 
 
