@@ -5,38 +5,36 @@ const startsWithDateRegEx = StartsWithDateRegEx;
 
 /**Converts chat entries to Message objects.*/
 function ConvertEntriesToMessageObjects(array){
-    const parsedData = [];
-    for(let i = 0; i < array.length; i++){
-        let message = array[i];        
-        let m = message.match(startsWithDateRegEx);
-        if (m != null) {
-            //Transform into model
-            let date = message.substr(0, 10);
-            let time = message.substr(12, 5);
-            let tempSubstr = message.substr(message.indexOf('-') + 2);
-            let authorLength = tempSubstr.indexOf(':');
-            let author = message.substr(message.indexOf('-') + 2, authorLength);
-            //Remove emojis and invisible characters from names
-            let trimmedAuthor = author.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2580-\u27BF]|\uD83E[\uDD10-\uDDFF]/g, '').replace(/[^\x20-\x7E]/g, '').trim();
-            let messageBody = message.substr(message.indexOf('-') + 4 + authorLength)
-            const messageModel = {
-              Date: date,
-              Time: time,
-              Author: trimmedAuthor,
-              MessageBody: messageBody
-            };
-            
-            if(author != ""){
-              parsedData.push(messageModel);
-            }
-
-        } else {
-            let latestEntry = parsedData[parsedData.length - 1];
-            latestEntry.MessageBody += '\n' + message;
-            parsedData[parsedData.length - 1] = latestEntry;
-        }
-    }
-    return parsedData;
+  const parsedData = [];
+  for(let i = 0; i < array.length; i++){
+      let message = array[i];
+      if(message != ''){
+          let m = message.match(StartsWithDateRegEx);
+          if (m != null) {
+              let date = message.substr(0, 10);
+              let time = message.substr(12, 5);
+              let tempSubstr = message.substr(message.indexOf('-') + 2);
+              let authorLength = tempSubstr.indexOf(':');
+              let author = message.substr(message.indexOf('-') + 2, authorLength);
+              let trimmedAuthor = author.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2580-\u27BF]|\uD83E[\uDD10-\uDDFF]/g, '').replace(/[^\x20-\x7E]/g, '').trim();
+              let messageBody = message.substr(message.indexOf('-') + 4 + authorLength);
+              const messageModel = {
+                  Date: date,
+                  Time: time,
+                  Author: trimmedAuthor,
+                  MessageBody: messageBody
+              };
+              if(author != ""){
+                  parsedData.push(messageModel);
+              }
+          } else {
+              let latestEntry = parsedData[parsedData.length - 1];
+              latestEntry.MessageBody += '\n' + message;
+              parsedData[parsedData.length - 1] = latestEntry;
+          }
+      }
+  }
+  return parsedData;
 }
 
 async function FormatFile(uploadedFile) {
