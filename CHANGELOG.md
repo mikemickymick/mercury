@@ -1,3 +1,12 @@
+## [0.0.176](https://github.com/mikemickymick/mercury/compare/v0.0.175...v0.0.176) (2023-08-14)
+
+
+### Bug Fixes
+
+* fix empty messages ([68d79f3](https://github.com/mikemickymick/mercury/commit/68d79f3798b832b5a77c4e497250f5528ecfa505))
+
+
+
 ## [0.0.175](https://github.com/mikemickymick/mercury/compare/v0.0.174...v0.0.175) (2023-08-13)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * bundling and minifying ([753d6bf](https://github.com/mikemickymick/mercury/commit/753d6bf7a3cf2287997c824e68a0189c3f3f17c4))
-
-
-
-## [0.0.171](https://github.com/mikemickymick/mercury/compare/v0.0.170...v0.0.171) (2023-08-10)
-
-
-### Bug Fixes
-
-* force release ([9b07555](https://github.com/mikemickymick/mercury/commit/9b0755535c32a1e76d0bcd2a4f913b29b6b99a34))
 
 
 
