@@ -13257,7 +13257,7 @@ function ConvertEntriesToMessageObjects(array) {
     const parsedData = [];
     for(let i = 0; i < array.length; i++){
         let message = array[i];
-        if(message != ''){
+        if (message != '') {
             let m = message.match(StartsWithDateRegEx);
             if (m != null) {
                 let date = message.substr(0, 10);
@@ -13273,7 +13273,7 @@ function ConvertEntriesToMessageObjects(array) {
                     Author: trimmedAuthor,
                     MessageBody: messageBody
                 };
-                if(author != ""){
+                if (author != "") {
                     parsedData.push(messageModel);
                 }
             } else {
@@ -13409,7 +13409,7 @@ function RemoveEncryptionAndSubjectMessage(chatString) {
     let chatSplitArr = chatString.split("\n");
     for(var x = 0; x < 5; x++){
         let currentLine = chatSplitArr[x];
-        if (currentLine.includes(whatsappEncryptionMessage) || currentLine.includes(subjectChangeMessage) || currentLine.includes(numberChangeMessage)){
+        if (currentLine.includes(whatsappEncryptionMessage) || currentLine.includes(subjectChangeMessage) || currentLine.includes(numberChangeMessage)) {
             chatSplitArr[x] = '';
         }
     }
@@ -13685,7 +13685,7 @@ function GetMessageComposite(chatObjArr, replierIndex, message) {
     if (replierIndex > 1) {
         const messageBodies = chatObjArr.slice(1, replierIndex).map((currentMessage)=>currentMessage["MessageBody"]);
         if (messageBodies.length > 0) {
-            const joinedMessageBodies = messageBodies.join(". ");
+            const joinedMessageBodies = messageBodies.join(". ").replace(returnRegEx, ". ");
             const puncRegEx = new RegExp(PunctuationRegEx, "g");
             if (message.match(puncRegEx)) {
                 message += " " + joinedMessageBodies;
@@ -13693,6 +13693,9 @@ function GetMessageComposite(chatObjArr, replierIndex, message) {
                 message += ". " + joinedMessageBodies;
             }
         }
+    }
+    if (message[message.length - 2] == ".") {
+        message = message.substring(0, message.length - 2);
     }
     return message;
 }
@@ -13747,6 +13750,8 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
     const [toDay, toMonth, toYear] = toDateStr.split('/');
     const toDate = new Date(toYear, toMonth - 1, toDay);
     const daysDifference = Math.round((toDate - fromDate) / 1000 / 60 / 60 / 24);
+    `${fromYear}-${fromMonth}-${fromDay}T00:00:00`;
+    `${toYear}-${toMonth}-${toDay}T00:00:00`;
     return new ProductBuilder(chatComposition, fromDateStr, toDateStr, timeArray, dayArray, firstEncounter, tWtable, searchRecordArr, daysDifference, personalWord);
 }
 async function ParseProductBuilder(productBuilder) {
@@ -13846,3 +13851,4 @@ async function CountPersonalWord(chatObjArr, personalWord) {
     ];
     return GenerateSearchRecord(chatObjArr, null, true, null, null, searchTermArr);
 }
+export { ChatChart as ChatChart, ChatComposition as ChatComposition, Chatter as Chatter, ConvertEntriesToMessageObjects as ConvertEntriesToMessageObjects, CountPersonalWord as CountPersonalWord, FirstEncounter as FirstEncounter, FormatFile as FormatFile, FormatIOSChats as FormatIOSChats, GenerateChatComposition as GenerateChatComposition, GenerateFirstEncounter as GenerateFirstEncounter, GenerateMessageDays as GenerateMessageDays, GenerateMessageTimes as GenerateMessageTimes, GenerateSearchRecord as GenerateSearchRecord, GenerateTopWords as GenerateTopWords, ParseProductBuilder as ParseProductBuilder, PopulateProductBuilder as PopulateProductBuilder, RemoveEncryptionAndSubjectMessage as RemoveEncryptionAndSubjectMessage, SearchRecord as SearchRecord, SendChatChartRequest as SendChatChartRequest, MessageDays as MessageDays, MessageTimes as MessageTimes, MetricModule as MetricModule, TopWords as TopWords };
