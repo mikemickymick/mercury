@@ -1,3 +1,12 @@
+## [0.0.178](https://github.com/mikemickymick/mercury/compare/v0.0.177...v0.0.178) (2023-08-18)
+
+
+### Bug Fixes
+
+* bundle and min ([c26085a](https://github.com/mikemickymick/mercury/commit/c26085a4df5472ee0536cc71bd6b0f11465e676a))
+
+
+
 ## [0.0.177](https://github.com/mikemickymick/mercury/compare/v0.0.176...v0.0.177) (2023-08-18)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * bundling ([3e6527e](https://github.com/mikemickymick/mercury/commit/3e6527e155de7abdd5de38cac1f840c969f45868))
-
-
-
-## [0.0.173](https://github.com/mikemickymick/mercury/compare/v0.0.172...v0.0.173) (2023-08-11)
-
-
-### Bug Fixes
-
-* replace to and from date ([fc91e2e](https://github.com/mikemickymick/mercury/commit/fc91e2e0132763470f616f9c4e5d2d8220166947))
 
 
 
