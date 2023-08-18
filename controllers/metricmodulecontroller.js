@@ -270,7 +270,7 @@ function GetMessageComposite(chatObjArr, replierIndex, message) {
         .map((currentMessage) => currentMessage["MessageBody"]);
   
       if (messageBodies.length > 0) {
-        const joinedMessageBodies = messageBodies.join(". ");
+        const joinedMessageBodies = messageBodies.join(". ").replace(returnRegEx, ". ");;
         const puncRegEx = new RegExp(PunctuationRegEx, "g");  
         if (message.match(puncRegEx)) {
           message += " " + joinedMessageBodies;
@@ -279,6 +279,9 @@ function GetMessageComposite(chatObjArr, replierIndex, message) {
         }
       }
     }
+
+    //Remove trailing full stop
+    if(message[message.length - 2] == "."){ message = message.substring(0,message.length - 2); }
   
     return message;
   }  
