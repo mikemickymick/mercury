@@ -1,4 +1,4 @@
-/**Represents a person within a chat.*/
+/**Represents a person within a chat*/
 class Chatter {
     constructor(authorNumber, name, messageCount, messagePercent, wordCount, timeSpentMessaging){
         this.AuthorNumber = authorNumber;
