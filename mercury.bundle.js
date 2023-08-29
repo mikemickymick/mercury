@@ -93,11 +93,13 @@ class ChatChart extends Product {
     }
 }
 class Chatter {
-    constructor(authorNumber, name, messageCount, messagePercent){
+    constructor(authorNumber, name, messageCount, messagePercent, wordCount, timeSpentMessaging){
         this.AuthorNumber = authorNumber;
         this.Name = name;
         this.MessageCount = messageCount;
         this.MessagePercent = messagePercent;
+        this.WordCount = wordCount;
+        this.TimeSpentMessaging = timeSpentMessaging;
     }
 }
 const MAX_BITS = 15;
@@ -13434,11 +13436,12 @@ function GenerateChatComposition(messageObjectArray) {
             if (x.Name === element.Author) {
                 chatterInArray = true;
                 x.MessageCount += 1;
+                x.WordCount += element.MessageBody.split(' ').length;
             }
         }
         if (!chatterInArray) {
             authorIndex++;
-            let chatter = new Chatter(authorIndex, element.Author, 1, 0);
+            let chatter = new Chatter(authorIndex, element.Author, 1, 0, 0, "0 mins");
             chatters.push(chatter);
         }
     }
@@ -13448,8 +13451,23 @@ function GenerateChatComposition(messageObjectArray) {
     }
     for (const y of chatters){
         y.MessagePercent = Math.round(y.MessageCount / totalMessages * 100);
+        y.TimeSpentMessaging = CalculateTimeSpentMessaging(y.WordCount);
     }
     return new ChatComposition(chatters);
+}
+function CalculateTimeSpentMessaging(wordCount) {
+    let timeMessage = "";
+    let minutesSpentMessaging = wordCount / 37;
+    if (minutesSpentMessaging > 1440) {
+        let daysSpentMessaging = Math.round(minutesSpentMessaging / 1440 * 10) / 10;
+        timeMessage = `${daysSpentMessaging} days`;
+    } else if (minutesSpentMessaging > 60) {
+        let hoursSpentMessaging = Math.round(minutesSpentMessaging / 60 * 10) / 10;
+        timeMessage = `${hoursSpentMessaging} hrs`;
+    } else {
+        timeMessage = `${Math.round(minutesSpentMessaging)} mins`;
+    }
+    return timeMessage;
 }
 function GenerateFirstEncounter(chatObjArr) {
     let firstMessage = chatObjArr[0];
