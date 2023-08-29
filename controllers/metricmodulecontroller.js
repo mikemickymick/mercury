@@ -14,13 +14,14 @@ function GenerateChatComposition(messageObjectArray) {
       for (const x of chatters) {
         if (x.Name === element.Author) {
           chatterInArray = true;
-          x.MessageCount += 1;
+          x.MessageCount += 1; //Increment message count
+          x.WordCount += element.MessageBody.split(' ').length; //Increment word count
         }
       }
   
       if (!chatterInArray) {
         authorIndex++;
-        let chatter = new Chatter(authorIndex, element.Author, 1, 0);
+        let chatter = new Chatter(authorIndex, element.Author, 1, 0, 0, "0 mins");
         chatters.push(chatter);
       }
     }
@@ -31,12 +32,27 @@ function GenerateChatComposition(messageObjectArray) {
     }
   
     for (const y of chatters) {
-      y.MessagePercent = Math.round((y.MessageCount / totalMessages) * 100);
+        y.MessagePercent = Math.round((y.MessageCount / totalMessages) * 100);
+        y.TimeSpentMessaging = CalculateTimeSpentMessaging(y.WordCount);        
     }
   
     return new ChatComposition(chatters);
   }
 
+function CalculateTimeSpentMessaging(wordCount){
+    let timeMessage = "";
+    let minutesSpentMessaging = wordCount / 37;
+    if(minutesSpentMessaging > 1440){
+        let daysSpentMessaging = Math.round((minutesSpentMessaging / 1440) * 10) /10; //Stupid way to round to 1 decimal point
+        timeMessage = `${daysSpentMessaging} days`;
+    } else if (minutesSpentMessaging > 60){
+        let hoursSpentMessaging = Math.round((minutesSpentMessaging / 60) * 10) /10;
+        timeMessage = `${hoursSpentMessaging} hrs`;
+    } else{
+        timeMessage = `${Math.round(minutesSpentMessaging)} mins`;
+    }
+    return timeMessage;    
+}
 /**Generates a First Encounter module */
 function GenerateFirstEncounter(chatObjArr){
     let firstMessage = chatObjArr[0];
