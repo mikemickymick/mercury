@@ -10285,9 +10285,6 @@ configure({
     Deflate: ZipDeflate,
     Inflate: ZipInflate
 });
-const AudioArray = [
-    "audio omitted"
-];
 const ImageArray = [
     "image omitted"
 ];
@@ -10301,15 +10298,6 @@ const LaughArray = [
     "😅",
     "😂",
     "🤣"
-];
-const MorningArray = [
-    "morning x",
-    "good morning"
-];
-const NightArray = [
-    "night night",
-    "good night",
-    "night x"
 ];
 const SkipWords = [
     "‎gif",
@@ -13497,15 +13485,6 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
     switch(searchRecordName){
         case "laugh":
             searchTermArr = LaughArray;
-            break;
-        case "morning":
-            searchTermArr = MorningArray;
-            break;
-        case "night":
-            searchTermArr = NightArray;
-            break;
-        case "audio":
-            searchTermArr = AudioArray;
             break;
         case "image":
             searchTermArr = ImageArray;
