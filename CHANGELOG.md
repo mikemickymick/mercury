@@ -1,3 +1,12 @@
+## [0.0.180](https://github.com/mikemickymick/mercury/compare/v0.0.179...v0.0.180) (2023-09-09)
+
+
+### Bug Fixes
+
+* standardise chatter time spent messaging ([f428d81](https://github.com/mikemickymick/mercury/commit/f428d816853949c67ff44c608449225021f171f0))
+
+
+
 ## [0.0.179](https://github.com/mikemickymick/mercury/compare/v0.0.178...v0.0.179) (2023-08-29)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * fix empty messages ([68d79f3](https://github.com/mikemickymick/mercury/commit/68d79f3798b832b5a77c4e497250f5528ecfa505))
-
-
-
-## [0.0.175](https://github.com/mikemickymick/mercury/compare/v0.0.174...v0.0.175) (2023-08-13)
-
-
-### Bug Fixes
-
-* fix empty author and late encryption message ([33b8fea](https://github.com/mikemickymick/mercury/commit/33b8fea7c8ead55958141e4fe6f0ed567cc959ac))
 
 
 
