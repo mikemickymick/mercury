@@ -1,7 +1,7 @@
 import { Chatter } from '../models/chatter.js';
 import { SearchLog } from '../models/searchlog.js';
 import { ChatComposition, FirstEncounter, MessageDays, MessageTimes, SearchRecord, TopWords } from '../models/metricmodules.js';
-import { AudioArray, EmojiArray, ImageArray, LaughArray, MorningArray, NightArray, PunctuationRegEx, ReturnCarriageRegEx, SkipWords } from '../helpers/searchhelper.js';
+import { AudioArray, EmojiArray, ImageArray, LaughArray, PunctuationRegEx, ReturnCarriageRegEx, SkipWords } from '../helpers/searchhelper.js';
 
 /**Generates the Chat composition from an array of Message objects */
 function GenerateChatComposition(messageObjectArray) {

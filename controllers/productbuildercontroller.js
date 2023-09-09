@@ -17,7 +17,7 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
   const toDateStr = ArrayOfMessageObjs[ArrayOfMessageObjs.length - 1].Date;
 
   const searchRecordArr = [];
-  const searchRecordNames = ["laugh", "morning", "night", "emoji"];
+  const searchRecordNames = ["laugh", "emoji"];
   searchRecordNames.forEach((name) => {
     const record = GenerateSearchRecord(ArrayOfMessageObjs, name, false, 2, 1, null);
     if (record) {
@@ -134,10 +134,6 @@ async function ParseProductBuilder(productBuilder){
         if(x.Name == "personal"){
             data.PersonalWord = x.SearchLogs[0].SearchTerm;
             data.PersonalWordCount = x.TotalCount;
-        }else if(x.Name == "morning"){
-            data.MorningCount = x.TotalCount;
-        }else if(x.Name == "night"){
-            data.NightCount = x.TotalCount;
         }else if(x.Name == "laugh"){
             data.LaughCount = x.TotalCount;
         }else if (x.Name == "emoji"){
