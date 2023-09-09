@@ -1,3 +1,12 @@
+## [0.0.181](https://github.com/mikemickymick/mercury/compare/v0.0.180...v0.0.181) (2023-09-09)
+
+
+### Bug Fixes
+
+* remove morning and night searches ([c999dc1](https://github.com/mikemickymick/mercury/commit/c999dc14bf69232dbad61a2e7aad9a456952c1ee))
+
+
+
 ## [0.0.180](https://github.com/mikemickymick/mercury/compare/v0.0.179...v0.0.180) (2023-09-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * return carriage issue ([d1907f4](https://github.com/mikemickymick/mercury/commit/d1907f4409c0f07458567f4188a26ca959bafc01))
-
-
-
-## [0.0.176](https://github.com/mikemickymick/mercury/compare/v0.0.175...v0.0.176) (2023-08-14)
-
-
-### Bug Fixes
-
-* fix empty messages ([68d79f3](https://github.com/mikemickymick/mercury/commit/68d79f3798b832b5a77c4e497250f5528ecfa505))
 
 
 
