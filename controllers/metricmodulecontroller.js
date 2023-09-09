@@ -92,15 +92,6 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
         case "laugh":
             searchTermArr = LaughArray;
             break;
-        case "morning":
-            searchTermArr = MorningArray;
-            break;
-        case "night":
-            searchTermArr = NightArray;
-            break;
-        case "audio":
-            searchTermArr = AudioArray;
-            break;
         case "image":
             searchTermArr = ImageArray;
             break;

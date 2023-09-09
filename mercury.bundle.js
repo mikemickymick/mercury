@@ -93,13 +93,14 @@ class ChatChart extends Product {
     }
 }
 class Chatter {
-    constructor(authorNumber, name, messageCount, messagePercent, wordCount, timeSpentMessaging){
+    constructor(authorNumber, name, messageCount, messagePercent, wordCount, minutesSpentMessaging, timesSpentMessagingString){
         this.AuthorNumber = authorNumber;
         this.Name = name;
         this.MessageCount = messageCount;
         this.MessagePercent = messagePercent;
         this.WordCount = wordCount;
-        this.TimeSpentMessaging = timeSpentMessaging;
+        this.MinutesSpentMessaging = minutesSpentMessaging;
+        this.TimeSpentMessagingString = timesSpentMessagingString;
     }
 }
 const MAX_BITS = 15;
@@ -13441,7 +13442,7 @@ function GenerateChatComposition(messageObjectArray) {
         }
         if (!chatterInArray) {
             authorIndex++;
-            let chatter = new Chatter(authorIndex, element.Author, 1, 0, 0, "0 mins");
+            let chatter = new Chatter(authorIndex, element.Author, 1, 0, 0, 0, "0 mins");
             chatters.push(chatter);
         }
     }
@@ -13451,23 +13452,27 @@ function GenerateChatComposition(messageObjectArray) {
     }
     for (const y of chatters){
         y.MessagePercent = Math.round(y.MessageCount / totalMessages * 100);
-        y.TimeSpentMessaging = CalculateTimeSpentMessaging(y.WordCount);
+        y.MinutesSpentMessaging = CalculateMinutesSpentMessaging(y.WordCount);
     }
+    GenerateTimeSpentMessagingStrings(chatters);
     return new ChatComposition(chatters);
 }
-function CalculateTimeSpentMessaging(wordCount) {
-    let timeMessage = "";
-    let minutesSpentMessaging = wordCount / 37;
-    if (minutesSpentMessaging > 1440) {
-        let daysSpentMessaging = Math.round(minutesSpentMessaging / 1440 * 10) / 10;
-        timeMessage = `${daysSpentMessaging} days`;
-    } else if (minutesSpentMessaging > 60) {
-        let hoursSpentMessaging = Math.round(minutesSpentMessaging / 60 * 10) / 10;
-        timeMessage = `${hoursSpentMessaging} hrs`;
+function CalculateMinutesSpentMessaging(wordCount) {
+    return wordCount / 37;
+}
+function GenerateTimeSpentMessagingStrings(chatters) {
+    const hasDays = chatters.find((c)=>c.MinutesSpentMessaging > 1440);
+    if (hasDays) {
+        for (const c of chatters){
+            let daysSpentMessaging = Math.round(c.MinutesSpentMessaging / 1440 * 10) / 10;
+            c.TimeSpentMessagingString = `${daysSpentMessaging} days`;
+        }
     } else {
-        timeMessage = `${Math.round(minutesSpentMessaging)} mins`;
+        for (const c of chatters){
+            let hoursSpentMessaging = Math.round(c.MinutesSpentMessaging / 60 * 10) / 10;
+            c.TimeSpentMessagingString = `${hoursSpentMessaging} hrs`;
+        }
     }
-    return timeMessage;
 }
 function GenerateFirstEncounter(chatObjArr) {
     let firstMessage = chatObjArr[0];
@@ -13869,4 +13874,3 @@ async function CountPersonalWord(chatObjArr, personalWord) {
     ];
     return GenerateSearchRecord(chatObjArr, null, true, null, null, searchTermArr);
 }
-export { ChatChart as ChatChart, ChatComposition as ChatComposition, Chatter as Chatter, ConvertEntriesToMessageObjects as ConvertEntriesToMessageObjects, CountPersonalWord as CountPersonalWord, FirstEncounter as FirstEncounter, FormatFile as FormatFile, FormatIOSChats as FormatIOSChats, GenerateChatComposition as GenerateChatComposition, GenerateFirstEncounter as GenerateFirstEncounter, GenerateMessageDays as GenerateMessageDays, GenerateMessageTimes as GenerateMessageTimes, GenerateSearchRecord as GenerateSearchRecord, GenerateTopWords as GenerateTopWords, ParseProductBuilder as ParseProductBuilder, PopulateProductBuilder as PopulateProductBuilder, RemoveEncryptionAndSubjectMessage as RemoveEncryptionAndSubjectMessage, SearchRecord as SearchRecord, SendChatChartRequest as SendChatChartRequest, MessageDays as MessageDays, MessageTimes as MessageTimes, MetricModule as MetricModule, TopWords as TopWords };
