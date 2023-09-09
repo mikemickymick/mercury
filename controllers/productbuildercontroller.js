@@ -26,16 +26,6 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
   });
   searchRecordArr.push(personalWordSearchRecord);
 
-  const audioSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "audio", false, 2, 1, null);
-  if (audioSearchRecord) {
-    searchRecordArr.push(audioSearchRecord);
-  }
-
-  const imageSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "image", false, 2, 1, null);
-  if (imageSearchRecord) {
-    searchRecordArr.push(imageSearchRecord);
-  }
-
   const authors = chatComposition.Chatters.map(x => x.Name);
   const tWtable = GenerateTopWords(WholeChatString, authors);
 
