@@ -1,3 +1,12 @@
+## [0.0.182](https://github.com/mikemickymick/mercury/compare/v0.0.181...v0.0.182) (2023-09-09)
+
+
+### Bug Fixes
+
+* bundle and minify ([0ee4ee5](https://github.com/mikemickymick/mercury/commit/0ee4ee57d3e8ee657f44b24e9b670828376748e1))
+
+
+
 ## [0.0.181](https://github.com/mikemickymick/mercury/compare/v0.0.180...v0.0.181) (2023-09-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * bundle and min ([c26085a](https://github.com/mikemickymick/mercury/commit/c26085a4df5472ee0536cc71bd6b0f11465e676a))
-
-
-
-## [0.0.177](https://github.com/mikemickymick/mercury/compare/v0.0.176...v0.0.177) (2023-08-18)
-
-
-### Bug Fixes
-
-* return carriage issue ([d1907f4](https://github.com/mikemickymick/mercury/commit/d1907f4409c0f07458567f4188a26ca959bafc01))
 
 
 
