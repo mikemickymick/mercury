@@ -10285,9 +10285,6 @@ configure({
     Deflate: ZipDeflate,
     Inflate: ZipInflate
 });
-const ImageArray = [
-    "image omitted"
-];
 const LaughArray = [
     "haha",
     "lol",
@@ -13486,9 +13483,6 @@ function GenerateSearchRecord(chatObjArr, searchRecordName, required, width, hei
         case "laugh":
             searchTermArr = LaughArray;
             break;
-        case "image":
-            searchTermArr = ImageArray;
-            break;
         case "emoji":
             searchTermArr = EmojiArray;
             break;
@@ -13729,14 +13723,6 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
         }
     });
     searchRecordArr.push(personalWordSearchRecord);
-    const audioSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "audio", false, 2, 1, null);
-    if (audioSearchRecord) {
-        searchRecordArr.push(audioSearchRecord);
-    }
-    const imageSearchRecord = GenerateSearchRecord(ArrayOfMessageObjs, "image", false, 2, 1, null);
-    if (imageSearchRecord) {
-        searchRecordArr.push(imageSearchRecord);
-    }
     const authors = chatComposition.Chatters.map((x)=>x.Name);
     const tWtable = GenerateTopWords(WholeChatString, authors);
     tWtable.TopWordsTable.forEach((x)=>{
