@@ -1,3 +1,12 @@
+## [0.0.184](https://github.com/mikemickymick/mercury/compare/v0.0.183...v0.0.184) (2023-09-09)
+
+
+### Bug Fixes
+
+* remove audio and image ([ec93977](https://github.com/mikemickymick/mercury/commit/ec939776d416dfcba28924a19516e5f01bc58caf))
+
+
+
 ## [0.0.183](https://github.com/mikemickymick/mercury/compare/v0.0.182...v0.0.183) (2023-09-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * standardise chatter time spent messaging ([f428d81](https://github.com/mikemickymick/mercury/commit/f428d816853949c67ff44c608449225021f171f0))
-
-
-
-## [0.0.179](https://github.com/mikemickymick/mercury/compare/v0.0.178...v0.0.179) (2023-08-29)
-
-
-### Bug Fixes
-
-* force release ([0faa76b](https://github.com/mikemickymick/mercury/commit/0faa76b0f25fcec79c551e902df2c0a46fb68e27))
 
 
 
