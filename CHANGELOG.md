@@ -1,3 +1,12 @@
+## [0.0.185](https://github.com/mikemickymick/mercury/compare/v0.0.184...v0.0.185) (2023-09-15)
+
+
+### Bug Fixes
+
+* remove problem emojis ([7b4b5fc](https://github.com/mikemickymick/mercury/commit/7b4b5fc32aa3e2ccbf51babbfd456aab2eba2394))
+
+
+
 ## [0.0.184](https://github.com/mikemickymick/mercury/compare/v0.0.183...v0.0.184) (2023-09-09)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * remove morning and night searches ([c999dc1](https://github.com/mikemickymick/mercury/commit/c999dc14bf69232dbad61a2e7aad9a456952c1ee))
-
-
-
-## [0.0.180](https://github.com/mikemickymick/mercury/compare/v0.0.179...v0.0.180) (2023-09-09)
-
-
-### Bug Fixes
-
-* standardise chatter time spent messaging ([f428d81](https://github.com/mikemickymick/mercury/commit/f428d816853949c67ff44c608449225021f171f0))
 
 
 
