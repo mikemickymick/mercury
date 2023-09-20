@@ -1,3 +1,12 @@
+## [0.0.186](https://github.com/mikemickymick/mercury/compare/v0.0.185...v0.0.186) (2023-09-20)
+
+
+### Bug Fixes
+
+* add formatting fixes ([6bd2b4c](https://github.com/mikemickymick/mercury/commit/6bd2b4c6771dacb8a3dfe6f49f875460cf16c1b5))
+
+
+
 ## [0.0.185](https://github.com/mikemickymick/mercury/compare/v0.0.184...v0.0.185) (2023-09-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * bundle and minify ([0ee4ee5](https://github.com/mikemickymick/mercury/commit/0ee4ee57d3e8ee657f44b24e9b670828376748e1))
-
-
-
-## [0.0.181](https://github.com/mikemickymick/mercury/compare/v0.0.180...v0.0.181) (2023-09-09)
-
-
-### Bug Fixes
-
-* remove morning and night searches ([c999dc1](https://github.com/mikemickymick/mercury/commit/c999dc14bf69232dbad61a2e7aad9a456952c1ee))
 
 
 
