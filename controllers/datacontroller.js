@@ -1,8 +1,6 @@
 import { BlobReader, BlobWriter, TextWriter, ZipReader, ZipWriter } from "https://deno.land/x/zipjs/index.js";
 import { StartsWithDateRegEx } from "../helpers/searchhelper.js";
 
-const startsWithDateRegEx = StartsWithDateRegEx;
-
 /**Converts chat entries to Message objects.*/
 function ConvertEntriesToMessageObjects(array){
   const parsedData = [];
@@ -67,7 +65,7 @@ async function FormatFile(uploadedFile) {
   }
 
   lowerCaseChat = RemoveEncryptionAndSubjectMessage(lowerCaseChat);
-  const linesArray = FormatIOSChats(lowerCaseChat);
+  const linesArray = FormatChat(lowerCaseChat);
   const chatObjArr = ConvertEntriesToMessageObjects(linesArray);
 
   const chatters = new Set();
@@ -83,70 +81,168 @@ async function FormatFile(uploadedFile) {
   };
 }
 
-function FormatIOSChats(chatString) {
+function FormatChat(chatString) {
     let linesArray = new Array();
     linesArray = chatString.split('\n');
-    
-    for(let i = 0; i < linesArray.length; i++){
-        let lineString = linesArray[i];
-        if(lineString.length > 0){
+    linesArray = StandardiseCharacters(linesArray);
+    linesArray = StandardiseDateFormat(linesArray);
+    linesArray = StandardiseClockFormat(linesArray);
+    return linesArray;
+}
 
-            if(lineString[0] == String.fromCharCode(8206)){ lineString = lineString.substr(1); }
-
-            const openingBracketIndex = lineString.indexOf('[');
-            const closingBracketIndex = lineString.indexOf(']');
-            const commaIndex = lineString.indexOf(',');
-
-            //Normal formatting
-            if(openingBracketIndex == 0 && closingBracketIndex == 21 && commaIndex == 11){
-                let firstHalf = lineString.substr(openingBracketIndex + 1, 17);
-                let secondHalf = lineString.substr(closingBracketIndex);
-                linesArray[i] = firstHalf + secondHalf.replace(']', ' -').replace('\r','');
-            }
-            //AM PM formatting
-            else if((closingBracketIndex == 19 || closingBracketIndex == 20 || closingBracketIndex == 21 || closingBracketIndex == 22) && (commaIndex == 7 || commaIndex == 8 || commaIndex == 9 || commaIndex == 11)){
-                let colonIndex = GetNthIndex(lineString, ':', 2);
-                let dateAndTimeString = lineString.substr(openingBracketIndex + 1, colonIndex-1);
-                let dateString = dateAndTimeString.split(",")[0];
-                let monthString = dateString.split('/')[0];
-                let dayString = dateString.split('/')[1];
-                let yearString = "20" + dateString.split('/')[2];
-                let timeString = dateAndTimeString.split(", ")[1];
-                let hourString = timeString.split(':')[0];
-                let minuteString = timeString.split(':')[1];
-
-                if (dayString.length == 1) {dayString = "0" + dayString; }
-                if (monthString.length == 1) { monthString = "0" + monthString; }
-
-                //Take away PM and AM
-                if (lineString.includes(" am] ")){
-                    if (hourString.length == 1) { 
-                        hourString = "0" + hourString; 
-                    }else if (hourString == "12"){
-                        hourString = "00";
-                    }
-                }
-                else if (lineString.includes(" pm] ")){
-                    const hourLookupTable = {
-                        "1": "13", "2": "14", "3": "15", "4": "16",
-                        "5": "17", "6": "18", "7": "19", "8": "20",
-                        "9": "21", "10": "22", "11": "23"
-                      };
-                      hourString = hourLookupTable[hourString] || "12";
-                }
-
-                const dateAndComma = `${dayString}/${monthString}/${yearString}, `;
-                const timeStringFormatted = `${hourString}:${minuteString}`;
-                const dateAndTimeStringFormatted = dateAndComma + timeStringFormatted;
-                const secondHalf = lineString.substr(closingBracketIndex);
-                linesArray[i] = dateAndTimeStringFormatted + secondHalf.replace("]", " -");
-            }
-        }
-    }
+function StandardiseCharacters(linesArray){
+  for(var i = 0; i < linesArray.length; i++) {
+      let currentLine = linesArray[i];
+      if (currentLine[0] == String.fromCharCode(8206)) {
+          currentLine = currentLine.substr(1);
+      }
+      if(currentLine.includes('[') && currentLine.includes(']')){
+          const numberOfBrackets = currentLine.replace(/[^\[\]]/g, "").length;
+          if(numberOfBrackets == 4){ //skip next 10 messages
+              linesArray[i] = '';
+              for(var j = 1; j < 9; j++){
+                  linesArray[i + j] = '';
+                  j++;
+              }
+              i += 9;                
+          }else{
+              currentLine = currentLine.replace(/-/g, '/').replace(/[\[]/gm, '').replace(/[\]]/gm,' -');
+              if(currentLine[10] != ','){
+                  const firstHalf = currentLine.substring(0, 10);
+                  const secondHalf = currentLine.substring(10);
+                  currentLine = firstHalf + "," + secondHalf;
+              }
+              linesArray[i] = currentLine;
+          }
+      }
+  }
   return linesArray;
 }
 
-function GetNthIndex(s, t, n) {
+function StandardiseDateFormat(linesArray){
+  const dateFormat = GetDateFormat(linesArray);
+  let i = 0;
+  while( i < linesArray.length){
+      let currentLine = linesArray[i];
+      if (currentLine.length > 0 && currentLine.includes(':') && currentLine.includes(',') && currentLine.includes('-') && (currentLine.indexOf('/') == 1 || currentLine.indexOf('/') == 2)) {
+          const dateString = currentLine.split(",")[0];
+          let dayString = "";
+          let monthString = "";
+          if(dateFormat == "ENG"){
+              dayString = dateString.split('/')[0].length == 2 ? dateString.split('/')[0] : "0" + dateString.split('/')[0];
+              monthString = dateString.split('/')[1].length == 2 ? dateString.split('/')[1] : "0" + dateString.split('/')[1];
+          }else{
+              dayString = dateString.split('/')[1].length == 2 ? dateString.split('/')[1] : "0" + dateString.split('/')[1];
+              monthString = dateString.split('/')[0].length == 2 ? dateString.split('/')[0] : "0" + dateString.split('/')[0];
+          }
+          const yearString = dateString.split('/')[2].length == 4 ? dateString.split('/')[2] : "20" + dateString.split('/')[2];
+          const dateFormatted = `${dayString}/${monthString}/${yearString}`;
+          const newLine = currentLine.replace(dateString, dateFormatted);
+          linesArray[i] = newLine;
+      }
+      i++;
+  }
+  return linesArray;
+}
+
+function StandardiseClockFormat(linesArray){
+  const hourLookupTable = {
+      "1": "13",
+      "2": "14",
+      "3": "15",
+      "4": "16",
+      "5": "17",
+      "6": "18",
+      "7": "19",
+      "8": "20",
+      "9": "21",
+      "10": "22",
+      "11": "23"
+  };
+
+  const clockFormat = GetClockFormat(linesArray);
+  let i = 0;
+  while( i < linesArray.length){
+      let currentLine = linesArray[i];
+      if (currentLine.length > 0 && currentLine.includes(':') && currentLine.indexOf('/') == 2) {
+          const commaIndex = currentLine.indexOf(', ');
+          const colonIndex = currentLine.indexOf(':');
+          const dashIndex = currentLine.indexOf(' - ');
+          let hourString = currentLine.substring(commaIndex + 2, colonIndex);
+          let minuteString = currentLine.substring(colonIndex + 1, colonIndex +3);
+          
+          if(clockFormat == "12"){                
+              if (currentLine.toLowerCase().includes("am -")) {
+                  if (hourString.length == 1) {
+                      hourString = "0" + hourString;
+                  } else if (hourString == "12") {
+                      hourString = "00";
+                  }
+              } 
+              else{
+                  hourString = hourLookupTable[hourString] || "12";
+              }
+          }
+
+          const firstHalf = currentLine.substring(0, commaIndex + 2);
+          const secondHalf = currentLine.substring(dashIndex);
+          const timeFormatted = `${hourString}:${minuteString}`;
+          linesArray[i] = firstHalf + timeFormatted + secondHalf;
+      }
+      i++;
+  }
+  return linesArray;
+}
+
+function GetDateFormat(linesArray){
+  let i = 0;
+  while(i < linesArray.length){
+      let previousLine = linesArray[i - 1];
+      let lineString = linesArray[i];
+      //If message is not empty and it includes a datetime stamp
+      if (lineString.length > 0 && lineString.includes(':')) {
+          if (previousLine != undefined && previousLine.length > 0 && previousLine.includes(':')) {
+              if (previousLine[0] == String.fromCharCode(8206)) {
+                  previousLine = previousLine.substr(1);
+              }
+              const previousFirstSlashIndex = previousLine.indexOf('/');
+              const previousBeginningOfMonth = previousLine.substring(previousFirstSlashIndex + 1);
+              const previousMonthString = previousBeginningOfMonth.substring(0,2);
+              const previousMonthInt = parseInt(previousMonthString);
+
+              const firstSlashIndex = lineString.indexOf('/');
+              const beginningOfMonth = lineString.substring(firstSlashIndex + 1);
+              const monthString = beginningOfMonth.substring(0,2);
+              const monthInt = parseInt(monthString);
+              if(previousMonthInt == 12 && monthInt == 1){
+                  return "ENG";
+              } else if(monthInt > 12){
+                  return "USA";
+              }            
+          }
+      }
+      i++;
+  }
+  return "ENG";
+}
+
+function GetClockFormat(linesArray){
+  let i = 0;
+  while(i < linesArray.length){
+      let lineString = linesArray[i];
+      if (lineString.length > 0 && lineString.includes(':')) {
+          if (lineString[0] == String.fromCharCode(8206)) { lineString = lineString.substr(1); }
+          if(lineString.toLowerCase().includes("am -") || lineString.toLowerCase().includes("pm -")){
+              return "12";
+          }else{
+              return "24";
+          }
+      }
+      i++;
+  }
+}
+
+/**function GetNthIndex(s, t, n) {
   let count = 0;
   for (let i = 0; i < s.length; i++) {
     if (s[i] === t) {
@@ -157,8 +253,7 @@ function GetNthIndex(s, t, n) {
     }
   }
   return -1;
-}
-
+}*/
 
 function RemoveEncryptionAndSubjectMessage(chatString) {
   const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";
@@ -185,7 +280,7 @@ async function SendChatChartRequest(httpRequest) {
 export {
   ConvertEntriesToMessageObjects,
   FormatFile,
-  FormatIOSChats,
+  FormatChat,
   RemoveEncryptionAndSubjectMessage,
   SendChatChartRequest
 };

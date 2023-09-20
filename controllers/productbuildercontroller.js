@@ -46,10 +46,6 @@ async function PopulateProductBuilder(chatMaster, personalWord) {
 
   const daysDifference = Math.round((toDate - fromDate) / 1000 / 60 / 60 / 24);
 
-  // Formatting for the logic app
-  const finalFromDate = `${fromYear}-${fromMonth}-${fromDay}T00:00:00`;
-  const finalToDate = `${toYear}-${toMonth}-${toDay}T00:00:00`;
-
   return new ProductBuilder(
     chatComposition,
     fromDateStr,
