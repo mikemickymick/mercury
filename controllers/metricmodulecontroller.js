@@ -60,7 +60,7 @@ function GenerateTimeSpentMessagingStrings(chatters){
     }
        
 }
-/**Generates a First Encounter module */
+/**Generates a First Encounter module. */
 function GenerateFirstEncounter(chatObjArr){
     let firstMessage = chatObjArr[0];
     let firstMessageDate = firstMessage["Date"];
