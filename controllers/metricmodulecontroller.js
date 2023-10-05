@@ -78,8 +78,8 @@ function GenerateFirstEncounter(chatObjArr){
     let arrFromSecondAuth = chatObjArr.slice(replierIndex,50);
     let thirdAuthorIndex = arrFromSecondAuth.indexOf(arrFromSecondAuth.find(x => x.Author != replyAuthor));
 
-    firstMessageBody = GetMessageComposite(chatObjArr, replierIndex, firstMessageBody);
-    replyMessageBody = GetMessageComposite(arrFromSecondAuth, thirdAuthorIndex, replyMessageBody);
+    firstMessageBody = GetMessageComposite(chatObjArr, replierIndex, firstMessageBody).replace('omitted', 'post');
+    replyMessageBody = GetMessageComposite(arrFromSecondAuth, thirdAuthorIndex, replyMessageBody).replace('omitted', 'post');
 
     return new FirstEncounter(firstMessageDate, firstMessageTime, firstMessageAuthor, firstMessageBody, replyDate, replyTime, replyAuthor, replyMessageBody);
 }
