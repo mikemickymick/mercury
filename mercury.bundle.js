@@ -13370,8 +13370,8 @@ function GetDateFormat(linesArray) {
     while(i < linesArray.length){
         let previousLine = linesArray[i - 1];
         let lineString = linesArray[i];
-        if (lineString.length > 0 && lineString.includes(':')) {
-            if (previousLine != undefined && previousLine.length > 0 && previousLine.includes(':')) {
+        if (lineString.length > 0 && IsProperLine(lineString)) {
+            if (previousLine != undefined && previousLine.length > 0 && IsProperLine(previousLine)) {
                 if (previousLine[0] == String.fromCharCode(8206)) {
                     previousLine = previousLine.substr(1);
                 }
@@ -13410,6 +13410,11 @@ function GetClockFormat(linesArray) {
         }
         i++;
     }
+}
+function IsProperLine(lineString) {
+    let hyphenCount = (lineString.match(/\//gm) || []).length;
+    let dashCount = (lineString.match(/-/gm) || []).length;
+    return hyphenCount >= 2 || dashCount >= 2;
 }
 function RemoveEncryptionAndSubjectMessage(chatString) {
     const whatsappEncryptionMessage = "messages and calls are end-to-end encrypted";
