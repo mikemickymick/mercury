@@ -1,3 +1,12 @@
+## [0.0.190](https://github.com/mikemickymick/mercury/compare/v0.0.189...v0.0.190) (2023-11-01)
+
+
+### Bug Fixes
+
+* add beginning of line check ([057dad5](https://github.com/mikemickymick/mercury/commit/057dad57279fa1226d561a89df2a731dd3a3ed9c))
+
+
+
 ## [0.0.189](https://github.com/mikemickymick/mercury/compare/v0.0.188...v0.0.189) (2023-10-10)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * add formatting fixes ([6bd2b4c](https://github.com/mikemickymick/mercury/commit/6bd2b4c6771dacb8a3dfe6f49f875460cf16c1b5))
-
-
-
-## [0.0.185](https://github.com/mikemickymick/mercury/compare/v0.0.184...v0.0.185) (2023-09-15)
-
-
-### Bug Fixes
-
-* remove problem emojis ([7b4b5fc](https://github.com/mikemickymick/mercury/commit/7b4b5fc32aa3e2ccbf51babbfd456aab2eba2394))
 
 
 
