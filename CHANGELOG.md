@@ -1,3 +1,12 @@
+## [0.0.189](https://github.com/mikemickymick/mercury/compare/v0.0.188...v0.0.189) (2023-10-10)
+
+
+### Bug Fixes
+
+* properline function ([fd93b0a](https://github.com/mikemickymick/mercury/commit/fd93b0a1af6c045885fadf92456b8a1a59a9c7a9))
+
+
+
 ## [0.0.188](https://github.com/mikemickymick/mercury/compare/v0.0.187...v0.0.188) (2023-10-05)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * remove problem emojis ([7b4b5fc](https://github.com/mikemickymick/mercury/commit/7b4b5fc32aa3e2ccbf51babbfd456aab2eba2394))
-
-
-
-## [0.0.184](https://github.com/mikemickymick/mercury/compare/v0.0.183...v0.0.184) (2023-09-09)
-
-
-### Bug Fixes
-
-* remove audio and image ([ec93977](https://github.com/mikemickymick/mercury/commit/ec939776d416dfcba28924a19516e5f01bc58caf))
 
 
 
