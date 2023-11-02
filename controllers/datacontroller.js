@@ -124,7 +124,7 @@ function StandardiseDateFormat(linesArray){
   let i = 0;
   while( i < linesArray.length){
       let currentLine = linesArray[i];
-      let beginningOfLine = currentLine.subst(0,30);
+      let beginningOfLine = currentLine.substr(0,30);
       if (beginningOfLine.length > 0 && beginningOfLine.includes(':') && beginningOfLine.includes(',') && beginningOfLine.includes('-') && (beginningOfLine.indexOf('/') == 1 || beginningOfLine.indexOf('/') == 2)) {
           const dateString = currentLine.split(",")[0];
           let dayString = "";

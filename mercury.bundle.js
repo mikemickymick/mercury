@@ -13301,7 +13301,8 @@ function StandardiseDateFormat(linesArray) {
     let i = 0;
     while(i < linesArray.length){
         let currentLine = linesArray[i];
-        if (currentLine.length > 0 && currentLine.includes(':') && currentLine.includes(',') && currentLine.includes('-') && (currentLine.indexOf('/') == 1 || currentLine.indexOf('/') == 2)) {
+        let beginningOfLine = currentLine.subst(0, 30);
+        if (beginningOfLine.length > 0 && beginningOfLine.includes(':') && beginningOfLine.includes(',') && beginningOfLine.includes('-') && (beginningOfLine.indexOf('/') == 1 || beginningOfLine.indexOf('/') == 2)) {
             const dateString = currentLine.split(",")[0];
             let dayString = "";
             let monthString = "";
