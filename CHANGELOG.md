@@ -1,3 +1,12 @@
+## [0.0.191](https://github.com/mikemickymick/mercury/compare/v0.0.190...v0.0.191) (2023-11-02)
+
+
+### Bug Fixes
+
+* fix subst ([b16d793](https://github.com/mikemickymick/mercury/commit/b16d793ffc744c4041a79905bdca9f23eb1fb559))
+
+
+
 ## [0.0.190](https://github.com/mikemickymick/mercury/compare/v0.0.189...v0.0.190) (2023-11-01)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * replace omitted sith post and remove facepalm ([1de2b1d](https://github.com/mikemickymick/mercury/commit/1de2b1de5a31350f7c9362ce45a4a79e329098ef))
-
-
-
-## [0.0.186](https://github.com/mikemickymick/mercury/compare/v0.0.185...v0.0.186) (2023-09-20)
-
-
-### Bug Fixes
-
-* add formatting fixes ([6bd2b4c](https://github.com/mikemickymick/mercury/commit/6bd2b4c6771dacb8a3dfe6f49f875460cf16c1b5))
 
 
 
