@@ -1,3 +1,12 @@
+## [0.0.193](https://github.com/mikemickymick/mercury/compare/v0.0.192...v0.0.193) (2023-12-03)
+
+
+### Bug Fixes
+
+* Update index.js ([0f6be53](https://github.com/mikemickymick/mercury/commit/0f6be536d258e5e192bd8f02cecf986ab4d0a60e))
+
+
+
 ## [0.0.192](https://github.com/mikemickymick/mercury/compare/v0.0.191...v0.0.192) (2023-11-05)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * properline function ([fd93b0a](https://github.com/mikemickymick/mercury/commit/fd93b0a1af6c045885fadf92456b8a1a59a9c7a9))
-
-
-
-## [0.0.188](https://github.com/mikemickymick/mercury/compare/v0.0.187...v0.0.188) (2023-10-05)
-
-
-### Bug Fixes
-
-* bump ([66dacc0](https://github.com/mikemickymick/mercury/commit/66dacc0b7d9bb00fd6db92b4090fdfaa882bd0c3))
 
 
 
